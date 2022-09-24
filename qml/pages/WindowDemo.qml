@@ -9,18 +9,13 @@ ApplicationWindow {
     width: $settings.width
     height: $settings.height
     visible: true
-    title: qsTr("window demo")
+    title: qsTr("多子窗口demo")
 
     menuBar: LayoutMenu{}
 
     Loader{
-        id: mainLoader
+        id: winLoader
         width: parent.width
-    }
-
-    footer: Rectangle{
-        height: 20
-        color: $color.emerald300
     }
 
     Component.onCompleted: {

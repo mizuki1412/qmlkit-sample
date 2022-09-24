@@ -29,7 +29,7 @@ ApplicationWindow {
     }
 
     footer: Rectangle{
-        height: 20
+        height: 30
         color: $color.gray200
         Label {
             leftPadding: 10

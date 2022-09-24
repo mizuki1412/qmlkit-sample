@@ -24,5 +24,14 @@
         <file>pages/PageStack.qml</file>
         <file>pages/PageDocument.qml</file>
         <file>pages/WindowDemo.qml</file>
+        <file>pages/popMenu/CustomMenuSeparator.qml</file>
+        <file>pages/popMenu/InsertSubMenu.qml</file>
+        <file>pages/popMenu/MenuBg.qml</file>
+        <file>pages/popMenu/MenuDelegate.qml</file>
+        <file>pages/popMenu/ModifyLenSubMenu.qml</file>
+        <file>pages/popMenu/ModifySubMenu.qml</file>
+        <file>pages/popMenu/PopMenuWindow.qml</file>
+        <file>pages/popMenu/RightPopUpMenu.qml</file>
+        <file>pages/popMenu/images/small_right_arrow.png</file>
     </qresource>
 </RCC>

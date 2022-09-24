@@ -29,6 +29,14 @@ MenuBar {
                 mainLoader.source="qrc:/pages/PageDocument.qml"
             }
         }
+        Action {
+            text: qsTr("右键菜单")
+            onTriggered: {
+                var component = Qt.createComponent("qrc:/pages/popMenu/PopMenuWindow.qml");
+                var window = component.createObject();
+                window.show()
+            }
+        }
         MenuSeparator { }
         Action {
             text: qsTr("Quit")
@@ -45,7 +53,7 @@ MenuBar {
         Action {
             text: qsTr("demo")
             onTriggered: {
-                mainLoader.source="qrc:/pages/PageDocument.qml"
+                mainLoader.source="qrc:/pages/WindowDemo.qml"
             }
         }
     }
