@@ -1,13 +1,16 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
-import QtQuick.Controls 2.12
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
 import "./kit/config"
 import "./kit/service"
+import "./layouts"
+import "./pages"
 
 ApplicationWindow {
     id:main
-    width: 640
-    height: 480
+    width: $settings.width
+    height: $settings.height
     visible: true
     title: qsTr("Hello World")
 
@@ -18,33 +21,19 @@ ApplicationWindow {
     property KitDao $dao: KitDao{}
     property KitUtils $utils: KitUtils{}
 
-    flags: Qt.WindowSystemMenuHint|Qt.WindowTitleHint
+    menuBar: LayoutMenu{}
 
-    menuBar: MenuBar {
-        Menu {
-                    title: qsTr("&File")
-                    Action { text: qsTr("&New...") }
-                    Action { text: qsTr("&Open...") }
-                    Action { text: qsTr("&Save") }
-                    Action { text: qsTr("Save &As...") }
-                    MenuSeparator { }
-                    Action { text: qsTr("&Quit") }
-                }
-                Menu {
-                    title: qsTr("&Edit")
-                    Action { text: qsTr("Cu&t") }
-                    Action { text: qsTr("&Copy") }
-                    Action { text: qsTr("&Paste") }
-                }
-                Menu {
-                    title: qsTr("&Help")
-                    Action { text: qsTr("&About") }
-                }
+    Loader{
+        id: mainLoader
+        width: parent.width
+    }
+
+    footer: Rectangle{
+        height: 20
+        color: "black"
     }
 
     Component.onCompleted: {
-//        $dao.showMessage({parentPage: main, message:"s2sdsds"})
-        console.log(new Date() instanceof String)
     }
 
 }

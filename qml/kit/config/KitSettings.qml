@@ -10,4 +10,6 @@ Settings
     property var mqtt_broker
     property var mqtt_port
     property var request_url
+    property int width: 800
+    property int height: 600
 }

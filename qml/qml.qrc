@@ -13,7 +13,12 @@
         <file>kit/components/KitWebView.qml</file>
         <file>kit/components/KitLoading.qml</file>
         <file>kit/components/KitMessage.qml</file>
-        <file>pages/login.qml</file>
+        <file>layouts/Login.qml</file>
         <file>kit/components/KitButton.qml</file>
+        <file>layouts/LayoutMenu.qml</file>
+        <file>pages/Page1.qml</file>
+        <file>pages/Page2.qml</file>
+        <file>pages/Page3.qml</file>
+        <file>pages/Page4.qml</file>
     </qresource>
 </RCC>
