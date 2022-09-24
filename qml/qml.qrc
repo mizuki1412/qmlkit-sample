@@ -20,5 +20,9 @@
         <file>pages/Page2.qml</file>
         <file>pages/Page3.qml</file>
         <file>pages/Page4.qml</file>
+        <file>pages/PageSwiper.qml</file>
+        <file>pages/PageStack.qml</file>
+        <file>pages/PageDocument.qml</file>
+        <file>pages/WindowDemo.qml</file>
     </qresource>
 </RCC>

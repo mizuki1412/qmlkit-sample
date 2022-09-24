@@ -7,4 +7,16 @@ Page {
         text: qsTr("Demo2")
         padding: 10
     }
+    Rectangle{
+        color: $color.orange100
+        width: parent.width
+        height: 100
+        Item{
+            Text {
+                id: name
+                text: qsTr("text")
+            }
+        }
+    }
+
 }

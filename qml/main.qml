@@ -30,10 +30,40 @@ ApplicationWindow {
 
     footer: Rectangle{
         height: 20
-        color: "black"
+        color: $color.gray200
+        Label {
+            leftPadding: 10
+            anchors.verticalCenter: parent.verticalCenter
+            text: qsTr("状态栏")
+        }
     }
 
     Component.onCompleted: {
+    }
+
+    onClosing: function(closeevent){
+        //CloseEvent的accepted设置为false就能忽略该事件
+        closeConfirm.open()
+        closeevent.accepted = false
+    }
+
+    Popup{
+        id:closeConfirm
+        anchors.centerIn: parent
+        Column{
+            spacing: 10
+            Text {
+                text: qsTr("确认退出？")
+            }
+            Button{
+                text: "是"
+                onClicked: Qt.quit()
+            }
+            Button{
+                text: "否"
+                onClicked: closeConfirm.close()
+            }
+        }
     }
 
 }
