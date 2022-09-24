@@ -2,9 +2,12 @@ import QtQuick 2.15
 
 QtObject {
 
-    // dt:Date
+    // dt:Date/int/string
     // format: yyyy-MM-dd HH:mm:ss.zzz, yy, ddd MMMM - Tue May，ap-am/pm, AP-AM/PM, h:m:s
     function formatDate(dt,format){
+        if(!(dt instanceof Date)){
+            dt = new Date(dt)
+        }
         return Qt.formatDateTime(dt, format)
     }
 

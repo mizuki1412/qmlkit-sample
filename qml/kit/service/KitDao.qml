@@ -7,9 +7,9 @@ QtObject{
     property var settings: KitSettings{
         id:settings
     }
-    property var messageComponent: Qt.createComponent("qrc:/kit/components/Message.qml")
-    property var confirmComponent: Qt.createComponent("qrc:/kit/components/Confirm.qml")
-    property var loadingComponent: Qt.createComponent("qrc:/kit/components/Loading.qml")
+    property var messageComponent: Qt.createComponent("qrc:/kit/components/KitMessage.qml")
+    property var confirmComponent: Qt.createComponent("qrc:/kit/components/KitConfirm.qml")
+    property var loadingComponent: Qt.createComponent("qrc:/kit/components/KitLoading.qml")
 
     // options: { parentPage, message }
     function showMessage(options) {

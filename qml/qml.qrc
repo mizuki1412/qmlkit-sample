@@ -13,5 +13,7 @@
         <file>kit/components/KitWebView.qml</file>
         <file>kit/components/KitLoading.qml</file>
         <file>kit/components/KitMessage.qml</file>
+        <file>pages/login.qml</file>
+        <file>kit/components/KitButton.qml</file>
     </qresource>
 </RCC>
