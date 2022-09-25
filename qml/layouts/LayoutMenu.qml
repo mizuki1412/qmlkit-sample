@@ -9,13 +9,15 @@ MenuBar {
     }
     MenuBarItem{
         onTriggered: {
-            var component = Qt.createComponent("qrc:/pages/popMenu/PopMenuWindow.qml");
+            var component = Qt.createComponent("qrc:/pages/WindowDemo.qml");
             var window = component.createObject();
             window.show()
         }
         menu:Menu {
             title: qsTr("多子窗口")
             onOpened: {
+                // 取消菜单列表的popup
+                this.close()
             }
         }
 
