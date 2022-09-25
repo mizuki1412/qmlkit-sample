@@ -3,6 +3,23 @@ import QtQuick.Controls 2.12
 
 MenuBar {
     id:bar
+    Text {
+        id: name
+        text: qsTr("text")
+    }
+    MenuBarItem{
+        onTriggered: {
+            var component = Qt.createComponent("qrc:/pages/popMenu/PopMenuWindow.qml");
+            var window = component.createObject();
+            window.show()
+        }
+        menu:Menu {
+            title: qsTr("多子窗口")
+            onOpened: {
+            }
+        }
+
+    }
     Menu {
         title: qsTr("页面demo")
         Action {
@@ -37,6 +54,15 @@ MenuBar {
                 window.show()
             }
         }
+        Menu {
+            title: qsTr("三级菜单")
+            Action {
+                text: qsTr("page1")
+                onTriggered: {
+                    mainLoader.source="qrc:/pages/Page1.qml"
+                }
+            }
+        }
         MenuSeparator { }
         Action {
             text: qsTr("Quit")
@@ -48,13 +74,5 @@ MenuBar {
             }
         }
     }
-    Menu {
-        title: qsTr("多子窗口")
-        Action {
-            text: qsTr("demo")
-            onTriggered: {
-                mainLoader.source="qrc:/pages/WindowDemo.qml"
-            }
-        }
-    }
+
 }
