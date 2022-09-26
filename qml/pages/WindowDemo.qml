@@ -59,7 +59,6 @@ Rectangle {
         anchors.top: row1.bottom
         anchors.topMargin: $theme.margin
         width: parent.width
-//        currentIndex: $wins.tabCurrentIndex
         onCurrentIndexChanged: {
             console.log("change: ",this.currentIndex)
         }
@@ -88,10 +87,9 @@ Rectangle {
 //        }
 
         background: Rectangle {
-            implicitHeight: 30
+            implicitHeight: 40
             color: parent.backgroundColor
             Rectangle {
-//                color: bar.borderColor
                 width: parent.width
                 height: 1
                 anchors.bottom: parent.bottom
@@ -102,36 +100,57 @@ Rectangle {
         Repeater {
             model: $wins.tabModels
             TabButton {
+                id:tbb
                 text: model.title
-                onClicked: {
-
-                }
-
-//                width: Math.max(100, bar.width / model.length)
                 property color textColor: (this.checked||this.hovered) ? "cyan" : "white"
                 property color buttonColor: this.checked ? "black": $color.gray400
                 width: this.checked?bar.width/3: 40
                 implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
                                          implicitContentHeight + topPadding + bottomPadding)
-
                 padding: 6
                 spacing: 6
                 font{
                     pixelSize: 14
                 }
 
-                contentItem: Text {
-                    text: parent.text
-                    font: parent.font
-                    color: parent.textColor
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    renderType: Text.NativeRendering
-                    elide: Text.ElideRight
+                contentItem: Rectangle{
+                    color: parent.buttonColor
+                    Row{
+                        spacing: 6
+                        Text {
+                            text: model.title
+                            font: tbb.font
+                            color: tbb.textColor
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            renderType: Text.NativeRendering
+                            // todo 外部套了后  失效了
+                            elide: Text.ElideRight
+                        }
+                        Button {
+                            visible: tbb.checked
+                            width:20
+                            height:20
+                            text: ">"
+                            onClicked: {
+                                $wins.open(model.path,model.title)
+                            }
+                        }
+                        Button {
+                            visible: tbb.checked
+                            width:20
+                            height:20
+                            text: "x"
+                            onClicked: {
+                                $wins.close(model.path)
+                            }
+                        }
+                    }
+
                 }
 
                 background: Rectangle {
-                    implicitHeight: 30
+                    implicitHeight: bar.implicitBackgroundHeight
                     height: parent.height - 1
                     color: parent.buttonColor
                 }
@@ -159,18 +178,4 @@ Rectangle {
         }
     }
 
-
-    Component.onCompleted: {
-
-    }
-
-//    Timer{
-//        running: true
-//        repeat: true
-//        interval: 1000
-//        onTriggered: {
-//            console.log(222,rep.model.count)
-//            console.log(223,$wins.tabModels.count)
-//        }
-//    }
 }
