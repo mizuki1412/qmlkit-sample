@@ -1,17 +1,11 @@
 import QtQuick 2.15
-import QtQuick.Controls 2.12
+import QtQuick.Controls 2.15
 
 MenuBar {
     id:bar
-    Text {
-        id: name
-        text: qsTr("text")
-    }
     MenuBarItem{
         onTriggered: {
-            var component = Qt.createComponent("qrc:/pages/WindowDemo.qml");
-            var window = component.createObject();
-            window.show()
+            $wins.open("qrc:/pages/WindowDemo.qml", "多子窗口");
         }
         menu:Menu {
             title: qsTr("多子窗口")
@@ -25,35 +19,27 @@ MenuBar {
     Menu {
         title: qsTr("页面demo")
         Action {
-            text: qsTr("page1")
+            text: qsTr("组件示例")
             onTriggered: {
                 mainLoader.source="qrc:/pages/Page1.qml"
             }
         }
-        Action {
-            text: qsTr("轮播页面")
-            onTriggered: {
-                mainLoader.source="qrc:/pages/PageSwiper.qml"
-            }
-        }
-        Action {
-            text: qsTr("层叠页面")
-            onTriggered: {
-                mainLoader.source="qrc:/pages/PageStack.qml"
-            }
-        }
-        Action {
-            text: qsTr("多文档窗口")
-            onTriggered: {
-                mainLoader.source="qrc:/pages/PageDocument.qml"
-            }
-        }
+//        Action {
+//            text: qsTr("层叠页面")
+//            onTriggered: {
+//                mainLoader.source="qrc:/pages/PageStack.qml"
+//            }
+//        }
+//        Action {
+//            text: qsTr("多文档窗口")
+//            onTriggered: {
+//                mainLoader.source="qrc:/pages/PageDocument.qml"
+//            }
+//        }
         Action {
             text: qsTr("右键菜单")
             onTriggered: {
-                var component = Qt.createComponent("qrc:/pages/popMenu/PopMenuWindow.qml");
-                var window = component.createObject();
-                window.show()
+                $wins.open("qrc:/pages/popMenu/PopMenuWindow.qml", "PopMenuWindow");
             }
         }
         Menu {

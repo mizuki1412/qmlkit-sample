@@ -1,10 +1,9 @@
 import QtQuick 2.5
 import QtQuick.Window 2.2
 
-Window {
+Rectangle {
     width: 500
     height: 300
-    title: qsTr("Hello PopMenu")
 
     RightPopUpMenu {
         id: rightPopUpMenu

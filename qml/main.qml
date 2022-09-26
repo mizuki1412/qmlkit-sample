@@ -19,6 +19,7 @@ ApplicationWindow {
     property KitColor $color: KitColor{}
     property KitTheme $theme: KitTheme{}
     property KitDao $dao: KitDao{}
+    property KitWinMng $wins: KitWinMng{}
     property KitUtils $utils: KitUtils{}
 
     menuBar: LayoutMenu{}

@@ -33,5 +33,7 @@
         <file>pages/popMenu/PopMenuWindow.qml</file>
         <file>pages/popMenu/RightPopUpMenu.qml</file>
         <file>pages/popMenu/images/small_right_arrow.png</file>
+        <file>kit/service/KitWinMng.qml</file>
+        <file>kit/components/KitWindow.qml</file>
     </qresource>
 </RCC>
