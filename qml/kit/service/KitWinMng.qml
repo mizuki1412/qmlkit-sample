@@ -6,7 +6,9 @@ QtObject {
     property var winMap:({})
     // winMng对象数组
     property ListModel tabModels: ListModel{}
-    property int tabCurrentIndex: -1
+
+    // 通知修改tab的currentIndex
+    signal tabCurrentIndexChange(int index)
 
     // 显示到tab中
     function tab(path,title){
@@ -17,7 +19,7 @@ QtObject {
         if(winMap[path].place==="tab"){
             for(let i=0;i<tabModels.count;i++){
                 if(tabModels.get(i).path === path){
-                    tabCurrentIndex = i
+                    tabCurrentIndexChange(i)
                     break
                 }
             }
@@ -25,7 +27,7 @@ QtObject {
         else{
             winMap[path].place = "tab"
             tabModels.append(winMap[path])
-            tabCurrentIndex = tabModels.count-1
+            tabCurrentIndexChange(tabModels.count-1)
         }
     }
 

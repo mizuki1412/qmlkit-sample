@@ -10,6 +10,13 @@ Rectangle {
     width: $settings.width
     height: $settings.height
 
+    Connections{
+        target: $wins
+        function onTabCurrentIndexChange(index){
+            bar.setCurrentIndex(index)
+        }
+    }
+
     RowLayout{
         id: row1
         anchors.top: parent.top
@@ -47,23 +54,88 @@ Rectangle {
         }
     }
 
-
-
     TabBar {
         id: bar
         anchors.top: row1.bottom
         anchors.topMargin: $theme.margin
         width: parent.width
-        currentIndex: $wins.tabCurrentIndex
+//        currentIndex: $wins.tabCurrentIndex
         onCurrentIndexChanged: {
             console.log("change: ",this.currentIndex)
         }
+        property color backgroundColor: "white"
+        property color borderColor: "black"
+
+        implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
+                                contentWidth + leftPadding + rightPadding)
+        implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
+                                 contentHeight + topPadding + bottomPadding)
+        spacing: 1
+//        contentItem: ListView {
+//            model: parent.contentModel
+//            currentIndex: parent.currentIndex
+
+//            spacing: parent.spacing
+//            orientation: ListView.Horizontal
+//            boundsBehavior: Flickable.StopAtBounds
+//            flickableDirection: Flickable.AutoFlickIfNeeded
+//            snapMode: ListView.SnapToItem
+
+//            highlightMoveDuration: 0
+//            highlightRangeMode: ListView.ApplyRange
+//            preferredHighlightBegin: 40
+//            preferredHighlightEnd: width - 40
+//        }
+
+        background: Rectangle {
+            implicitHeight: 30
+            color: parent.backgroundColor
+            Rectangle {
+//                color: bar.borderColor
+                width: parent.width
+                height: 1
+                anchors.bottom: parent.bottom
+            }
+        }
+
 
         Repeater {
             model: $wins.tabModels
             TabButton {
                 text: model.title
-                width: Math.max(100, bar.width / model.length)
+                onClicked: {
+
+                }
+
+//                width: Math.max(100, bar.width / model.length)
+                property color textColor: (this.checked||this.hovered) ? "cyan" : "white"
+                property color buttonColor: this.checked ? "black": $color.gray400
+                width: this.checked?bar.width/3: 40
+                implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
+                                         implicitContentHeight + topPadding + bottomPadding)
+
+                padding: 6
+                spacing: 6
+                font{
+                    pixelSize: 14
+                }
+
+                contentItem: Text {
+                    text: parent.text
+                    font: parent.font
+                    color: parent.textColor
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    renderType: Text.NativeRendering
+                    elide: Text.ElideRight
+                }
+
+                background: Rectangle {
+                    implicitHeight: 30
+                    height: parent.height - 1
+                    color: parent.buttonColor
+                }
+
             }
         }
     }
@@ -76,12 +148,9 @@ Rectangle {
             model: $wins.tabModels
             Rectangle{
                 Loader{
-
                     source: model.path
                     height: 600
                     width: parent.width
-//                    Layout.fillHeight: true
-                    Layout.fillWidth: true
                     onLoaded: {
                         console.log("load:",model.title, model.path)
                     }
