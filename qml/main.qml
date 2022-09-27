@@ -6,6 +6,7 @@ import "./kit/config"
 import "./kit/service"
 import "./layouts"
 import "./pages"
+import "./dao"
 
 ApplicationWindow {
     id:main
@@ -18,7 +19,7 @@ ApplicationWindow {
     property KitSettings $settings: KitSettings{}
     property KitColor $color: KitColor{}
     property KitTheme $theme: KitTheme{}
-    property KitDao $dao: KitDao{}
+    property Dao $dao: Dao{}
     property KitWinMng $wins: KitWinMng{}
     property KitUtils $utils: KitUtils{}
 
@@ -40,6 +41,7 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
+        $dao.user.list()
     }
 
     onClosing: function(closeevent){

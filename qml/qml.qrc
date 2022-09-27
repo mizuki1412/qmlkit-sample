@@ -1,9 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
         <file>kit/config/KitSettings.qml</file>
         <file>kit/config/KitTheme.qml</file>
-        <file>qtquickcontrols2.conf</file>
         <file>kit/config/KitColor.qml</file>
         <file>kit/service/KitDao.qml</file>
         <file>kit/service/KitUtils.qml</file>
@@ -13,8 +11,13 @@
         <file>kit/components/KitWebView.qml</file>
         <file>kit/components/KitLoading.qml</file>
         <file>kit/components/KitMessage.qml</file>
-        <file>layouts/Login.qml</file>
         <file>kit/components/KitButton.qml</file>
+        <file>kit/service/KitWinMng.qml</file>
+        <file>kit/components/KitWindow.qml</file>
+
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>layouts/Login.qml</file>
         <file>layouts/LayoutMenu.qml</file>
         <file>pages/Page1.qml</file>
         <file>pages/Page2.qml</file>
@@ -33,7 +36,7 @@
         <file>pages/popMenu/PopMenuWindow.qml</file>
         <file>pages/popMenu/RightPopUpMenu.qml</file>
         <file>pages/popMenu/images/small_right_arrow.png</file>
-        <file>kit/service/KitWinMng.qml</file>
-        <file>kit/components/KitWindow.qml</file>
+        <file>dao/Dao.qml</file>
+        <file>dao/UserDao.qml</file>
     </qresource>
 </RCC>

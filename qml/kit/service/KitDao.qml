@@ -63,11 +63,11 @@ QtObject{
     /**
      * options:
      *  urlHost:
-     *  urlPath
+     **  urlPath
      *  method:post
-     *  params: {key:value} 键值对，请求参数
-     *  parentPage:
-     *  ignoreLoading:bool 不干预转圈
+     **  params: {key:value} 键值对，请求参数
+     **  parentPage:
+     **  ignoreLoading:bool 不干预转圈
      *
      */
     function request(options,callback) {
@@ -142,6 +142,7 @@ QtObject{
     }
 
     /**
+      * 请求带确认
       * options:
       *     parentPage
       *     message
