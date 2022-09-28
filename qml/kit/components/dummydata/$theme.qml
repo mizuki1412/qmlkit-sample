@@ -39,5 +39,5 @@ QtObject {
     property color color_danger_plain: $color.red300
     property color color_danger_hover:$color.red400
     property color color_danger_click:$color.red600
-    property color color_default:$color.gray600
+    property color color_default:$color.gray800
 }

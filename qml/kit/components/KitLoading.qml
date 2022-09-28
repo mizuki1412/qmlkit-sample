@@ -5,7 +5,6 @@ import QtGraphicalEffects 1.0
 import "../qml_UI/MyStyle"
 import "../Qml/Style"
 import Request 1.0
-import QmlEvents 1.0
 
 //确认删除提示框
 MyPopup{
