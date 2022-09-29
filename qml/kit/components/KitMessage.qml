@@ -1,6 +1,6 @@
 import QtQuick
-import QtQuick.Window
-import QtQuick.Controls
+import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
 import "../qml_UI/MyStyle"
 import "../Qml/Style"
 

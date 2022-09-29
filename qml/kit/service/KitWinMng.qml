@@ -1,5 +1,5 @@
 import QtQuick
- import QtQml.Models
+ import QtQml.Models 2.15
 
 QtObject {
     // path: {path,title,object, place:tab/show}

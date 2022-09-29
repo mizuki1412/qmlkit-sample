@@ -13,8 +13,8 @@ import QtQuick
 
 Rectangle{
     id: button
-    width: 120
-    height: 40
+    implicitWidth: 120
+    implicitHeight: 40
 
     property alias textSize:buttonText.font.pixelSize   //导出按钮文字字体大小、颜色、内容等属性
     property alias text:buttonText.text                 //按钮上的文字
