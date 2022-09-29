@@ -1,7 +1,8 @@
-import QtQuick 2.15
-import QtQuick.Window 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
+import QtQuick
+import QtQuick.Window
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Controls.Material
 import "./kit/config"
 import "./kit/service"
 import "./layouts"
@@ -14,6 +15,11 @@ ApplicationWindow {
     height: $settings.height
     visible: true
     title: qsTr("Hello World")
+
+	// https://doc.qt.io/qt-6/qtquickcontrols2-material.html
+    Material.theme: Material.System
+    Material.primary: Material.Blue
+    Material.accent: Material.Blue
 
     // 全局变量区域
     property KitSettings $settings: KitSettings{}

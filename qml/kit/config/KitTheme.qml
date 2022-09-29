@@ -1,4 +1,5 @@
-import QtQuick 2.15
+import QtQuick
+import QtQuick.Controls.Material
 
 QtObject {
     // 边距
@@ -19,25 +20,10 @@ QtObject {
     property color color_text: "white"
     property color color_text_active: $color.blue600
 
-    property color color_primary: $color.blue600
-    property color color_primary_plain: $color.blue300
-    property color color_primary_hover: $color.blue500
-    property color color_primary_click: $color.blue700
-    property color color_success: $color.green600
-    property color color_success_plain: $color.green300
-    property color color_success_hover:$color.green500
-    property color color_success_click:$color.green700
-    property color color_info: $color.gray500
-    property color color_info_plain: $color.gray300
-    property color color_info_hover:$color.gray400
-    property color color_info_click:$color.gray600
-    property color color_warning: $color.yellow500
-    property color color_warning_plain: $color.yellow300
-    property color color_warning_hover:$color.yellow400
-    property color color_warning_click:$color.yellow600
-    property color color_danger: $color.red500
-    property color color_danger_plain: $color.red300
-    property color color_danger_hover:$color.red400
-    property color color_danger_click:$color.red600
+    property color color_primary: Material.color(Material.primary)
+    property color color_success: Material.color(Material.Green)
+    property color color_info: $color.gray400
+    property color color_warning: Material.color(Material.Amber)
+    property color color_danger: Material.color(Material.Red)
     property color color_default:$color.gray600
 }

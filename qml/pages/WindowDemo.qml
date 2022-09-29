@@ -1,7 +1,7 @@
-import QtQuick 2.15
-import QtQuick.Window 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
+import QtQuick
+import QtQuick.Window
+import QtQuick.Controls
+import QtQuick.Layouts
 import "../layouts"
 import "../kit/components"
 
@@ -26,7 +26,7 @@ Rectangle {
             height: 30
             text: "弹出page2"
             onClicked: {
-                $wins.open("qrc:/pages/Page2.qml","Page2");
+                $wins.open("qrc:/main/qml/pages/Page2.qml","Page2");
             }
         }
         Button{
@@ -34,7 +34,7 @@ Rectangle {
             height: 30
             text: "加入tab"
             onClicked: {
-                $wins.tab("qrc:/pages/Page3.qml","Page3");
+                $wins.tab("qrc:/main/qml/pages/Page3.qml","Page3");
             }
         }
         Button{
@@ -42,14 +42,14 @@ Rectangle {
             height: 30
             text: "添加page4"
             onClicked: {
-                $wins.tab("qrc:/pages/Page4.qml","Page4");
+                $wins.tab("qrc:/main/qml/pages/Page4.qml","Page4");
             }
         }
         Button{
             height: 30
             text: "弹出page4"
             onClicked: {
-                $wins.open("qrc:/pages/Page4.qml","Page4");
+                $wins.open("qrc:/main/qml/pages/Page4.qml","Page4");
             }
         }
     }

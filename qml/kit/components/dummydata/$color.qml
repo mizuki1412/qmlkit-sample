@@ -1,4 +1,4 @@
-import QtQuick 2.15
+import QtQuick
 
 QtObject {
     readonly property color slate50: "#f8fafc"

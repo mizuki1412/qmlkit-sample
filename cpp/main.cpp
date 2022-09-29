@@ -1,21 +1,26 @@
-
 #include <QApplication>
 #include <QQmlApplicationEngine>
-#include <QLoggingCategory>
+#include <QtQuickControls2>
 
 int main ( int argc, char *argv[] ){
-
-    QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+//    QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
     //    QtWebEngineQuick::initialize(); //QtWebEngineQuick初始化
-    QApplication app ( argc, argv );
+    // Qt.quit有效
+    QApplication app(argc, argv);
+    QQuickStyle::setStyle("Material");
+    QFont font;
+//    font.setFamily("Arial");
+    font.setPixelSize(16);
+    app.setFont(font);
 
     QQmlApplicationEngine engine;
+    const QUrl url(u"qrc:/main/qml/main.qml"_qs);
+	QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+					 &app, [url](QObject *obj, const QUrl &objUrl) {
+		if (!obj && url == objUrl)
+			QCoreApplication::exit(-1);
+	}, Qt::QueuedConnection);
+	engine.load(url);
 
-    Q_INIT_RESOURCE ( qml );
-
-    engine.load ( QUrl ( QStringLiteral ( "qrc:/main.qml" ) ) );
-    if ( engine.rootObjects().isEmpty() ) {
-        return -1;
-    }
     return app.exec();
 }

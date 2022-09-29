@@ -1,5 +1,5 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls
 import Qt.labs.platform 1.0 as NativeDialogs
 
 Page {
@@ -42,7 +42,7 @@ Page {
     }
 
     function _createNewDocument(){
-        var component = Qt.createComponent("qrc:/pages/WindowDemo.qml");
+        var component = Qt.createComponent("qrc:/main/qml/pages/WindowDemo.qml");
         var window = component.createObject();
         return window;
     }

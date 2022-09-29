@@ -1,11 +1,11 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls
 
 MenuBar {
     id:bar
     MenuBarItem{
         onTriggered: {
-            $wins.open("qrc:/pages/WindowDemo.qml", "多子窗口");
+            $wins.open("qrc:/main/qml/pages/WindowDemo.qml", "多子窗口");
         }
         menu:Menu {
             title: qsTr("多子窗口")
@@ -21,7 +21,7 @@ MenuBar {
         Action {
             text: qsTr("组件示例")
             onTriggered: {
-                mainLoader.source="qrc:/pages/Page1.qml"
+                mainLoader.source="qrc:/main/qml/pages/Page1.qml"
             }
         }
 //        Action {
@@ -39,7 +39,7 @@ MenuBar {
         Action {
             text: qsTr("右键菜单")
             onTriggered: {
-                $wins.open("qrc:/pages/popMenu/PopMenuWindow.qml", "PopMenuWindow");
+                $wins.open("qrc:/main/qml/pages/popMenu/PopMenuWindow.qml", "PopMenuWindow");
             }
         }
         Menu {
@@ -47,7 +47,7 @@ MenuBar {
             Action {
                 text: qsTr("page1")
                 onTriggered: {
-                    mainLoader.source="qrc:/pages/Page1.qml"
+                    mainLoader.source="qrc:/main/qml/pages/Page1.qml"
                 }
             }
         }

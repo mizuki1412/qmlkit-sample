@@ -1,5 +1,5 @@
 
-import QtQuick 2.15
+import QtQuick
 import "../config"
 
 QtObject{
@@ -7,9 +7,9 @@ QtObject{
     property var settings: KitSettings{
         id:settings
     }
-    property var messageComponent: Qt.createComponent("qrc:/kit/components/KitMessage.qml")
-    property var confirmComponent: Qt.createComponent("qrc:/kit/components/KitConfirm.qml")
-    property var loadingComponent: Qt.createComponent("qrc:/kit/components/KitLoading.qml")
+    property var messageComponent: Qt.createComponent("qrc:/main/qml/kit/components/KitMessage.qml")
+    property var confirmComponent: Qt.createComponent("qrc:/main/qml/kit/components/KitConfirm.qml")
+    property var loadingComponent: Qt.createComponent("qrc:/main/qml/kit/components/KitLoading.qml")
 
     // options: { parentPage, message }
     function showMessage(options) {

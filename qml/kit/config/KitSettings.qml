@@ -1,4 +1,4 @@
-import QtQuick 2.15
+import QtQuick
 import Qt.labs.settings 1.0
 
 Settings
@@ -10,6 +10,6 @@ Settings
     property var mqtt_broker
     property var mqtt_port
     property var request_url
-    property int width: 800
-    property int height: 600
+    property int width: 1100
+    property int height: 800
 }

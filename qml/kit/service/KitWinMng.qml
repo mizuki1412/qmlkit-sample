@@ -1,5 +1,5 @@
-import QtQuick 2.15
- import QtQml.Models 2.15
+import QtQuick
+ import QtQml.Models
 
 QtObject {
     // path: {path,title,object, place:tab/show}
@@ -43,7 +43,7 @@ QtObject {
             open(path, title)
         }
         else {
-            let component = Qt.createComponent("qrc:/kit/components/KitWindow.qml");
+            let component = Qt.createComponent("qrc:/main/qml/kit/components/KitWindow.qml");
             if(component.status === Component.Error){
                 console.error(component.errorString())
                 return

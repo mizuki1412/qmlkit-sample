@@ -73,5 +73,5 @@ Thumbs.db
 
 .idea
 build*
-CMakeLists.txt*
+CMakeLists.txt.user
 cmake-build-debug
