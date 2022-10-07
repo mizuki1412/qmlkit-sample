@@ -15,7 +15,7 @@ QtObject{
     // options: { parentPage, message }
     function showMessage(options) {
         if (messageComponent.status === Component.Ready){
-            let sprite = messageComponent.createObject(options.parentPage, {anchors:{centerIn: options.parentPage}});
+            let sprite = messageComponent.createObject(options.parentPage);
             if (sprite === null){
                 console.log("Error creating object");
             }else{
@@ -31,7 +31,7 @@ QtObject{
     // options:{ parentPage, confirmFun, message }
     function showConfirm(options) {
         if (confirmComponent.status === Component.Ready){
-            let sprite = confirmComponent.createObject(options.parentPage, {anchors:{centerIn: options.parentPage}});
+            let sprite = confirmComponent.createObject(options.parentPage);
             if (sprite === null){
                 console.log("Error creating object");
             }else{
@@ -48,7 +48,7 @@ QtObject{
     //等待转圈
     function showLoading(parentPage) {
         if (loadingComponent.status === Component.Ready){
-            let sprite = loadingComponent.createObject(parentPage, {anchors:{centerIn: parentPage}});
+            let sprite = loadingComponent.createObject(parentPage);
             if (sprite === null){
                 console.log("Error creating object");
             }else{

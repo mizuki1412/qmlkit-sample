@@ -33,8 +33,9 @@ Rectangle{
             Material.foreground: Material.Grey
         }
         RoundButton{
+            font: $iconfont
             highlighted: true
-            text:"D"
+            text:"\ue6b2 问号"
         }
         RoundButton{
             flat:true

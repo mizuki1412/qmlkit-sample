@@ -204,5 +204,32 @@ Rectangle {
             anchors.topMargin: $theme.margin
         }
 
+        // icon
+        Label{
+            id:iconText
+            text:"iconfont"
+            anchors.top: showText.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.topMargin: $theme.margin_xl
+            font.pixelSize: $theme.font_xl
+        }
+        Rectangle{
+            id:div_7
+            anchors.top: iconText.bottom
+            anchors.topMargin: $theme.margin
+            width:Screen.width
+            height:1
+            color: "black"
+        }
+        KitIcon{
+            id:showIcon
+            anchors.top: div_7.bottom
+            anchors.topMargin: $theme.margin
+            width: 40
+            height: 40
+            color: "blue"
+            source: "\ue8bd"
+        }
+
     }
 }

@@ -2,16 +2,18 @@ import QtQuick
 import QtQuick.Controls.Material
 
 Rectangle {
-    anchors.top: name.bottom
     width: 40
     height: 40
     id: img
-    color: "grey"
+    color: "blue"
     Image {
         anchors.centerIn: parent
-        Material.background: "white"
+        Material.foreground: "red"
+        Material.background: "red"
+        Material.accent: "red"
+        smooth: true
         width: 30
         height: 30
-        source: "qrc:/main/qml/kit/assets/svg/search.svg"
+        source: "qrc:/main/qml/kit/assets/svg/search"
     }
 }

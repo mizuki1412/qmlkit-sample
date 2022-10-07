@@ -1,13 +1,8 @@
 import QtQuick
-import QtQuick.Window 2.12
-import QtQuick.Controls 2.12
-import QtGraphicalEffects 1.0
-import "../qml_UI/MyStyle"
-import "../Qml/Style"
-import Request 1.0
+import QtQuick.Controls
+import QtQuick.Layouts
 
-//确认删除提示框
-MyPopup{
+KitModal{
     id:busyIndicator
     width: 400
     height: 240

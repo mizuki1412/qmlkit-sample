@@ -25,6 +25,12 @@ MenuBar {
             }
         }
         Action {
+            text: qsTr("其他组件示例")
+            onTriggered: {
+                $wins.tab("qrc:/main/qml/pages/demo2/index.qml",this.text)
+            }
+        }
+        Action {
             text: qsTr("拓扑图")
             onTriggered: {
                 $wins.open("qrc:/main/qml/pages/demo/topu.qml",this.text)

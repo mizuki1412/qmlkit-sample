@@ -19,7 +19,7 @@ foreach(filepath ${QML_PATHS})
 endforeach(filepath)
 list(REMOVE_DUPLICATES QML_FILES) #表示删除非第一个重名值
 
-file(GLOB_RECURSE ASSETS_PATHS *.png *.jpg *.svg)
+file(GLOB_RECURSE ASSETS_PATHS *.png *.jpg *.svg *.ttf *.html *.js *.css)
 foreach(filepath ${ASSETS_PATHS})
     message("加载resource文件：" ${filepath})
     string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/" "" filename ${filepath}) #.+/(.+)\\\\..*" "\\\\1

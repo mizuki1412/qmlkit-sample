@@ -21,6 +21,11 @@ ApplicationWindow {
     Material.primary: Material.Blue
     Material.accent: Material.Blue
 
+    FontLoader {
+        id: iconfont
+        source: "qrc:/main/qml/kit/assets/font/iconfont.ttf"
+    }
+
     // 全局变量区域
     property KitSettings $settings: KitSettings{}
     property KitColor $color: KitColor{}
@@ -28,6 +33,7 @@ ApplicationWindow {
     property Dao $dao: Dao{}
     property KitWinMng $wins: KitWinMng{}
     property KitUtils $utils: KitUtils{}
+    property font $iconfont: iconfont.font
 
     menuBar: LayoutMenu{}
 
@@ -36,6 +42,7 @@ ApplicationWindow {
         source: "qrc:/main/qml/layouts/LayoutTabWindow.qml"
         width: parent.width
     }
+
 
     footer: Rectangle{
         height: 30
@@ -49,6 +56,7 @@ ApplicationWindow {
 
     Component.onCompleted: {
         $wins.tab("qrc:/main/qml/pages/demo/index.qml","基础组件示例")
+        console.log($iconfont,$iconfont.family)
     }
 
     onClosing: function(closeevent){
