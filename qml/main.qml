@@ -33,6 +33,7 @@ ApplicationWindow {
 
     Loader{
         id: mainLoader
+        source: "qrc:/main/qml/layouts/LayoutTabWindow.qml"
         width: parent.width
     }
 
@@ -47,7 +48,7 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        $dao.user.list()
+        $wins.tab("qrc:/main/qml/pages/demo/index.qml","基础组件示例")
     }
 
     onClosing: function(closeevent){
@@ -59,18 +60,24 @@ ApplicationWindow {
     Popup{
         id:closeConfirm
         anchors.centerIn: parent
-        Column{
-            spacing: 10
-            Text {
-                text: qsTr("确认退出？")
-            }
-            Button{
-                text: "是"
-                onClicked: Qt.quit()
-            }
-            Button{
-                text: "否"
-                onClicked: closeConfirm.close()
+        width: 120
+        height: 180
+        Rectangle{
+            anchors.fill: parent
+            Column{
+                anchors.centerIn: parent
+                spacing: 10
+                Text {
+                    text: qsTr("确认退出？")
+                }
+                Button{
+                    text: "是"
+                    onClicked: Qt.quit()
+                }
+                Button{
+                    text: "否"
+                    onClicked: closeConfirm.close()
+                }
             }
         }
     }

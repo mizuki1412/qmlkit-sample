@@ -1,8 +1,8 @@
 import QtQuick
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.12
-import QtWebEngine 1.10
-import QtWebChannel 1.0
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtWebEngine
+import QtWebChannel
 
 Rectangle{
     id: rect

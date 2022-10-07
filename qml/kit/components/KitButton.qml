@@ -1,5 +1,5 @@
 import QtQuick
-
+import QtQuick.Controls
 /*
     width: 72       设置按钮宽度
     height: 28      设置按钮高度

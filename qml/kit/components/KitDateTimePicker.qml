@@ -1,7 +1,6 @@
 import QtQuick 2.12
 import "../qml_UI/MyStyle"
 import "../Qml/Style"
-import Theme 1.0
 
 MyButton{
     id: datepicker_show

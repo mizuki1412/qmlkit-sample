@@ -1,7 +1,8 @@
 import QtQuick
+import QtQuick.Controls
 
 QtObject {
-    readonly property color slate50: "#f8fafc"
+    readonly property color slate50: "#F8FAFC"
     readonly property color slate100: "#f1f5f9"
     readonly property color slate200: "#e2e8f0"
     readonly property color slate300: "#cbd5e1"

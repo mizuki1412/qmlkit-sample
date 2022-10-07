@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 # 工程名
-project(ttc-station-client-hy VERSION 0.1 LANGUAGES CXX)
+project(qml-sample VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

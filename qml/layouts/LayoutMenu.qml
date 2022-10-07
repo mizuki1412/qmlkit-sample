@@ -5,10 +5,10 @@ MenuBar {
     id:bar
     MenuBarItem{
         onTriggered: {
-            $wins.open("qrc:/main/qml/pages/WindowDemo.qml", "多子窗口");
+            $wins.open("qrc:/main/qml/pages/Page1.qml", "单菜单窗口");
         }
         menu:Menu {
-            title: qsTr("多子窗口")
+            title: qsTr("单菜单窗口")
             onOpened: {
                 // 取消菜单列表的popup
                 this.close()
@@ -17,13 +17,31 @@ MenuBar {
 
     }
     Menu {
-        title: qsTr("页面demo")
+        title: qsTr("测试")
         Action {
-            text: qsTr("组件示例")
+            text: qsTr("基础组件示例")
             onTriggered: {
-                mainLoader.source="qrc:/main/qml/pages/Page1.qml"
+                $wins.tab("qrc:/main/qml/pages/demo/index.qml",this.text)
             }
         }
+        Action {
+            text: qsTr("拓扑图")
+            onTriggered: {
+                $wins.open("qrc:/main/qml/pages/demo/topu.qml",this.text)
+            }
+        }
+        MenuSeparator { }
+        Action {
+            text: qsTr("Quit")
+            onTriggered: {
+                // 调用Window.close会进onClosing
+//                main.close()
+                Qt.quit()
+            }
+        }
+    }
+    Menu {
+        title: qsTr("其他")
 //        Action {
 //            text: qsTr("层叠页面")
 //            onTriggered: {
@@ -39,7 +57,7 @@ MenuBar {
         Action {
             text: qsTr("右键菜单")
             onTriggered: {
-                $wins.open("qrc:/main/qml/pages/popMenu/PopMenuWindow.qml", "PopMenuWindow");
+                $wins.tab("qrc:/main/qml/pages/popMenu/PopMenuWindow.qml", this.text);
             }
         }
         Menu {
@@ -47,18 +65,8 @@ MenuBar {
             Action {
                 text: qsTr("page1")
                 onTriggered: {
-                    mainLoader.source="qrc:/main/qml/pages/Page1.qml"
+                    $wins.tab("qrc:/main/qml/pages/Page1.qml",this.text)
                 }
-            }
-        }
-        MenuSeparator { }
-        Action {
-            text: qsTr("Quit")
-            onTriggered: {
-                // 调用Window.close会进onClosing
-//                main.close()
-                //调用Qt.quit不会进onClosing
-                Qt.quit()
             }
         }
     }

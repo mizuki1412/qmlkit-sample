@@ -19,7 +19,7 @@ Page {
             }
             ToolButton {
                 text: qsTr("⋮")
-                onClicked: menu.open()
+//                onClicked: menu.open()
             }
         }
     }
