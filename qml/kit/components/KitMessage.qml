@@ -15,18 +15,24 @@ KitModal{
     }
 
     content: ColumnLayout{
+        spacing: 24
+        Item{
+            Layout.fillHeight: true
+        }
         KitIcon {
             source: "\ue6bc"
             size: 24
             color: "gray"
             Layout.alignment: Qt.AlignCenter
-            Layout.topMargin: 12
         }
         // todo 长文字时
         Text{
             text: qsTr(message)
             Layout.alignment: Qt.AlignCenter
             Layout.preferredHeight: 40
+        }
+        Item{
+            Layout.fillHeight: true
         }
     }
 }

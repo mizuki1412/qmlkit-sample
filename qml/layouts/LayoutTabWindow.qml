@@ -70,44 +70,46 @@ Rectangle {
                 spacing: 1
                 contentItem: Rectangle{
                     color: tbb.checked?Material.primary:$color.gray300
-                    Text {
-                        anchors.left: parent.left
-                        anchors.leftMargin: 6
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: qsTr(model.title)
-                        font.pixelSize: $theme.font_sm
-                        width: tbb.checked?bar.width/6: 50
-                        color: tbb.checked?"white":$color.gray600
-                        verticalAlignment: Text.AlignVCenter
-                        renderType: Text.NativeRendering
-                        elide: Text.ElideRight
-                    }
-                    Button {
-                        anchors.right: parent.right
-                        anchors.rightMargin: 38
-                        anchors.verticalCenter: parent.verticalCenter
-                        visible: tbb.checked
-                        width:30
-                        height: 40
-                        font.family: $iconfont.family
-                        font.pixelSize: 12
-                        text: "\ue622"
-                        onClicked: {
-                            $wins.open(model.path,model.title)
+                    RowLayout{
+                        spacing: 8
+                        width: parent.width
+                        Text {
+                            Layout.alignment: Qt.AlignVCenter
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 36
+                            Layout.leftMargin: 4
+                            text: qsTr(model.title)
+                            font.pixelSize: $theme.font_sm
+                            width: tbb.checked?bar.width/6: 50
+                            color: tbb.checked?"white":$color.gray600
+                            verticalAlignment: Text.AlignVCenter
+                            renderType: Text.NativeRendering
+                            elide: Text.ElideRight
                         }
-                    }
-                    Button {
-                        anchors.right: parent.right
-                        anchors.rightMargin: 4
-                        anchors.verticalCenter: parent.verticalCenter
-                        visible: tbb.checked
-                        width:30
-                        height: 40
-                        font.family: $iconfont.family
-                        font.pixelSize: 10
-                        text: "\ue634"
-                        onClicked: {
-                            $wins.close(model.path)
+                        Button {
+                            Layout.alignment: Qt.AlignVCenter
+                            Layout.preferredHeight: 36
+                            Layout.preferredWidth: 30
+                            visible: tbb.checked
+                            font.family: $iconfont.family
+                            font.pixelSize: 12
+                            text: "\ue622"
+                            onClicked: {
+                                $wins.open(model.path,model.title)
+                            }
+                        }
+                        Button {
+                            Layout.alignment: Qt.AlignVCenter
+                            Layout.preferredHeight: 36
+                            Layout.preferredWidth: 30
+                            Layout.rightMargin: 8
+                            visible: tbb.checked
+                            font.family: $iconfont.family
+                            font.pixelSize: 10
+                            text: "\ue634"
+                            onClicked: {
+                                $wins.close(model.path)
+                            }
                         }
                     }
                 }
