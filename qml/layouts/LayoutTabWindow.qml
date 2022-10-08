@@ -16,9 +16,6 @@ Rectangle {
             bar.setCurrentIndex(index)
         }
     }
-    Component.onCompleted:{
-        console.log(123)
-    }
 
     TabBar {
         id: bar
@@ -92,7 +89,9 @@ Rectangle {
                         visible: tbb.checked
                         width:30
                         height: 40
-                        text: ">"
+                        font.family: $iconfont.family
+                        font.pixelSize: 12
+                        text: "\ue622"
                         onClicked: {
                             $wins.open(model.path,model.title)
                         }
@@ -104,7 +103,9 @@ Rectangle {
                         visible: tbb.checked
                         width:30
                         height: 40
-                        text: "x"
+                        font.family: $iconfont.family
+                        font.pixelSize: 10
+                        text: "\ue634"
                         onClicked: {
                             $wins.close(model.path)
                         }

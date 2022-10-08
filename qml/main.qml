@@ -10,7 +10,7 @@ import "./pages"
 import "./dao"
 
 ApplicationWindow {
-    id:main
+    id:root
     width: $settings.width
     height: $settings.height
     visible: true

@@ -25,9 +25,9 @@ Rectangle {
             drag.target: rec1
             drag.axis: Drag.XAndYAxis//设置拖拽的方式
             drag.minimumX: 0
-            drag.maximumX: main.width
+            drag.maximumX: root.width
             drag.minimumY: 0
-            drag.maximumY: main.height
+            drag.maximumY: root.height
             onClicked:{
                 com_1to2.strokeColor = "red"
             }
@@ -59,9 +59,9 @@ Rectangle {
             drag.target: rec2
             drag.axis: Drag.XAndYAxis//设置拖拽的方式
             drag.minimumX: 0
-            drag.maximumX: main.width
+            drag.maximumX: root.width
             drag.minimumY: 0
-            drag.maximumY: main.height
+            drag.maximumY: root.height
         }
         Label{
             text:"com_2"

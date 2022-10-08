@@ -45,10 +45,10 @@ QtObject{
         }
     }
 
-    //等待转圈
-    function showLoading(parentPage) {
+    //等待转圈 options:{ parentPage }
+    function showLoading(options) {
         if (loadingComponent.status === Component.Ready){
-            let sprite = loadingComponent.createObject(parentPage);
+            let sprite = loadingComponent.createObject(options.parentPage);
             if (sprite === null){
                 console.log("Error creating object");
             }else{

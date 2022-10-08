@@ -41,7 +41,7 @@ MenuBar {
             text: qsTr("Quit")
             onTriggered: {
                 // 调用Window.close会进onClosing
-//                main.close()
+//                root.close()
                 Qt.quit()
             }
         }

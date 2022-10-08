@@ -30,6 +30,24 @@ Rectangle {
                     $dao.showMessage({parentPage: demo2,message:"hello"})
                 }
             }
+            Button{
+                text: "loading框"
+                onClicked: {
+                    $dao.showLoading({parentPage: demo2})
+                }
+            }
+            Button{
+                text: "时间框"
+                onClicked: {
+
+                }
+            }
+            Button{
+                text: "webview"
+                onClicked: {
+
+                }
+            }
         }
     }
 }

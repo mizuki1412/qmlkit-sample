@@ -1,6 +1,6 @@
 # QML-Sample
 
-Base on Qt 6.3.2
+Base on Qt 6.4.0
 
 ## Material
 
@@ -8,9 +8,19 @@ Base on Qt 6.3.2
 
 # 组件
 
-## KitIcon
+## iconfont
 
-应用iconfont, 示例值对照:
+应用于KitIcon组件和text属性中，如：
+
+```qml
+RoundButton{
+    font: $iconfont
+    highlighted: true
+    text:"\ue6b2"
+}
+```
+
+示例值对照:
 
 - &#xe6ad; \ue6ad: 叹号
 - &#xe6b2; \ue6b2: 问号
