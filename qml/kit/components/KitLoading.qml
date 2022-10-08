@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Controls.Material
 import QtQuick.Layouts
 
 Popup{
@@ -37,7 +38,7 @@ Popup{
             Layout.alignment: Qt.AlignHCenter
         }
         RoundButton{
-            visible: count>=8
+            visible: count>=5
             Layout.alignment: Qt.AlignHCenter
             font.family: $iconfont.family
             font.pixelSize: 12

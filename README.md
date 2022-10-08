@@ -30,3 +30,6 @@ RoundButton{
 - &#xe634; \ue634: 叉
 - &#xe60e; \ue60e: 关机
 - &#xe622; \ue622: 窗口化
+- &#xe781; \ue781: 清空
+- &#xe77f; \ue77f: left-circle
+- &#xe783; \ue783: right-circle

@@ -21,7 +21,7 @@ QtObject {
     property color color_text: "white"
     property color color_text_active: $color.blue600
 
-    property color color_primary: Material.color(Material.primary)
+    property color color_primary: Material.color(Material.Blue)
     property color color_success: Material.color(Material.Green)
     property color color_info: $color.gray400
     property color color_warning: Material.color(Material.Amber)

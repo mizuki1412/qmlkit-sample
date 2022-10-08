@@ -37,11 +37,56 @@ Rectangle {
                 }
             }
             Button{
-                text: "时间框"
+                text: "自定义footer"
                 onClicked: {
-
+                    modal.open()
                 }
             }
+            KitModal{
+                id:modal
+                width: 400
+                height: 240
+                yesButtonText: "是"
+                noButtonText: "否"
+
+
+                property string message: "确认删除?"
+                function setMessage(msg){
+                    if(msg){
+                        message = msg
+                    }
+                }
+
+
+                content: ColumnLayout{
+                    KitIcon {
+                        source: "\ue6b2"
+                        size: 24
+                        color: "gray"
+                        Layout.alignment: Qt.AlignCenter
+                        Layout.topMargin: 12
+                    }
+                    Text{
+                        text: "合适的话电话"
+                        Layout.alignment: Qt.AlignCenter
+                        Layout.preferredHeight: 40
+                    }
+                }
+                footer: RowLayout{
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    Text {
+                        id: name
+                        text: qsTr("text")
+                        Layout.alignment: Qt.AlignVCenter
+                    }
+                }
+
+            }
+            KitDateTimePicker{
+                id: picker
+            }
+
             Button{
                 text: "webview"
                 onClicked: {

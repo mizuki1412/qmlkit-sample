@@ -1,9 +1,11 @@
-import QtQuick 2.12
-import "../qml_UI/MyStyle"
-import "../Qml/Style"
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Controls.Material
 
-MyButton{
+Button{
     id: datepicker_show
+    flat: true
 
     onClicked: function(){
         componet_datepicker.open()
@@ -19,7 +21,7 @@ MyButton{
     property color prevMonthColor: "#A9A9A9"
     property color nextMonthColor: "#A9A9A9"
     property color borderColor: "grey"
-    property color backgroundColor: Theme.colorBg
+    property color backgroundColor: "white"
     property color selectColor: "yellow"
 
     property int yearStart: new Date().getFullYear() - 150
@@ -73,14 +75,12 @@ MyButton{
         }
     }
 
-    function setMonth(m)
-    {
+    function setMonth(m){
         var newYear = currentDate.getFullYear()
         var newDay = currentDate.getDay()
         currentDate = new Date(newYear, m, newDay)
     }
-    function setYear(y)
-    {
+    function setYear(y){
         var newMonth = currentDate.getMonth()
         var newDay = currentDate.getDay()
         currentDate = new Date(y, newMonth, newDay)
@@ -93,30 +93,58 @@ MyButton{
         currentDate = new Date(newYear, newMonth + m, newDay)
     }
 
-    MyPopup{
+    Popup{
         id:componet_datepicker
         width: 400
         height: 330
+        closePolicy: Popup.CloseOnEscape
+        margins: 0
+        padding: 12
+        focus: true
 
         Rectangle{
             anchors.fill: parent
             id: theJWDMDatePicker
-            color: backgroundColor
-            border.width: 1
-            border.color: borderColor
-
-            width: 400
-            height: 300
+            RowLayout{
+                id: r1
+                width: parent.width
+                anchors.top: parent.top
+                Button{
+                    text: "\ue781"
+                    font.family: $iconfont.family
+                    font.pixelSize: 12
+                    Layout.alignment: Qt.AlignRight
+//                    width: parent.width/6
+//                    height: 24
+                    onClicked:function(){
+                        clear()
+                        componet_datepicker.close()
+                    }
+                }
+                Button{
+                    highlighted: true
+                    text:"\ue8bd"
+                    font.family: $iconfont.family
+                    font.pixelSize: 12
+                    Layout.alignment: Qt.AlignRight
+//                    width: parent.width/6
+//                    height: 24
+                    onClicked:function(){
+                        complete()
+                    }
+                }
+            }
 
             Row{
+                id: r2
                 width: parent.width
                 height: 24
-                anchors.fill:parent
+                anchors.top: r1.bottom
+                anchors.topMargin: 2
                 Text{
                     width: parent.width/6-15
                     height: 24
-                    color: "white"
-                    text: "时间："
+                    text: qsTr("时间：")
                     font.pixelSize: 14
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -124,7 +152,6 @@ MyButton{
                 Rectangle {
                     width: parent.width/6-5
                     height: 24
-                    color: "#484E58"
                     border.width: 1
                     border.color: Qt.rgba(238, 238, 238, 0.3)
                     radius: 2
@@ -138,14 +165,13 @@ MyButton{
                         verticalAlignment: Text.AlignVCenter
                         selectByMouse: true
                         clip: true
-                        color: "yellow"
+                        color: $theme.color_primary
                         validator: IntValidator{bottom: 0; top: 23}
                     }
                 }
                 Text{
                     width: 10
                     height: 24
-                    color: "white"
                     text: ":"
                     font.pixelSize: 14
                     horizontalAlignment: Text.AlignHCenter
@@ -154,7 +180,6 @@ MyButton{
                 Rectangle {
                     width: parent.width/6-5
                     height: 24
-                    color: "#484E58"
                     border.width: 1
                     border.color: Qt.rgba(238, 238, 238, 0.3)
                     radius: 2
@@ -167,15 +192,14 @@ MyButton{
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         selectByMouse: true
+                        color: $theme.color_primary
                         clip: true
-                        color: "yellow"
                         validator: IntValidator{bottom: 0; top: 59;}
                     }
                 }
                 Text{
                     width: 10
                     height: 24
-                    color: "white"
                     text: ":"
                     font.pixelSize: 14
                     horizontalAlignment: Text.AlignHCenter
@@ -184,9 +208,6 @@ MyButton{
                 Rectangle {
                     width: parent.width/6-5
                     height: 24
-                    color: "#484E58"
-                    border.width: 1
-                    border.color: Qt.rgba(238, 238, 238, 0.3)
                     radius: 2
                     TextInput {
                         id: text_second
@@ -198,34 +219,15 @@ MyButton{
                         verticalAlignment: Text.AlignVCenter
                         selectByMouse: true
                         clip: true
-                        color: "yellow"
+                        color: $theme.color_primary
                         validator: IntValidator{bottom: 0; top: 59;}
                     }
                 }
                 Text{
                     width: 10
                     height: 24
+                }
 
-                }
-                MyButton{
-                    text:"清空"
-                    width: parent.width/6
-                    height: 24
-                    color:Theme.colorBg
-                    onClicked:function(){
-                        clear()
-                        componet_datepicker.close()
-                    }
-                }
-                MyButton{
-                    text:"确定"
-                    width: parent.width/6
-                    height: 24
-                    color:Theme.colorBg
-                    onClicked:function(){
-                        complete()
-                    }
-                }
 
             }
             Column {
@@ -233,17 +235,16 @@ MyButton{
                 width: theJWDMDatePicker.width
                 height: theJWDMDatePicker.height
                 anchors.centerIn: parent
-                anchors.topMargin: 25
-                anchors.fill:parent
-                Rectangle
-                {
+                anchors.top: r2.bottom
+                anchors.topMargin: 2
+                anchors.bottom: parent.bottom
+                Rectangle{
                     color: "grey"
                     height: 1
                     width: parent.width
                     id: line0
                 }
-                Item
-                {
+                Item{
                     id: monthYear
                     width: parent.width
                     height: width / 10
@@ -253,13 +254,11 @@ MyButton{
                         text: "<"
                         height: parent.height
                         width: height
-                        color: fontColor
+//                        color: fontColor
 
-                        MouseArea
-                        {
+                        MouseArea{
                             anchors.fill: parent
-                            onClicked:
-                            {
+                            onClicked:{
                                 monthSelect.opacity = 0
                                 yearSelect.opacity = 0
                                 addMonth(-1)
@@ -269,16 +268,15 @@ MyButton{
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                     }
-                    Text
-                    {
+                    Text{
                         id: monthText
-                        text: currentDate.toLocaleDateString(Qt.locale(), "MMMM")
+                        text: qsTr(currentDate.toLocaleDateString(Qt.locale(), "MMMM"))
                         anchors.left: leftKlick.right
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         height: parent.height
                         anchors.right: yearText.left
-                        color: fontColor
+//                        color: fontColor
 
                         MouseArea
                         {
@@ -306,8 +304,6 @@ MyButton{
                         verticalAlignment: Text.AlignVCenter
                         height: parent.height
                         width: contentWidth + rightKlick.width / 2
-                        color: fontColor
-
                         MouseArea
                         {
                             anchors.fill: parent
@@ -335,7 +331,7 @@ MyButton{
                         width: height
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
-                        color: fontColor
+//                        color: fontColor
 
                         MouseArea
                         {
@@ -352,7 +348,7 @@ MyButton{
                 }
                 Rectangle
                 {
-                    color: "grey"
+//                    color: "grey"
                     height: 1
                     width: parent.width
                     id: line2
@@ -378,7 +374,7 @@ MyButton{
                                 model: 7
                                 delegate: Text
                                 {
-                                    color: fontColor
+//                                    color: fontColor
 
                                     text: (new Date(1978, 5, 23 + index - 4)).toLocaleDateString(Qt.locale(), "ddd")
                                     width: weekDays.width / 7
@@ -393,7 +389,7 @@ MyButton{
                             visible: opacity > 0
                             opacity: daySelect.opacity
                             id: line
-                            color: "grey"
+//                            color: "grey"
                             height: 1
                             width: parent.width
                         }
@@ -419,10 +415,9 @@ MyButton{
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignHCenter
                                     text: myDate.getDate()
-                                    color: myDate.getMonth() > currentDate.getMonth() ? nextMonthColor :
-                                                                                        myDate.getMonth() < currentDate.getMonth() ? prevMonthColor : fontColor
-                                    MouseArea
-                                    {
+//                                    color: myDate.getMonth() > currentDate.getMonth() ? nextMonthColor :
+//                                                                                        myDate.getMonth() < currentDate.getMonth() ? prevMonthColor : fontColor
+                                    MouseArea{
                                         anchors.fill: parent
                                         onClicked:{
                                             currentDate = new Date(myDate.getFullYear(),myDate.getMonth(),myDate.getDate())
@@ -436,7 +431,7 @@ MyButton{
                                         radius: width / 2
                                         color: "transparent"
                                         border.width: 1
-                                        border.color: selectColor
+//                                        border.color: selectColor
                                         visible: parent.myDate.getFullYear() == currentDate.getFullYear() && parent.myDate.getMonth() == currentDate.getMonth() && parent.myDate.getDate() == currentDate.getDate()
                                     }
                                 }
@@ -467,7 +462,7 @@ MyButton{
                             width: yearSelect.cellWidth
                             height: yearSelect.cellHeight
 
-                            color: fontColor
+//                            color: fontColor
                             text: yearStart + index
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
@@ -488,8 +483,8 @@ MyButton{
                                 radius: 5
                                 color: "transparent"
                                 border.width: 1
-                                border.color: selectColor
-                                visible: parent.text == currentDate.getFullYear().toString()
+//                                border.color: selectColor
+                                visible: parent.text === currentDate.getFullYear().toString()
                             }
                         }
                     }
@@ -510,8 +505,7 @@ MyButton{
                         {
                             model: 12
                             Text {
-
-                                color: fontColor
+//                                color: fontColor
                                 width: monthSelect.width / 4
                                 height: monthSelect.height / 3
                                 verticalAlignment: Text.AlignVCenter
@@ -534,7 +528,7 @@ MyButton{
                                     radius: 5
                                     color: "transparent"
                                     border.width: 1
-                                    border.color: selectColor
+//                                    border.color: selectColor
                                     visible: parent.text === currentDate.toLocaleDateString(Qt.locale(), "MMM")
                                 }
                             }
@@ -545,6 +539,19 @@ MyButton{
             }
         }
 
+//        MouseArea {
+//            property point clickPoint: "0,0"
+//            anchors.fill: parent
+//            acceptedButtons: Qt.LeftButton
+//            onPressed: (mouse)=>{
+//                clickPoint  = Qt.point(mouse.x, mouse.y)
+//            }
+//            onPositionChanged: (mouse)=>{
+//               let offset = Qt.point(mouse.x - clickPoint.x, mouse.y - clickPoint.y)
+//               componet_datepicker.x = componet_datepicker.x + offset.x
+//               componet_datepicker.y = componet_datepicker.y + offset.y
+//            }
+//        }
     }
 
 }

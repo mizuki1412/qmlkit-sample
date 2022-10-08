@@ -24,7 +24,7 @@ KitModal{
         }
         // todo 长文字时
         Text{
-            text: message
+            text: qsTr(message)
             Layout.alignment: Qt.AlignCenter
             Layout.preferredHeight: 40
         }

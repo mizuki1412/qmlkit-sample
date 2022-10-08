@@ -56,7 +56,7 @@ ApplicationWindow {
 
     Component.onCompleted: {
         $wins.tab("qrc:/main/qml/pages/demo/index.qml","基础组件示例")
-        console.log($iconfont,$iconfont.family)
+        console.log($theme.color_primary)
     }
 
     onClosing: function(closeevent){

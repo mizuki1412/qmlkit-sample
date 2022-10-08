@@ -74,7 +74,7 @@ Rectangle {
                         anchors.left: parent.left
                         anchors.leftMargin: 6
                         anchors.verticalCenter: parent.verticalCenter
-                        text: model.title
+                        text: qsTr(model.title)
                         font.pixelSize: $theme.font_sm
                         width: tbb.checked?bar.width/6: 50
                         color: tbb.checked?"white":$color.gray600
