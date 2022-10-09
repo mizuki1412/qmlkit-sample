@@ -20,6 +20,7 @@ KitModal{
         spacing: 24
         Item{
             Layout.fillHeight: true
+            Layout.fillWidth: true
         }
         KitIcon {
             source: "\ue6b2"
@@ -34,6 +35,7 @@ KitModal{
         }
         Item{
             Layout.fillHeight: true
+            Layout.fillWidth: true
         }
     }
 

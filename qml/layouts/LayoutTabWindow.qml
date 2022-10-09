@@ -133,10 +133,19 @@ Rectangle {
         currentIndex: bar.currentIndex
         Repeater {
             model: $wins.tabModels
-            Loader{
-                source: model.path
-                onLoaded: {
-                    console.log("load:",model.title, model.path)
+            ScrollView{
+                id: scroll0
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Loader{
+                    id: loader0
+                    anchors.top:parent.top
+                    anchors.left:parent.left
+                    anchors.right:parent.right
+                    source: model.path
+                    onLoaded: {
+                        console.log("tab load:",model.title, model.path)
+                    }
                 }
             }
         }

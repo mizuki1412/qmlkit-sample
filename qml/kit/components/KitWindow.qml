@@ -17,9 +17,18 @@ ApplicationWindow {
         $wins.close(key)
     }
 
-    Loader{
-        id: content
+    ScrollView{
+        id: scroll_kit_win
         anchors.fill: parent
-        source: key
+        Loader{
+            id: loader_kit_win
+            anchors.top:parent.top
+            anchors.left:parent.left
+            anchors.right:parent.right
+            source: key
+//            Component.onCompleted:{
+//                console.log(11,scroll_kit_win.height,loader_kit_win.height)
+//            }
+        }
     }
 }

@@ -1,12 +1,13 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QtQuickControls2>
+//#include <QtWebEngineQuick>
 
 int main ( int argc, char *argv[] ){
 //    QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
-    //    QtWebEngineQuick::initialize(); //QtWebEngineQuick初始化
     // Qt.quit有效
     QApplication app(argc, argv);
+//    QtWebEngineQuick::initialize();
     QQuickStyle::setStyle("Material");
     QFont font;
 //    font.setFamily("Arial");

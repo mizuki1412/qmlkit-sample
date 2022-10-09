@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Controls
-import "../../kit/components-undo"
+import "../../kit/components"
 Rectangle{
     height:100
     width:parent.width

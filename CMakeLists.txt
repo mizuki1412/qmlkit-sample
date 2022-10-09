@@ -5,7 +5,7 @@ project(qml-sample VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.3 COMPONENTS Quick QuickControls2 Gui Charts REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Quick QuickControls2 Gui Charts WebChannel)
 
 file(GLOB_RECURSE QML_PATHS qml/ "*.qml")
 foreach(filepath ${QML_PATHS})
@@ -46,7 +46,7 @@ qt_add_qml_module(app-${CMAKE_PROJECT_NAME}
 #)
 
 target_link_libraries(app-${CMAKE_PROJECT_NAME}
-    PRIVATE Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::QuickControls2 Qt${QT_VERSION_MAJOR}::Qml Qt${QT_VERSION_MAJOR}::Charts Qt${QT_VERSION_MAJOR}::Gui)
+    PRIVATE Qt6::Quick Qt6::QuickControls2 Qt6::Charts Qt6::Gui Qt6::WebChannel)
 
 set_target_properties(app-${CMAKE_PROJECT_NAME} PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
