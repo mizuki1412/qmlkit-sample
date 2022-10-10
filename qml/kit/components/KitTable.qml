@@ -7,15 +7,16 @@ import QtQuick.Shapes
 
 // 表格
 Rectangle{
-    // headers是字符串数组，可带列宽，eg: ["header1:30", "header2"]
+    // headers是字符串数组，可带列宽，eg: ["header1:name:30", "header2:name"]
+    // 注意head中_开头的将作为无display值的存在，会自动补值，不用在addData时设置
     property var headers: []
     // 计算headers中的列宽（0为自适应），tablebody的列宽根据header实际宽
     property var columnWidths: {
         let arr = []
         for(let e of headers){
             let es = e.split(":")
-            if(es.length===2){
-                let v = parseFloat(es[1])
+            if(es.length>=3){
+                let v = parseFloat(es[2])
                 if(v>0){
                     arr.push(v)
                     continue
@@ -25,15 +26,43 @@ Rectangle{
         }
         return arr
     }
+    property var headerNames:{
+        let arr = []
+        for(let e of headers){
+            let es = e.split(":")
+            if(es.length>=2){
+                arr.push(es[1])
+                continue
+            }
+            arr.push("")
+        }
+        return arr
+    }
     onWidthChanged: {
         // 界面变化自适应
         tableBody.forceLayout()
     }
-
 //    color: $color.rose400
     height: tableHeader.height+tableBody.height
     property TableModel tableModel: TableModel{TableModelColumn{display:"_handle"}}
     property DelegateChooser tableDelegate
+
+    function addData(data){
+        // 补全_开头的值
+        for(let e of headers){
+            if(e.split(":")[0].indexOf("_")===0){
+                data[e.split(":")[0]] = ""
+            }
+        }
+        tableModel.appendRow(data)
+    }
+
+    function setData(list){
+        tableModel.clear()
+        for(let e of list){
+            addData(e)
+        }
+    }
 
     Component.onCompleted:{
     }
@@ -63,7 +92,7 @@ Rectangle{
                     border.color: $theme.table_border_color
                     Text {
                         anchors.fill: parent
-                        text: qsTr(headers[index].split(":")[0])
+                        text: qsTr(headerNames[index])
                         elide: Text.ElideMiddle
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter

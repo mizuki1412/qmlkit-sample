@@ -117,14 +117,14 @@ Rectangle {
         Button{
             text: "table update"
             onClicked: {
-                table.tableModel.appendRow({
+                table.addData({
                      // Each property is one cell/column.
                      checked: count%2===0,
                      amount: count,
                      fruitType: "Apple "+count,
                      fruitName: "Granny Smith "+count,
                      fruitPrice: count,
-                     _handle: 1,id:new Date()
+                     id:new Date()
                  })
                 count++
             }
@@ -156,7 +156,7 @@ Rectangle {
         anchors.top: scroll1.bottom
         width: parent.width
         anchors.topMargin: 8
-        headers: ["checked:60","amount","fruitType","fruitName","fruitPrice","_handle:150"]
+        headers: ["checked:序号:60","amount:数量","fruitType:类型","fruitName:名称","fruitPrice:价格","_handle:操作:150"]
         tableModel: TableModel {
            TableModelColumn { display: "checked" }
            TableModelColumn { display: "amount" }
