@@ -68,6 +68,7 @@ Popup{
 //        MouseArea {
 //            property point clickPoint: "0,0"
 //            anchors.fill: parent
+//			  cursorShape: Qt.SizeAllCursor
 //            acceptedButtons: Qt.LeftButton
 //            onPressed: (mouse)=>{
 //                clickPoint  = Qt.point(mouse.x, mouse.y)

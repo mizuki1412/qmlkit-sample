@@ -27,4 +27,9 @@ QtObject {
     property color color_warning: Material.color(Material.Amber)
     property color color_danger: Material.color(Material.Red)
     property color color_default:$color.gray600
+
+    property color table_border_color:$color.gray300
+    property int table_cell_height:42
+    property color table_cell_bg1_color: "white"
+    property color table_cell_bg2_color: $color.gray100
 }

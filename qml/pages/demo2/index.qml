@@ -3,16 +3,24 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Window
 import QtQuick.Controls.Material
+import Qt.labs.qmlmodels
+ import QtQuick.Shapes
 import "../../kit/components"
 
 Rectangle {
     width: parent.width
     height: 2000
     id: demo2
+    property int count:0
+
+    Component.onCompleted:{
+        picker.init(new Date())
+        console.log(picker.value)
+    }
+
     Row{
         id: r1
         spacing: 12
-        height: 100
         Button{
             text: "确认框"
             onClicked: {
@@ -106,38 +114,86 @@ Rectangle {
 //                    url: "https://www.baidu.com"
 //                }
         }
-
-    }
-
-    // todo ?
-    ScrollView{
-        anchors.top: r1.bottom
-        anchors.topMargin: 12
-        width:300
-        height:300
-        Rectangle{
-            anchors.top:parent.top
-            anchors.left:parent.left
-            anchors.right:parent.right
-            height: 2000
-            color: "green"
-            Component.onCompleted:{
-                console.log(3,parent.height,this.height)
+        Button{
+            text: "table update"
+            onClicked: {
+                table.tableModel.appendRow({
+                     // Each property is one cell/column.
+                     checked: count%2===0,
+                     amount: count,
+                     fruitType: "Apple "+count,
+                     fruitName: "Granny Smith "+count,
+                     fruitPrice: count,
+                     _handle: 1,id:new Date()
+                 })
+                count++
             }
         }
 
     }
 
-//    Rectangle{
-//        anchors.top: r1.bottom
-//        anchors.topMargin: 12
-//        width: parent.width
-//        height: 2000
-//        color: "blue"
-//    }
+    ScrollView{
+        id: scroll1
+        anchors.top: r1.bottom
+        width:300
+        height:100
+        ColumnLayout{
+            anchors.fill:parent
+            Rectangle{
+                Layout.fillWidth: true
+                height: 2000
+                color: "green"
+                Component.onCompleted:{
+                    console.log(3,parent.height,this.height)
+                }
+            }
+        }
 
-    Component.onCompleted:{
-        picker.init(new Date())
-        console.log(picker.value)
     }
+
+    KitTable{
+        id:table
+        anchors.top: scroll1.bottom
+        width: parent.width
+        anchors.topMargin: 8
+        headers: ["checked:60","amount","fruitType","fruitName","fruitPrice","_handle:150"]
+        tableModel: TableModel {
+           TableModelColumn { display: "checked" }
+           TableModelColumn { display: "amount" }
+           TableModelColumn { display: "fruitType" }
+           TableModelColumn { display: "fruitName" }
+           TableModelColumn { display: "fruitPrice" }
+           TableModelColumn { display: "_handle" }
+        }
+        tableDelegate: DelegateChooser {
+            DelegateChoice {
+                column: 0
+                delegate: KitTableCell{
+                    type: "checkbox"
+                }
+            }
+            DelegateChoice {
+                column: 5
+                delegate: KitTableCell{
+                    type: ""
+                    RowLayout{
+                        anchors.fill: parent
+                        Button{
+                            Layout.preferredWidth: 50
+                            Layout.fillHeight: true
+                            Layout.alignment: Qt.AlignCenter
+                            text: "修改"
+                            onClicked: {
+                                console.log(table.tableModel.rows[model.row].id)
+                            }
+                        }
+                    }
+                }
+            }
+            DelegateChoice {
+                delegate: KitTableCell{}
+            }
+        }
+    }
+
 }
