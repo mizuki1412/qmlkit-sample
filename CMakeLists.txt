@@ -17,14 +17,12 @@ foreach(filepath ${QML_PATHS})
     endif()
     message("加载qml文件：" ${filepath})
     string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/" "" filename ${filepath}) #.+/(.+)\\\\..*" "\\\\1
-    message("---：" ${filename})
     list(APPEND QML_FILES ${filename})
 endforeach(filepath)
 list(REMOVE_DUPLICATES QML_FILES) #表示删除非第一个重名值
 
 file(GLOB_RECURSE ASSETS_PATHS *.png *.jpg *.svg *.ttf *.html *.js *.css)
 foreach(filepath ${ASSETS_PATHS})
-    message("加载resource文件：" ${filepath})
     string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/" "" filename ${filepath}) #.+/(.+)\\\\..*" "\\\\1
     list(APPEND ASSETS_FILES ${filename})
 endforeach(filepath)
@@ -40,12 +38,6 @@ qt_add_executable(app-${CMAKE_PROJECT_NAME}
 #    VERSION 1.0
 #    QML_FILES ${QML_FILES}
 #    RESOURCES ${ASSETS_FILES}
-#)
-# todo import kit的qml时会找不到
-#qt_add_qml_module(kit-${CMAKE_PROJECT_NAME}
-#    URI kit
-#    VERSION 1.0
-#    QML_FILES ${KIT_QML_FILES}
 #)
 
 qt6_add_resources(app-${CMAKE_PROJECT_NAME} "qml"
