@@ -1,8 +1,7 @@
 import QtQuick
 import Qt.labs.settings
 
-Settings
-{
+Settings{
     id:setting
     fileName:"./setting.ini"
 

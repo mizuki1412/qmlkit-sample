@@ -5,7 +5,7 @@ MenuBar {
     id:bar
     MenuBarItem{
         onTriggered: {
-            $wins.open("qrc:/main/qml/pages/Page1.qml", "单菜单窗口");
+            $wins.open("qrc:/qml/pages/Page1.qml", "单菜单窗口");
         }
         menu:Menu {
             title: qsTr("单菜单窗口")
@@ -21,19 +21,19 @@ MenuBar {
         Action {
             text: qsTr("基础组件示例")
             onTriggered: {
-                $wins.tab("qrc:/main/qml/pages/demo/index.qml",this.text)
+                $wins.tab("qrc:/qml/pages/demo/index.qml",this.text)
             }
         }
         Action {
             text: qsTr("其他组件示例")
             onTriggered: {
-                $wins.tab("qrc:/main/qml/pages/demo2/index.qml",this.text)
+                $wins.tab("qrc:/qml/pages/demo2/index.qml",this.text)
             }
         }
         Action {
             text: qsTr("拓扑图")
             onTriggered: {
-                $wins.open("qrc:/main/qml/pages/demo/topu.qml",this.text)
+                $wins.open("qrc:/qml/pages/demo/topu.qml",this.text)
             }
         }
         MenuSeparator { }
@@ -63,7 +63,7 @@ MenuBar {
         Action {
             text: qsTr("右键菜单")
             onTriggered: {
-                $wins.tab("qrc:/main/qml/pages/popMenu/PopMenuWindow.qml", this.text);
+                $wins.tab("qrc:/qml/pages/popMenu/PopMenuWindow.qml", this.text);
             }
         }
         Menu {
@@ -71,7 +71,7 @@ MenuBar {
             Action {
                 text: qsTr("page1")
                 onTriggered: {
-                    $wins.tab("qrc:/main/qml/pages/Page1.qml",this.text)
+                    $wins.tab("qrc:/qml/pages/Page1.qml",this.text)
                 }
             }
         }

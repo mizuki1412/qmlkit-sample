@@ -23,7 +23,7 @@ ApplicationWindow {
 
     FontLoader {
         id: iconfont
-        source: "qrc:/main/qml/kit/assets/font/iconfont.ttf"
+        source: "qrc:/qml/kit/assets/font/iconfont.ttf"
     }
 
     // 全局变量区域
@@ -39,7 +39,7 @@ ApplicationWindow {
 
     Loader{
         id: mainLoader
-        source: "qrc:/main/qml/layouts/LayoutTabWindow.qml"
+        source: "qrc:/qml/layouts/LayoutTabWindow.qml"
         width: parent.width
     }
 
@@ -55,7 +55,7 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        $wins.tab("qrc:/main/qml/pages/demo/index.qml","基础组件示例")
+        $wins.tab("qrc:/qml/pages/demo/index.qml","基础组件示例")
         console.log($theme.color_primary)
     }
 

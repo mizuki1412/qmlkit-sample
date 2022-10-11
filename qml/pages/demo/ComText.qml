@@ -3,7 +3,7 @@ import QtQuick.Controls
 
 Rectangle{
     width:parent.width
-    height:100
+    height:150
     Column{
         spacing:$theme.margin
         TextInput{

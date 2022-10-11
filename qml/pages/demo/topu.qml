@@ -15,7 +15,7 @@ Rectangle {
         y:parent.height*0.4
         Image{
             id:com_1
-            source:"qrc:/main/qml/kit/assets/svg/index.svg"
+            source:"qrc:/qml/kit/assets/svg/index.svg"
             anchors.centerIn:parent
             width:100
             height:100
@@ -49,7 +49,7 @@ Rectangle {
         y:parent.height*0.5
         Image{
             id:com_2
-            source:"qrc:/main/qml/kit/assets/svg/index.svg"
+            source:"qrc:/qml/kit/assets/svg/index.svg"
             anchors.centerIn:parent
             width:100
             height:100

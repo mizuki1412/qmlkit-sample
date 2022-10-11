@@ -42,7 +42,7 @@ Page {
     }
 
     function _createNewDocument(){
-        var component = Qt.createComponent("qrc:/main/qml/pages/WindowDemo.qml");
+        var component = Qt.createComponent("qrc:/qml/pages/WindowDemo.qml");
         var window = component.createObject();
         return window;
     }

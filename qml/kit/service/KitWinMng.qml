@@ -45,7 +45,7 @@ QtObject {
             open(path, title)
         }
         else {
-            let component = Qt.createComponent("qrc:/main/qml/kit/components/KitWindow.qml");
+            let component = Qt.createComponent("qrc:/qml/kit/components/KitWindow.qml");
             if(component.status === Component.Error){
                 console.error(component.errorString())
                 return
