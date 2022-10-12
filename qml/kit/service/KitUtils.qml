@@ -34,12 +34,13 @@ QtObject {
     }
 
     // 定时器或settimeout: repeat:bool, startRunning:bool
-    function timer(fun, delay, repeat, startRunning){
+    function timer(fun, delay, repeat, startRunning) {
         let timer = Qt.createQmlObject("import QtQuick; Timer {}", root);
         timer.interval = delay;
         timer.repeat = repeat;
         timer.triggeredOnStart = startRunning
         timer.triggered.connect(fun)
         timer.start();
+        return timer
     }
 }

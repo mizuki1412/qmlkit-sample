@@ -32,14 +32,14 @@ QtObject {
         }
     }
 
-    // title:windows的, config:{width, height}
+    // title:windows的, config:{width, height, new:bool不纳入管理}
     function open(path,title,config){
         if(!config) config = {}
-        if(winMap[path] && winMap[path].object && winMap[path].place==="show"){
+        if(winMap[path] && winMap[path].object && winMap[path].place==="show" && !config["new"]){
             // 如果已经存在window，那么显示在上层
             winMap[path].object.raise()
         }
-        else if(winMap[path] && winMap[path].place==='tab'){
+        else if(winMap[path] && winMap[path].place==='tab' && !config["new"]){
             // 如果已经存在tab，关闭，然后开启
             close(path)
             open(path, title)
@@ -58,10 +58,12 @@ QtObject {
                 p.height = config.height
             }
             let obj = component.createObject(null, p)
-            winMap[path] = {
-                object:obj, place:"show", path, title
+            if(!config["new"]){
+                winMap[path] = {
+                    object:obj, place:"show", path, title
+                }
             }
-            winMap[path].object.show()
+            obj.show()
         }
     }
 

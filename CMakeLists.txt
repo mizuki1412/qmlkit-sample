@@ -9,7 +9,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Quick QuickControls2 Gui Charts WebChannel)
 
-file(GLOB_RECURSE QML_PATHS qml/ "*.qml")
+file(GLOB_RECURSE CPP_PATHS  cpp/*.cpp cpp/*.h cpp/*.cc cpp/*.hpp)
+foreach(filepath ${CPP_PATHS})
+    message("加载cpp文件：" ${filepath})
+    string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/" "" filename ${filepath}) #.+/(.+)\\\\..*" "\\\\1
+    list(APPEND CPP_FILES ${filename})
+endforeach(filepath)
+list(REMOVE_DUPLICATES CPP_FILES)
+
+file(GLOB_RECURSE QML_PATHS qml/*.qml)
 foreach(filepath ${QML_PATHS})
     ## 排除dummydata
     if(filepath MATCHES "(dummydata)+")
@@ -29,7 +37,7 @@ endforeach(filepath)
 list(REMOVE_DUPLICATES ASSETS_FILES)
 
 qt_add_executable(app-${CMAKE_PROJECT_NAME}
-    cpp/main.cpp
+   	${CPP_FILES}
 )
 
 # 这里的uri将会影响qrc路径的前缀

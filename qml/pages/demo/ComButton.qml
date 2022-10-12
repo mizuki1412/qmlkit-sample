@@ -22,6 +22,9 @@ Rectangle{
         Button{
             highlighted: true
             text:"Default"
+            onClicked: {
+                $mqttClient1.publish("send2", "remotexxxx", 2, false)
+            }
         }
         Button{
             flat:true

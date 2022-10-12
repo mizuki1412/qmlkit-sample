@@ -7,7 +7,7 @@ import "../../kit/components"
 
 Rectangle {
     width:1000
-    height:1000
+    height:2000
     TabBar {
 		id: bar
 		width: parent.width
@@ -233,10 +233,5 @@ Rectangle {
 		width:Screen.width
 		height:1
 		color: "black"
-	}
-	ComTable{
-		id:showTable
-		anchors.top: div_8.bottom
-		anchors.topMargin: $theme.margin
 	}
 }
