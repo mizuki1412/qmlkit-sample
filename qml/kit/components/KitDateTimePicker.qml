@@ -6,6 +6,7 @@ import QtQuick.Controls.Material
 Button{
     id: datepicker_show
     flat: true
+    text: qsTr("<空>")
 
     onClicked: function(){
         componet_datepicker.open()
@@ -27,7 +28,6 @@ Button{
     property var monthMap : ({"1":"一月","2":"二月","3":"三月","4":"四月","5":"五月","6":"六月","7":"七月","8":"八月","9":"九月","10":"十月","11":"十一月","12":"十二月"})
 
     function complete(){
-        // todo 外部使用的时候直接获取property
         let {hour, minute, second} = correntHMS()
         value = new Date(currentDate.getFullYear(),currentDate.getMonth(),currentDate.getDate(),hour,minute,second)
         datepicker_show.text = Qt.formatDateTime(value, "yyyy-MM-dd HH:mm:ss")
@@ -46,7 +46,7 @@ Button{
     // 重置 清空
     function clear(){
         value = null
-        datepicker_show.text=""
+        datepicker_show.text=qsTr("<空>")
     }
 
     // 修正时分秒

@@ -1,4 +1,4 @@
-import QtQuick
+﻿import QtQuick
 import QtQuick.Shapes
 import QtQuick.Controls
 
@@ -15,23 +15,18 @@ Rectangle {
     property alias source:img.source
     property alias text: name.text
     property alias textSize:name.font.pixelSize
-    property var stateList:[]
-    property int defaultSource:0
-    property string a :"223"
+    property alias iconColor:img.color
     signal clicked
     signal doubleClicked
     color:"white"
-    width: 100
+    width: 50
     height: width
-    Component.onCompleted:{
-        if(!source.length){
-            source = stateList[defaultSource].source
-        }
-    }
 
-    Image{
+    KitIcon {
         id:img
-        anchors.fill: parent
+        size:parent.width
+        color: "gray"
+        anchors.centerIn: parent
     }
     MouseArea {
         anchors.fill: control
@@ -50,14 +45,6 @@ Rectangle {
         Text{
             anchors.horizontalCenter: parent.horizontalCenter
             id:name
-        }
-    }
-
-    function changeState(state){
-        for(var i of stateList){
-            if(i.state === state){
-                source = i.source
-            }
         }
     }
 }

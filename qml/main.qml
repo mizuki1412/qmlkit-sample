@@ -35,16 +35,18 @@ ApplicationWindow {
     property KitUtils $utils: KitUtils{}
     property font $iconfont: iconfont.font
 
-    menuBar: LayoutMenu{}
+    menuBar: LayoutMenu{id: menuPart}
 
     Loader{
         id: mainLoader
         source: "qrc:/qml/layouts/LayoutTabWindow.qml"
         width: parent.width
+		anchors.top: menuPart.bottom
+		anchors.bottom: footerPart.top
     }
 
-
     footer: Rectangle{
+    	id: footerPart
         height: 30
         color: $color.gray200
         Label {

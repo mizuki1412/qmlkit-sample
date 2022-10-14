@@ -26,9 +26,10 @@ ApplicationWindow {
             anchors.left:parent.left
             anchors.right:parent.right
             source: key
-//            Component.onCompleted:{
-//                console.log(11,scroll_kit_win.height,loader_kit_win.height)
-//            }
+            Component.onCompleted:{
+                // 自适应内部元素高度
+                loader_kit_win.item.implicitHeight = loader_kit_win.item.childrenRect.height+8
+            }
         }
     }
 }

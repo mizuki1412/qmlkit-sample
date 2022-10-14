@@ -7,8 +7,6 @@ import "../kit/components"
 
 Rectangle {
     id: win
-    width: $settings.width
-    height: $settings.height
 
     Connections{
         target: $wins
@@ -144,7 +142,10 @@ Rectangle {
                     anchors.right:parent.right
                     source: model.path
                     onLoaded: {
+                        // 自适应内部元素高度
+                        loader0.item.implicitHeight = loader0.item.childrenRect.height+8
                         console.log("tab load:",model.title, model.path)
+                        console.log("tab load:",loader0.item.implicitHeight)
                     }
                 }
             }

@@ -1,4 +1,4 @@
-import QtQuick
+﻿import QtQuick
 import QtQuick.Shapes
 
 Shape{
@@ -16,7 +16,7 @@ Shape{
         fillColor: "transparent"
         PathPolyline{
             path:[
-                Qt.point(from.x+from.width,from.y+from.height/2),
+                Qt.point(from.x+from.width/2,from.y+from.height/2),
                 Qt.point(to.x+to.width/2,from.y +from.height/2),
                 Qt.point(to.x+to.width/2,to.y+to.height/2)
             ]
