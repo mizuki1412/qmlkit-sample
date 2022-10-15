@@ -4,10 +4,10 @@ import QtQuick.Layouts
 import QtQuick.Window
 import QtQuick.Controls.Material
 import Qt.labs.qmlmodels
- import QtQuick.Shapes
+import QtQuick.Shapes
 import "../../kit/components"
 
-Rectangle {
+KitPage {
     width: parent.width
     height: 2000
     id: demo2

@@ -1,8 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-
-Page {
+import "../kit/components"
+KitPage {
     header: ToolBar {
         RowLayout {
             anchors.fill: parent

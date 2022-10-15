@@ -1,8 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 import Qt.labs.platform 1.0 as NativeDialogs
-
-Page {
+import "../kit/components"
+KitPage {
     id: root
     title: (_fileName.length===0?qsTr("新文件"):_fileName) + (_hasUnsavedChange?"*":"")
 

@@ -27,8 +27,8 @@ ApplicationWindow {
             anchors.right:parent.right
             source: key
             Component.onCompleted:{
-                // 自适应内部元素高度
-                loader_kit_win.item.implicitHeight = loader_kit_win.item.childrenRect.height+8
+                // 自适应内部元素高度，内部组件不可设置anchors
+//                loader_kit_win.item.implicitHeight = loader_kit_win.item.childrenRect.height+8
             }
         }
     }

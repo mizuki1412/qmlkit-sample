@@ -1,8 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-
-Page {
+import "../kit/components"
+KitPage {
     header: ToolBar {
         contentHeight: toolButton.implicitHeight
         //调出抽屉窗口的按钮

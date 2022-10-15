@@ -5,7 +5,7 @@ import QtQuick.Window
 import QtQuick.Controls.Material
 import "../../kit/components"
 
-Rectangle {
+KitPage {
     width:1000
     height:2000
     TabBar {

@@ -3,7 +3,7 @@ import QtQuick.Shapes
 import QtQuick.Controls
 import "../../kit/components"
 
-Rectangle {
+KitPage {
     anchors.fill: parent
     Component.onCompleted: {
     }

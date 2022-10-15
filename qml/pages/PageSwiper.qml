@@ -1,8 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-
-Page {
+import "../kit/components"
+KitPage {
     // todo 未成功
     SwipeView {
         id: swipeView
