@@ -1,6 +1,7 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QtQuickControls2>
+#include "file/fileobject.h"
 //#include <QtWebEngineQuick>
 
 int main ( int argc, char *argv[] ){
@@ -15,6 +16,8 @@ int main ( int argc, char *argv[] ){
     app.setFont(font);
 
     QQmlApplicationEngine engine;
+    qmlRegisterType<FileObject> ( "FileObject", 1, 0, "FileObject" );
+
     const QUrl url(u"qrc:/qml/main.qml"_qs);
 	QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
 					 &app, [url](QObject *obj, const QUrl &objUrl) {

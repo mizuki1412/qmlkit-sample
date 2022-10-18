@@ -1,7 +1,10 @@
 import QtQuick
 import QtQuick.Controls
+import FileObject 1.0
 
 QtObject {
+    // file.read(url), write(url, data), append(url, data)
+    property FileObject file: FileObject{}
 
     // dt:Date/int/string
     // format: yyyy-MM-dd HH:mm:ss.zzz, yy, ddd MMMM - Tue May，ap-am/pm, AP-AM/PM, h:m:s
