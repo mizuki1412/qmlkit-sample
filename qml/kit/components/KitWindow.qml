@@ -16,6 +16,7 @@ ApplicationWindow {
     onClosing: function(){
         $wins.close(key)
     }
+    property string path
 
     ScrollView{
         id: scroll_kit_win
@@ -25,7 +26,7 @@ ApplicationWindow {
             anchors.top:parent.top
             anchors.left:parent.left
             anchors.right:parent.right
-            source: key
+            source: path
             Component.onCompleted:{
                 // 自适应内部元素高度，内部组件不可设置anchors
 //                loader_kit_win.item.implicitHeight = loader_kit_win.item.childrenRect.height+8

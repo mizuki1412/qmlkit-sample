@@ -6,10 +6,11 @@ import QtWebChannel
 
 Rectangle{
     id: rect
-    // eg: qrc://, file://
+    // eg: qrc:///（必须///）, file:///
     property string url
 
     signal receive(var data)
+    signal loaded()
 
     // data:Object,  {type:"", data:()}
     function send(type, data){
@@ -38,6 +39,11 @@ Rectangle{
         webChannel: myChannel
         smooth: true
         url: rect.url
+        onLoadProgressChanged: {
+            if(this.loadProgress===100){
+                rect.loaded()
+            }
+        }
     }
 
 

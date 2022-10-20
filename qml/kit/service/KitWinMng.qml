@@ -6,6 +6,8 @@ import QtQuick.Controls
 QtObject {
     // path: {path,title,object, place:tab/show}
     property var winMap:({})
+    // 用于未管理的页面 - 防止被当临时变量销毁
+    property var winTempMap:({})
     // winMng对象数组
     property ListModel tabModels: ListModel{}
 
@@ -32,7 +34,7 @@ QtObject {
         }
     }
 
-    // title:windows的, config:{width, height, new:bool不纳入管理}
+    // title:windows的, config:{width, height, new:bool不纳入管理, closeFunc}
     function open(path,title,config){
         if(!config) config = {}
         if(winMap[path] && winMap[path].object && winMap[path].place==="show" && !config["new"]){
@@ -50,30 +52,46 @@ QtObject {
                 console.error(component.errorString())
                 return
             }
-            let p = {key: path, title:qsTr(title)}
+            let p = {key: path, path, title:qsTr(title)}
             if(config.width){
                 p.width = config.width
             }
             if(config.height){
                 p.height = config.height
             }
-            let obj = component.createObject(null, p)
             if(!config["new"]){
-                winMap[path] = {
-                    object:obj, place:"show", path, title
+                let obj = component.createObject(null, p)
+                winMap[p.key] = {
+                    object:obj, place:"show", path, title, closeFunc:config["closeFunc"]
                 }
+                obj.show()
+            }else{
+                p.key = path+"_"+new Date().getTime()
+                let obj = component.createObject(null, p)
+                winTempMap[p.key] = {
+                    object:obj, place:"show", path, title, closeFunc:config["closeFunc"]
+                }
+                obj.show()
             }
-            obj.show()
+
+
         }
     }
 
-    function close(path){
-        console.log("close window: ",path)
-        if(!winMap[path]) return
-        switch(winMap[path].place){
+    function close(key){
+        // todo closeFunc 如何处理带关闭确认的func？
+        console.log("close window: ",key)
+        // 未管理的删除
+        if(winTempMap[key]){
+            delete winTempMap[key]
+        }
+
+        // 已管理的删除
+        if(!winMap[key]) return
+        switch(winMap[key].place){
         case "tab":
             for(let i=0;i<tabModels.count;i++){
-                if(tabModels.get(i).path === path){
+                if(tabModels.get(i).path === key){
                     // 先指向最后一个
                     tabCurrentIndexChange(tabModels.count-1)
                     tabModels.remove(i,1)
@@ -84,6 +102,6 @@ QtObject {
         case "show":
             break
         }
-        delete winMap[path]
+        delete winMap[key]
     }
 }

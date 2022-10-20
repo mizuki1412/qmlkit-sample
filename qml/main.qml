@@ -33,6 +33,7 @@ ApplicationWindow {
     property Dao $dao: Dao{}
     property KitWinMng $wins: KitWinMng{}
     property KitUtils $utils: KitUtils{}
+    property KitStore $store: KitStore{}
     property font $iconfont: iconfont.font
 
     menuBar: LayoutMenu{id: menuPart}
