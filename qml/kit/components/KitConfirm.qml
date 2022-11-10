@@ -15,27 +15,25 @@ KitModal{
         }
     }
 
-
     content: ColumnLayout{
         spacing: 24
         Item{
             Layout.fillHeight: true
-            Layout.fillWidth: true
         }
         KitIcon {
             source: "\ue6b2"
             size: 24
-            color: "gray"
+            color: $theme.color_text_inactive
             Layout.alignment: Qt.AlignCenter
         }
         Text{
-            text: message
+            text: qsTr(message)
             Layout.alignment: Qt.AlignCenter
             Layout.preferredHeight: 40
+            color: $theme.color_text
         }
         Item{
             Layout.fillHeight: true
-            Layout.fillWidth: true
         }
     }
 

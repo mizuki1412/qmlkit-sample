@@ -22,7 +22,7 @@ KitModal{
         KitIcon {
             source: "\ue6bc"
             size: 24
-            color: "gray"
+            color: $theme.color_text_inactive
             Layout.alignment: Qt.AlignCenter
         }
         // todo 长文字时

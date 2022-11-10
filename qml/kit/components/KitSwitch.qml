@@ -1,4 +1,4 @@
-import QtQuick 2.12
+﻿import QtQuick 2.12
 import QtQuick.Controls 2.15
 
 
@@ -31,7 +31,7 @@ Rectangle{
     id:switch1
     implicitWidth:48
     implicitHeight:26
-
+    color:"transparent"
     Component.onCompleted: {
         if(checkable){
             activeColor2 = activeColor

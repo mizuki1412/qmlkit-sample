@@ -7,7 +7,7 @@ ApplicationWindow {
     width: 800
     height: 600
 
-    Material.theme: Material.System
+    Material.theme: $theme.theme
     Material.primary: Material.Blue
     Material.accent: Material.Blue
 

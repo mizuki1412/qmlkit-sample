@@ -47,7 +47,7 @@ QtObject {
             open(path, title)
         }
         else {
-            let component = Qt.createComponent("qrc:/qml/kit/components/KitWindow.qml");
+            let component = Qt.createComponent("qrc:///qml/kit/components/KitWindow.qml");
             if(component.status === Component.Error){
                 console.error(component.errorString())
                 return
@@ -80,7 +80,7 @@ QtObject {
 
     function close(key){
         // todo closeFunc 如何处理带关闭确认的func？
-        console.log("close window: ",key)
+//        console.log("close window: ",key)
         // 未管理的删除
         if(winTempMap[key]){
             delete winTempMap[key]

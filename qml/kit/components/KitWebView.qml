@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Window
 import QtWebEngine
 import QtWebChannel
 
@@ -8,6 +9,7 @@ Rectangle{
     id: rect
     // eg: qrc:///（必须///）, file:///
     property string url
+    property bool showDevTool:false
 
     signal receive(var data)
     signal loaded()
@@ -44,7 +46,18 @@ Rectangle{
                 rect.loaded()
             }
         }
+        devToolsView: dev
     }
+    Window{
+        visible: showDevTool
+        id: devp
+        width: 800
+        height: 600
+        WebEngineView{
+            id: dev
+            anchors.fill: parent
+        }
 
+    }
 
 }

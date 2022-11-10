@@ -1,146 +1,238 @@
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.Controls.Material
-import Qt.labs.qmlmodels
-import QtQuick.Shapes
+import QtQuick.Controls
+import "./table"
 
-// 表格
 Rectangle{
-    // headers是字符串数组，可带列宽，eg: ["header1:name:30", "header2:name"]
-    // 注意head中_开头的将作为无display值的存在，会自动补值，不用在addData时设置
-    property var headers: []
-    // 计算headers中的列宽（0为自适应），tablebody的列宽根据header实际宽
-    property var columnWidths: {
-        let arr = []
-        for(let e of headers){
-            let es = e.split(":")
-            if(es.length>=3){
-                let v = parseFloat(es[2])
-                if(v>0){
-                    arr.push(v)
-                    continue
-                }
-            }
-            arr.push(0)
+    id: table_rect
+    color: "transparent"
+
+    property int cellHeight: 40
+    // 左冻结的index
+    property int freezeLeftIndex:-1
+    // 右冻结的index todo
+    property int freezeRightIndex:-1
+    property list<KitTableColumnProperty> properties
+    property var dataValue:[]
+    property ListModel dataList: ListModel{}
+    // 边框 即间隙
+    property int spacing: 0
+
+    Component.onCompleted:{init();refreshData()}
+    function init(){
+        // 冻结的个数必须小于总个数
+        if(freezeLeftIndex>=0 && properties.length<=(freezeLeftIndex+1)){
+            freezeLeftIndex = -1
+            console.error("冻结小标范围错误")
+            return
         }
-        return arr
+        // 视图总宽，包括了冻结部分
+        let sum = table_rect.width
+        let leave = sum
+        // 用来平分的个数
+        let divCount = 0
+        for(let i1=0;i1<properties.length;i1++){
+            let e1 = properties[i1]
+            if(e1.fixWidth) {
+                leave -= e1.fixWidth
+            }else{
+                divCount++
+            }
+        }
+        // 平分后每个宽
+        let divWidth = 0
+        if(leave<0) leave = 0
+        if(divCount>0){
+            divWidth = leave/divCount
+        }
+        // 实际的总宽
+        let actSum = 0
+        for(let i2=0;i2<properties.length;i2++){
+            let e2 = properties[i2]
+            if(e2.fixWidth){
+                e2._width = e2.fixWidth
+            }else if(e2.minWidth){
+                e2._width = e2.minWidth>divWidth?e2.minWidth:divWidth
+            }else{
+                e2._width = divWidth
+            }
+            // console.log("宽cell",e2._width)
+            actSum += e2._width
+        }
+        // 实际冻结宽
+        let fWidth = 0
+        for(let i0=0;i0<=freezeLeftIndex;i0++){
+            actSum -= properties[i0]._width
+            fWidth += properties[i0]._width
+        }
+        // 计算spacing的宽
+        let spacingW = 0
+        if(freezeLeftIndex>=0){
+			if(properties.length-freezeLeftIndex-1>1){
+				spacingW = table_rect.spacing*(properties.length-freezeLeftIndex-1-1)
+			}
+        }else{
+        	spacingW = table_rect.spacing*properties.length
+        }
+        // 这个宽是滑动部分的宽，不包含冻结的
+        _cWidth = actSum + spacingW
+        // 表头+body的总高. 目前未计算外边框
+        _cHeight = cellHeight*(dataValue.length+1)+table_rect.spacing*dataValue.length
+        _fWidth = fWidth+(freezeLeftIndex>0?freezeLeftIndex:0)
+        // console.log(_cWidth, _cHeight, _fWidth)
     }
-    property var headerNames:{
-        let arr = []
-        for(let e of headers){
-            let es = e.split(":")
-            if(es.length>=2){
-                arr.push(es[1])
-                continue
-            }
-            arr.push("")
-        }
-        return arr
+    function refreshData(){
+    	dataList.clear()
+    	for(let e of dataValue){
+    		dataList.append(e)
+    	}
+    }
+    function setData(dataArray){
+    	dataValue = dataArray
+    	init()
+    	refreshData()
+    }
+    function addData(ele){
+    	dataValue.push(ele)
+    	init()
+    	refreshData()
     }
     onWidthChanged: {
-        // 界面变化自适应
-        tableBody.forceLayout()
+        init()
     }
-//    color: $color.rose400
-    height: tableHeader.height+tableBody.height
-    property TableModel tableModel: TableModel{TableModelColumn{display:"_handle"}}
-    property DelegateChooser tableDelegate
 
-    function addData(data){
-        // 补全_开头的值
-        for(let e of headers){
-            if(e.split(":")[0].indexOf("_")===0){
-                data[e.split(":")[0]] = ""
+    // 内容宽（不包含冻结）
+    property int _cWidth: 0
+    property int _cHeight: 0
+    // 冻结部分宽
+    property int _fWidth: 0
+
+    // 冻结部分
+    Item{
+        visible: freezeLeftIndex>-1
+        id: tablef
+        width: _fWidth
+        height: parent.height
+        // header
+        RowLayout{
+            id: tablef_header
+            spacing: table_rect.spacing
+            Repeater{
+                model: freezeLeftIndex+1
+                KitTableRepeatHeader{
+					_index: index
+				}
             }
         }
-        tableModel.appendRow(data)
-    }
-
-    function setData(list){
-        tableModel.clear()
-        for(let e of list){
-            addData(e)
-        }
-    }
-
-    Component.onCompleted:{
-    }
-
-    Rectangle{
-        id:tableHeader
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        height: $theme.table_cell_height
-        border.width: 1
-        border.color: $theme.table_border_color
-        RowLayout{
-            anchors.fill: parent
-            anchors.topMargin: 1
-            anchors.leftMargin: 1
-            anchors.rightMargin: 1
-            spacing: 0
-            Repeater{
-                id: headerCells
-                model: columnWidths.length
-                Rectangle{
-                    Layout.preferredWidth: columnWidths[index]>0?columnWidths[index]:0
-                    Layout.fillWidth: columnWidths[index]>0?false:true
-                    Layout.fillHeight: true
-                    border.width: 1
-                    border.color: $theme.table_border_color
-                    Text {
-                        anchors.fill: parent
-                        text: qsTr(headerNames[index])
-                        elide: Text.ElideMiddle
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
+        // body
+        Flickable{
+            // 上下滑动 宽固定
+            anchors.top: tablef_header.bottom
+            anchors.topMargin: table_rect.spacing
+            anchors.bottom: parent.bottom
+            width: parent.width
+            contentWidth: width
+            contentHeight: _cHeight-tablef_header.height
+            clip:true
+            ScrollBar.vertical: ScrollBar{
+                visible: false
+                id: tablef_scroll
+                onPositionChanged:{
+                    table_scroll.position = position
+                }
+            }
+            ColumnLayout{
+                spacing: table_rect.spacing
+                Repeater{
+                    model: dataList
+                    RowLayout{
+                        id: tablef_repeat
+                        spacing:  table_rect.spacing
+                        property var rIndex: index
+                        property var rModel: model
+                        Repeater{
+                            model: freezeLeftIndex+1
+                            KitTableRepeatBody{
+								_index: index
+							}
+                        }
                     }
                 }
-
             }
         }
     }
 
-    TableView{
-        id: tableBody
-        anchors.top: tableHeader.bottom
-        anchors.left: parent.left
+    // 主体部分
+    Flickable{
+        // 左右滑动 高固定
+        anchors.left: tablef.right
+//        anchors.leftMargin: _fWidth?1:0
         anchors.right: parent.right
-        anchors.leftMargin: 1
-        anchors.rightMargin: 1
-        height: 300
-        focus: true
-//        columnSpacing: 1
-//        rowSpacing: 1
+        // width: parent.width-_fWidth
+        height: parent.height
+        contentHeight: height
+        contentWidth: _cWidth
         clip: true
-        alternatingRows:true
-
-        columnWidthProvider: function (column) {
-            return headerCells.itemAt(column).width
+        ScrollBar.horizontal: ScrollBar { visible:_cWidth>width }
+        // header
+        RowLayout{
+            id: t1
+            spacing: table_rect.spacing
+            Repeater{
+                model: properties.length-freezeLeftIndex-1
+                KitTableRepeatHeader{
+                	_index: index+freezeLeftIndex+1
+                }
+            }
         }
+        Flickable{
+            // 上下滑动 宽固定
+            anchors.top: t1.bottom
+            anchors.topMargin: table_rect.spacing
+            anchors.bottom: parent.bottom
+            width: parent.width
+            contentWidth: width
+            contentHeight: _cHeight-t1.height
+            clip:true
+            ScrollBar.vertical: ScrollBar {
+                id: table_scroll
+                visible:false
+                onPositionChanged:{
+                    tablef_scroll.position = position
+                }
+            }
+            ColumnLayout{
+                spacing: table_rect.spacing
+                Repeater{
+                    model: dataList
+                    RowLayout{
+                        spacing: table_rect.spacing
+                        id: table_repeat
+                        property var rIndex: index
+                        property var rModel: model
+                        Repeater{
+                            model: properties.length-freezeLeftIndex-1
+                            KitTableRepeatBody{
+								_index: index+freezeLeftIndex+1
+							}
+                        }
 
-//        ScrollBar.vertical: ScrollBar {
-//            anchors.right:parent.right
-//            anchors.rightMargin: 0
-//            visible: tableModel.rowCount > 5
-//            background: Rectangle{
-//                color:"#666666"
-//            }
-//            onActiveChanged: {
-//                active = true;
-//            }
-//            contentItem: Rectangle
-//            {
-//                implicitWidth  : 6
-//                implicitHeight : 30
-//                radius : 3
-//                color  : "#848484"
-//            }
-//        }
-        model: tableModel
-        delegate: tableDelegate
+                    }
+                }
+            }
+        }
     }
 
+    // 冻结和主体 阴影部分
+	Rectangle{
+		visible: _fWidth>0
+		anchors.left: tablef.right
+		width: 8
+		height: parent.height>_cHeight?_cHeight:parent.height
+		gradient: Gradient{
+			orientation: Gradient.Horizontal
+			GradientStop {position: 0; color:$color.rgba("#0E1021",0.9)}
+			GradientStop {position: 1; color:$color.rgba("#0E1021",0)}
+		}
+	}
 }

@@ -2,6 +2,11 @@ import QtQuick
 import QtQuick.Controls
 
 QtObject {
+    function rgba(colorName, a){
+        let c = Qt.color(colorName)
+        return Qt.rgba(c.r, c.g, c.b, a)
+    }
+
     readonly property color slate50: "#F8FAFC"
     readonly property color slate100: "#f1f5f9"
     readonly property color slate200: "#e2e8f0"
