@@ -16,6 +16,7 @@ Rectangle{
 	}
 	// 自定义component
 	Loader {
+		anchors.fill: parent
 		visible: properties[_index]&&properties[_index].cell
 		id: table_loader
 		sourceComponent: properties[_index].cell
@@ -27,7 +28,7 @@ Rectangle{
 		}else{
 			item0 = table_bv
 		}
-		item0.value = String(rModel[properties[_index].key])
+		item0.value = rModel[properties[_index].key]
 		item0.index = rIndex
 		item0.key = properties[_index].key
 		item0.rowData = rModel

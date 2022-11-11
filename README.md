@@ -33,3 +33,12 @@ RoundButton{
 - &#xe781; \ue781: 清空
 - &#xe77f; \ue77f: left-circle
 - &#xe783; \ue783: right-circle
+
+## KitTable
+
+Features:
+- 提供便捷的column property配置
+- 冻结左栏
+- 右键单行菜单
+- 左侧checkbox
+- 左右上下滑动

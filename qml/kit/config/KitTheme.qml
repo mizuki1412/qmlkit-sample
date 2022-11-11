@@ -47,4 +47,5 @@ QtObject {
 //    property color table_right_menu_font_color: "white"
 
     // modal
+//    property color model_bg: $color.gray100
 }

@@ -13,7 +13,7 @@ Rectangle{
 		type: "title"
 	}
 	Component.onCompleted:{
-		table_tv.value = String(properties[_index].name)
+		table_tv.value = properties[_index].name
 		table_tv.align = properties[_index].align
 	}
 }

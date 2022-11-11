@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import QtQuick.Templates as T
 
 Popup{
     id: pp
@@ -39,18 +40,25 @@ Popup{
     // focus=false是ecs没用
     focus: true
 
+    // 幕布颜色
+	T.Overlay.modal: Rectangle {
+        color: $color.rgba($theme.color_bg, 0.8)
+	}
+
     // 标题栏
     Rectangle{
         id: comTitle
         width: parent.width
         height: modalTitleHeight
         anchors.top: parent.top
+        color: "transparent"
         Text {
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment:   Text.AlignVCenter
             anchors.verticalCenter: parent.verticalCenter
             text: qsTr(title)
+            color: $theme.color_text
         }
         Button{
             anchors.verticalCenter: parent.verticalCenter
@@ -99,7 +107,7 @@ Popup{
 //        }
     }
 
-    // todo KitConfirm中居中失效
+    // todo 居中失效
     ScrollView{
         visible: loaderS.sourceComponent
         id: contentView
@@ -110,10 +118,10 @@ Popup{
         anchors.bottomMargin: modalFootHeight
         Loader{
             id:loaderS
-            anchors.fill: parent
-//            Component.onCompleted:{
-//                console.log(2,contentView.height,loaderS.height)
-//            }
+            width: parent.width
+            Component.onCompleted:{
+//                console.log(2,contentView.height,loaderS.width, loaderS.height)
+            }
         }
 
     }
@@ -135,27 +143,26 @@ Popup{
         height: modalFootHeight
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        sourceComponent:     RowLayout{
+        sourceComponent: RowLayout{
             anchors.right: parent.right
             anchors.bottom: parent.bottom
             spacing: 16
             Button{
-                highlighted: true
-                text: qsTr(yesButtonText)
-    //            Layout.alignment: Qt.AlignVCenter
+                visible: !oneButton
+                text: qsTr(noButtonText)
                 onClicked: {
-                    confirmFun()
                     pp.close()
                 }
             }
             Button{
-                visible: !oneButton
-                text: qsTr(noButtonText)
-    //            Layout.alignment: Qt.AlignVCenter
-                onClicked: {
-                    pp.close()
-                }
-            }
+				Material.theme: Material.Light
+				highlighted: true
+				text: qsTr(yesButtonText)
+				onClicked: {
+					confirmFun()
+					pp.close()
+				}
+			}
         }
     }
 }

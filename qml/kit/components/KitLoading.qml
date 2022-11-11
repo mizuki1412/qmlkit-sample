@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import QtQuick.Templates as T
 
 Popup{
     id: loading
@@ -14,6 +15,7 @@ Popup{
     width: 200
     height: 200
     property int count:0
+    Material.theme: Material.Light
 
     Timer{
         running: true
@@ -22,6 +24,10 @@ Popup{
         onTriggered: {
             count++
         }
+    }
+    // 幕布颜色
+    T.Overlay.modal: Rectangle {
+        color: $color.rgba($theme.color_bg, 0.7)
     }
 
     background: Rectangle{
@@ -34,14 +40,17 @@ Popup{
             Layout.fillHeight: true
         }
         BusyIndicator {
+        	Material.theme: Material.Light
             running: true
             Layout.alignment: Qt.AlignCenter
         }
         Text {
-            text: qsTr("请等待")
+            text: qsTr("请求中,请等待...")
+            color: $color.gray200
             Layout.alignment: Qt.AlignCenter
         }
         RoundButton{
+        	Material.theme: Material.Light
             Layout.alignment: Qt.AlignCenter
             visible: count>=5
             font.family: $iconfont.family

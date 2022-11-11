@@ -20,26 +20,28 @@ KitTableCellWrapper{
          anchors.fill: parent
          anchors.margins: 4
          color: "transparent"
-//         CheckBox {
-//             visible: type==="checkbox"
-//             anchors.centerIn:   parent
-//             checked: model.display
+         CheckBox {
+             visible: type==="checkbox"
+             Material.theme: Material.Light
+             anchors.centerIn: parent
+             checked: value?true:false
+             // todo
 //             onToggled: model.display = checked
-//         }
+         }
          Text {
             visible: type==="text"
             anchors.left: parent.left
 			anchors.right: parent.right
-            text: qsTr(value)
+            text: qsTr(String(value))
             color: $theme.table_font_data_color
             elide: Text.ElideMiddle
             verticalAlignment: Text.AlignVCenter
             anchors.verticalCenter: parent.verticalCenter
             horizontalAlignment: {
 				switch(align){
-				case "left": return Text.AlignLeft;break;
-				case "center": return Text.AlignHCenter;break;
-				case "right": return Text.AlignRight;break;
+                case "left": return Text.AlignLeft;
+                case "center": return Text.AlignHCenter;
+                case "right": return Text.AlignRight;
 				}
 			}
             MouseArea{
@@ -49,19 +51,19 @@ KitTableCellWrapper{
             }
             ToolTip{
                 visible: ma.containsMouse && value !== "" && textMetrics.width > (rect.width-(2+8))
-                text: qsTr(value)
+                text: qsTr(String(value))
                 delay: 100
             }
             TextMetrics {
                 id: textMetrics
-                text: qsTr(value)
+                text: qsTr(String(value))
             }
          }
          Text {
 			visible: type==="title"
          	anchors.left: parent.left
          	anchors.right: parent.right
-			text: qsTr(value)
+            text: qsTr(String(value))
 			font.bold: true
 			color: $theme.table_font_header_color
 			elide: Text.ElideMiddle
@@ -69,9 +71,9 @@ KitTableCellWrapper{
             anchors.verticalCenter: parent.verticalCenter
             horizontalAlignment: {
             	switch(align){
-				case "left": return Text.AlignLeft;break;
-				case "center": return Text.AlignHCenter;break;
-				case "right": return Text.AlignRight;break;
+                case "left": return Text.AlignLeft
+                case "center": return Text.AlignHCenter
+                case "right": return Text.AlignRight
             	}
             }
 		 }

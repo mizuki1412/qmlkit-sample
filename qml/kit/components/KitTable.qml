@@ -14,9 +14,11 @@ Rectangle{
     property int freezeLeftIndex:-1
     // 右冻结的index todo
     property int freezeRightIndex:-1
+    // 是否开启多选框
+    property bool checkEnabled: false
     // 列配置
     property list<KitTableColumnProperty> properties
-    // 数据
+    // 数据。 内置key：_checked-checkbox值
     property var dataValue:[]
     // 右键菜单内容，如果空则不开启。 {name, action:function(rowData, rowIndex)}
     property var rightMenuActions: []
@@ -44,6 +46,7 @@ Rectangle{
                 divCount++
             }
         }
+        if(checkEnabled) leave -= checkboxWidth
         // 平分后每个宽
         let divWidth = 0
         if(leave<0) leave = 0
@@ -83,8 +86,9 @@ Rectangle{
         _cWidth = actSum + spacingW
         // 表头+body的总高. 目前未计算外边框
         _cHeight = cellHeight*(dataValue.length+1)+table_rect.spacing*dataValue.length
-        _fWidth = fWidth+(freezeLeftIndex>0?freezeLeftIndex:0)
-        // console.log(_cWidth, _cHeight, _fWidth)
+        _fWidth = fWidth+table_rect.spacing*(freezeLeftIndex>0?freezeLeftIndex:0)+(checkEnabled?checkboxWidth:0)
+//        console.log(_cWidth, _cHeight, _fWidth, table_rect.width)
+//        console.log(_fWidth+_cWidth<=table_rect.width)
     }
     function refreshData(){
     	dataList.clear()
@@ -102,6 +106,9 @@ Rectangle{
     	init()
     	refreshData()
     }
+    function getCheckedList(){
+    	return dataValue.filter(x=>x["_checked"])
+    }
     onWidthChanged: {
         init()
     }
@@ -111,10 +118,18 @@ Rectangle{
     property int _cHeight: 0
     // 冻结部分宽
     property int _fWidth: 0
+	property alias checkboxGroupState: checkboxGroup.checkState
+	property int checkboxWidth: 40
+	// 多选框的group
+	ButtonGroup {
+		id: checkboxGroup
+		exclusive: false
+		checkState: checkboxRoot.checkState
+	}
 
     // 左冻结部分
     Item{
-        visible: freezeLeftIndex>-1
+        visible: freezeLeftIndex>-1 || checkEnabled
         id: tablef
         width: _fWidth
         height: parent.height
@@ -122,6 +137,18 @@ Rectangle{
         RowLayout{
             id: tablef_header
             spacing: table_rect.spacing
+			Rectangle{
+				visible: checkEnabled
+            	Layout.preferredWidth: checkboxWidth
+            	Layout.preferredHeight: cellHeight
+            	color: $theme.table_header_bg
+            	CheckBox {
+                    id: checkboxRoot
+            		anchors.centerIn: parent
+            		Material.theme: Material.Light
+            		checkState: checkboxGroup.checkState
+            	}
+ 			}
             Repeater{
                 model: freezeLeftIndex+1
                 KitTableRepeatHeader{
@@ -155,6 +182,20 @@ Rectangle{
                         spacing:  table_rect.spacing
                         property var rIndex: index
                         property var rModel: model
+						Rectangle{
+							visible: checkEnabled
+							Layout.preferredWidth: checkboxWidth
+							Layout.preferredHeight: cellHeight
+							color: rIndex%2===0?$theme.table_data_bg1:$theme.table_data_bg2
+							CheckBox {
+								anchors.centerIn: parent
+								Material.theme: Material.Light
+								ButtonGroup.group: checkboxGroup
+								onCheckedChanged:{
+									dataValue[rIndex]["_checked"] = this.checked
+								}
+							}
+						}
                         Repeater{
                             model: freezeLeftIndex+1
                             KitTableRepeatBody{
@@ -251,7 +292,7 @@ Rectangle{
 
     // 冻结和主体 阴影部分
 	Rectangle{
-		visible: _fWidth>0
+		visible: _fWidth>0 && _fWidth+_cWidth>table_rect.width
 		anchors.left: tablef.right
 		width: 8
 		height: parent.height>_cHeight?_cHeight:parent.height
