@@ -42,6 +42,9 @@ QtObject {
     // 选中的底色
     property color table_select_bg: $color.blue300
     property color table_select_font_color: "white"
+//    property color table_right_menu_select_bg: color_primary
+//    property color table_right_menu_select_font_color: "white"
+//    property color table_right_menu_font_color: "white"
 
     // modal
 }

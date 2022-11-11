@@ -32,5 +32,5 @@ Rectangle{
 		item0.key = properties[_index].key
 		item0.rowData = rModel
 		item0.align = properties[_index].align
-	}
+    }
 }

@@ -8,16 +8,21 @@ Rectangle{
     color: "transparent"
 
     property int cellHeight: 40
+    // 边框 即间隙
+	property int spacing: 0
     // 左冻结的index
     property int freezeLeftIndex:-1
     // 右冻结的index todo
     property int freezeRightIndex:-1
+    // 列配置
     property list<KitTableColumnProperty> properties
+    // 数据
     property var dataValue:[]
-    property ListModel dataList: ListModel{}
-    // 边框 即间隙
-    property int spacing: 0
+    // 右键菜单内容，如果空则不开启。 {name, action:function(rowData, rowIndex)}
+    property var rightMenuActions: []
+    property int rightMenuWidth: 100
 
+    property ListModel dataList: ListModel{}
     Component.onCompleted:{init();refreshData()}
     function init(){
         // 冻结的个数必须小于总个数
@@ -107,7 +112,7 @@ Rectangle{
     // 冻结部分宽
     property int _fWidth: 0
 
-    // 冻结部分
+    // 左冻结部分
     Item{
         visible: freezeLeftIndex>-1
         id: tablef
@@ -153,7 +158,17 @@ Rectangle{
                         Repeater{
                             model: freezeLeftIndex+1
                             KitTableRepeatBody{
-								_index: index
+                                _index: index
+                                MouseArea {
+                                    anchors.fill: parent
+                                    acceptedButtons: Qt.RightButton
+                                    onClicked: {
+                                        if(rightMenuActions.length===0) return
+                                        rightMenu.rowData = rModel
+                                        rightMenu.rowIndex = rIndex
+                                        rightMenu.popup();
+                                    }
+                                }
 							}
                         }
                     }
@@ -168,7 +183,6 @@ Rectangle{
         anchors.left: tablef.right
 //        anchors.leftMargin: _fWidth?1:0
         anchors.right: parent.right
-        // width: parent.width-_fWidth
         height: parent.height
         contentHeight: height
         contentWidth: _cWidth
@@ -185,6 +199,7 @@ Rectangle{
                 }
             }
         }
+        // body
         Flickable{
             // 上下滑动 宽固定
             anchors.top: t1.bottom
@@ -214,8 +229,19 @@ Rectangle{
                             model: properties.length-freezeLeftIndex-1
                             KitTableRepeatBody{
 								_index: index+freezeLeftIndex+1
+                                MouseArea {
+                                    anchors.fill: parent
+                                    acceptedButtons: Qt.RightButton
+                                    onClicked: {
+                                        if(rightMenuActions.length===0) return
+                                        rightMenu.rowData = rModel
+                                        rightMenu.rowIndex = rIndex
+                                        rightMenu.popup();
+                                    }
+                                }
 							}
                         }
+
 
                     }
                 }
@@ -235,4 +261,35 @@ Rectangle{
 			GradientStop {position: 1; color:$color.rgba("#0E1021",0)}
 		}
 	}
+
+	// 右键菜单
+    Menu {
+		id: rightMenu
+        property var rowData
+        property int rowIndex
+		Repeater{
+            model: rightMenuActions.length
+			MenuItem {
+				id: item
+                text: qsTr(rightMenuActions[index].name)
+				background: Rectangle{
+                    implicitWidth: rightMenuWidth
+					gradient: Gradient{
+                        orientation: Gradient.Horizontal
+                        GradientStop{position: 1; color:$color.rgba("#5293FF", item.highlighted?1:0)}
+                        GradientStop{position: 0; color:$color.rgba("#62BDFF", item.highlighted?1:0)}
+                    }
+				}
+				onTriggered: {
+                    rightMenuActions[index].action(rightMenu.rowData,rightMenu.rowIndex)
+				}
+			}
+		}
+		background: Rectangle{
+            implicitWidth: rightMenuWidth
+            color: $color.rgba("#0E1021", 0.89)
+            radius: 4
+		}
+	}
+
 }
