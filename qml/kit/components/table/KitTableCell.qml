@@ -13,9 +13,6 @@ KitTableCellWrapper{
      // text-一般文本, checkbox, title-标题
 	 property string type: "text"
 
-     // 交替row换底色
-//     color: model.row % 2 == 0 ? $theme.table_cell_bg1_color : $theme.table_cell_bg2_color
-
      Rectangle{
          anchors.fill: parent
          anchors.margins: 4
@@ -79,13 +76,4 @@ KitTableCellWrapper{
 		 }
      }
 
-
-     // todo 滚动后失效？如何影响同row的？
-//	 HoverHandler{
-//		 acceptedDevices: PointerDevice.Mouse
-//         onHoveredChanged: {
-//             if(this.hovered) rect.color = "gray"
-//             else rect.color = "white"
-//		 }
-//	 }
 }

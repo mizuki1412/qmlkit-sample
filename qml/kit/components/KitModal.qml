@@ -112,6 +112,7 @@ Popup{
         visible: loaderS.sourceComponent
         id: contentView
         anchors.top: comTitle.bottom
+        anchors.topMargin: 12
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
@@ -130,6 +131,7 @@ Popup{
         visible: loader.sourceComponent
         id:loader
         anchors.top: comTitle.bottom
+        anchors.topMargin: 12
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom

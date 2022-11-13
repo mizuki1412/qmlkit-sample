@@ -42,3 +42,6 @@ Features:
 - 右键单行菜单
 - 左侧checkbox
 - 左右上下滑动
+
+todo:
+- 底层采用ListView， 和TableView的性能差距？

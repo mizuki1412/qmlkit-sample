@@ -16,6 +16,7 @@ Rectangle{
     property int freezeRightIndex:-1
     // 是否开启多选框
     property bool checkEnabled: false
+
     // 列配置
     property list<KitTableColumnProperty> properties
     // 数据。 内置key：_checked-checkbox值
@@ -24,8 +25,14 @@ Rectangle{
     property var rightMenuActions: []
     property int rightMenuWidth: 100
 
-    property ListModel dataList: ListModel{}
-    Component.onCompleted:{init();refreshData()}
+    // 选择行 是否变色
+    property bool rowSelectBgChange: false
+    // 当前选中的index
+    property int rowSelectIndex: -1
+    // 选择行的事件
+    signal rowSelect
+
+    Component.onCompleted:{ clear() }
     function init(){
         // 冻结的个数必须小于总个数
         if(freezeLeftIndex>=0 && properties.length<=(freezeLeftIndex+1)){
@@ -90,21 +97,36 @@ Rectangle{
 //        console.log(_cWidth, _cHeight, _fWidth, table_rect.width)
 //        console.log(_fWidth+_cWidth<=table_rect.width)
     }
-    function refreshData(){
-    	dataList.clear()
-    	for(let e of dataValue){
-    		dataList.append(e)
+    function _refreshData(){
+    	for(let ele of dataValue){
+    		if(_showLeftFreeze){
+				tablef_body_model.append(ele)
+			}
+			table_body_model.append(ele)
     	}
     }
     function setData(dataArray){
+    	clear()
     	dataValue = dataArray
+    	_refreshData()
     	init()
-    	refreshData()
     }
     function addData(ele){
     	dataValue.push(ele)
-    	init()
-    	refreshData()
+    	if(_showLeftFreeze){
+    		tablef_body_model.append(ele)
+    	}
+    	table_body_model.append(ele)
+//    	init()
+//    	_refreshData()
+    }
+    function clear(){
+    	if(_showLeftFreeze){
+			tablef_body_model.clear()
+		}
+		table_body_model.clear()
+		dataValue = []
+		init()
     }
     function getCheckedList(){
     	return dataValue.filter(x=>x["_checked"])
@@ -120,6 +142,9 @@ Rectangle{
     property int _fWidth: 0
 	property alias checkboxGroupState: checkboxGroup.checkState
 	property int checkboxWidth: 40
+	// 是否显示左冻结的条件
+	property bool _showLeftFreeze: freezeLeftIndex>-1 || checkEnabled
+
 	// 多选框的group
 	ButtonGroup {
 		id: checkboxGroup
@@ -129,7 +154,7 @@ Rectangle{
 
     // 左冻结部分
     Item{
-        visible: freezeLeftIndex>-1 || checkEnabled
+        visible: _showLeftFreeze
         id: tablef
         width: _fWidth
         height: parent.height
@@ -142,6 +167,13 @@ Rectangle{
             	Layout.preferredWidth: checkboxWidth
             	Layout.preferredHeight: cellHeight
             	color: $theme.table_header_bg
+            	Rectangle{
+            		anchors.centerIn: parent
+            		width: $theme.font_base
+            		height: $theme.font_base
+            		radius: 2
+            		color: $theme.color_bg
+            	}
             	CheckBox {
                     id: checkboxRoot
             		anchors.centerIn: parent
@@ -157,15 +189,16 @@ Rectangle{
             }
         }
         // body
-        Flickable{
+        ListView{
             // 上下滑动 宽固定
             anchors.top: tablef_header.bottom
             anchors.topMargin: table_rect.spacing
             anchors.bottom: parent.bottom
             width: parent.width
-            contentWidth: width
-            contentHeight: _cHeight-tablef_header.height
+//            contentWidth: width
+//            contentHeight: _cHeight-tablef_header.height
             clip:true
+            model: ListModel{id: tablef_body_model}
             ScrollBar.vertical: ScrollBar{
                 visible: false
                 id: tablef_scroll
@@ -173,48 +206,45 @@ Rectangle{
                     table_scroll.position = position
                 }
             }
-            ColumnLayout{
-                spacing: table_rect.spacing
-                Repeater{
-                    model: dataList
-                    RowLayout{
-                        id: tablef_repeat
-                        spacing:  table_rect.spacing
-                        property var rIndex: index
-                        property var rModel: model
-						Rectangle{
-							visible: checkEnabled
-							Layout.preferredWidth: checkboxWidth
-							Layout.preferredHeight: cellHeight
-							color: rIndex%2===0?$theme.table_data_bg1:$theme.table_data_bg2
-							CheckBox {
-								anchors.centerIn: parent
-								Material.theme: Material.Light
-								ButtonGroup.group: checkboxGroup
-								onCheckedChanged:{
-									dataValue[rIndex]["_checked"] = this.checked
-								}
-							}
+            delegate: RowLayout{
+				spacing:  table_rect.spacing
+				property var rIndex: index
+				property var rModel: model
+				Rectangle{
+					visible: checkEnabled
+					Layout.preferredWidth: checkboxWidth
+					Layout.preferredHeight: cellHeight
+					color: {
+						if(rowSelectBgChange && rIndex===rowSelectIndex){
+							return $theme.table_select_bg
+						}else{
+							return rIndex%2===0?$theme.table_data_bg1:$theme.table_data_bg2
 						}
-                        Repeater{
-                            model: freezeLeftIndex+1
-                            KitTableRepeatBody{
-                                _index: index
-                                MouseArea {
-                                    anchors.fill: parent
-                                    acceptedButtons: Qt.RightButton
-                                    onClicked: {
-                                        if(rightMenuActions.length===0) return
-                                        rightMenu.rowData = rModel
-                                        rightMenu.rowIndex = rIndex
-                                        rightMenu.popup();
-                                    }
-                                }
-							}
-                        }
-                    }
-                }
-            }
+					}
+					// 底色
+					Rectangle{
+						anchors.centerIn: parent
+						width: $theme.font_base
+						height: $theme.font_base
+						radius: 2
+						color: $theme.color_bg
+					}
+					CheckBox {
+						anchors.centerIn: parent
+						Material.theme: Material.Light
+						ButtonGroup.group: checkboxGroup
+						onCheckedChanged:{
+							dataValue[rIndex]["_checked"] = this.checked
+						}
+					}
+				}
+				Repeater{
+					model: freezeLeftIndex+1
+					KitTableRepeatBody{
+						_index: index
+					}
+				}
+			}
         }
     }
 
@@ -241,14 +271,14 @@ Rectangle{
             }
         }
         // body
-        Flickable{
+        ListView{
             // 上下滑动 宽固定
             anchors.top: t1.bottom
             anchors.topMargin: table_rect.spacing
             anchors.bottom: parent.bottom
             width: parent.width
-            contentWidth: width
-            contentHeight: _cHeight-t1.height
+//            contentWidth: width
+//            contentHeight: _cHeight-t1.height
             clip:true
             ScrollBar.vertical: ScrollBar {
                 id: table_scroll
@@ -257,36 +287,18 @@ Rectangle{
                     tablef_scroll.position = position
                 }
             }
-            ColumnLayout{
-                spacing: table_rect.spacing
-                Repeater{
-                    model: dataList
-                    RowLayout{
-                        spacing: table_rect.spacing
-                        id: table_repeat
-                        property var rIndex: index
-                        property var rModel: model
-                        Repeater{
-                            model: properties.length-freezeLeftIndex-1
-                            KitTableRepeatBody{
-								_index: index+freezeLeftIndex+1
-                                MouseArea {
-                                    anchors.fill: parent
-                                    acceptedButtons: Qt.RightButton
-                                    onClicked: {
-                                        if(rightMenuActions.length===0) return
-                                        rightMenu.rowData = rModel
-                                        rightMenu.rowIndex = rIndex
-                                        rightMenu.popup();
-                                    }
-                                }
-							}
-                        }
-
-
-                    }
-                }
-            }
+            model: ListModel{id: table_body_model}
+            delegate: RowLayout{
+			  	spacing: table_rect.spacing
+			  	property var rIndex: index
+			  	property var rModel: model
+			  	Repeater{
+				  	model: properties.length-freezeLeftIndex-1
+				  	KitTableRepeatBody{
+						_index: index+freezeLeftIndex+1
+					}
+			  }
+		  	}
         }
     }
 
@@ -302,35 +314,4 @@ Rectangle{
 			GradientStop {position: 1; color:$color.rgba("#0E1021",0)}
 		}
 	}
-
-	// 右键菜单
-    Menu {
-		id: rightMenu
-        property var rowData
-        property int rowIndex
-		Repeater{
-            model: rightMenuActions.length
-			MenuItem {
-				id: item
-                text: qsTr(rightMenuActions[index].name)
-				background: Rectangle{
-                    implicitWidth: rightMenuWidth
-					gradient: Gradient{
-                        orientation: Gradient.Horizontal
-                        GradientStop{position: 1; color:$color.rgba("#5293FF", item.highlighted?1:0)}
-                        GradientStop{position: 0; color:$color.rgba("#62BDFF", item.highlighted?1:0)}
-                    }
-				}
-				onTriggered: {
-                    rightMenuActions[index].action(rightMenu.rowData,rightMenu.rowIndex)
-				}
-			}
-		}
-		background: Rectangle{
-            implicitWidth: rightMenuWidth
-            color: $color.rgba("#0E1021", 0.89)
-            radius: 4
-		}
-	}
-
 }
