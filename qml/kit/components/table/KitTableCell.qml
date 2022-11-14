@@ -26,11 +26,12 @@ KitTableCellWrapper{
 //             onToggled: model.display = checked
          }
          Text {
-            visible: type==="text"
+            visible: type==="text" || type==="title"
             anchors.left: parent.left
 			anchors.right: parent.right
             text: qsTr(String(value))
-            color: $theme.table_font_data_color
+            font.bold: type==="title"
+			color: type==="title"?$theme.table_font_header_color: $theme.table_font_data_color
             elide: Text.ElideMiddle
             verticalAlignment: Text.AlignVCenter
             anchors.verticalCenter: parent.verticalCenter
@@ -41,39 +42,7 @@ KitTableCellWrapper{
                 case "right": return Text.AlignRight;
 				}
 			}
-            MouseArea{
-                id:ma
-                hoverEnabled: true
-                anchors.fill: parent
-            }
-            ToolTip{
-                visible: ma.containsMouse && value !== "" && textMetrics.width > (rect.width-(2+8))
-                text: qsTr(String(value))
-                delay: 100
-            }
-            TextMetrics {
-                id: textMetrics
-                text: qsTr(String(value))
-            }
          }
-         Text {
-			visible: type==="title"
-         	anchors.left: parent.left
-         	anchors.right: parent.right
-            text: qsTr(String(value))
-			font.bold: true
-			color: $theme.table_font_header_color
-			elide: Text.ElideMiddle
-			verticalAlignment: Text.AlignVCenter
-            anchors.verticalCenter: parent.verticalCenter
-            horizontalAlignment: {
-            	switch(align){
-                case "left": return Text.AlignLeft
-                case "center": return Text.AlignHCenter
-                case "right": return Text.AlignRight
-            	}
-            }
-		 }
      }
 
 }

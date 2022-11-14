@@ -32,7 +32,6 @@ Rectangle{
     // 选择行的事件
     signal rowSelect
 
-    Component.onCompleted:{ clear() }
     function init(){
         // 冻结的个数必须小于总个数
         if(freezeLeftIndex>=0 && properties.length<=(freezeLeftIndex+1)){
@@ -198,7 +197,10 @@ Rectangle{
 //            contentWidth: width
 //            contentHeight: _cHeight-tablef_header.height
             clip:true
-            model: ListModel{id: tablef_body_model}
+            model: ListModel{
+            	id: tablef_body_model
+            	dynamicRoles: true
+            }
             ScrollBar.vertical: ScrollBar{
                 visible: false
                 id: tablef_scroll
@@ -287,7 +289,10 @@ Rectangle{
                     tablef_scroll.position = position
                 }
             }
-            model: ListModel{id: table_body_model}
+            model: ListModel{
+            	id: table_body_model
+            	dynamicRoles: true
+            }
             delegate: RowLayout{
 			  	spacing: table_rect.spacing
 			  	property var rIndex: index

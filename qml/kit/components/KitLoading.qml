@@ -9,7 +9,7 @@ Popup{
     anchors.centerIn: Overlay.overlay
     closePolicy: Popup.CloseOnEscape
     modal: true
-    focus:true
+    focus: true
     margins: 0
     padding: 0
     width: 200

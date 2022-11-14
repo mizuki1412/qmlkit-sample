@@ -28,18 +28,33 @@ Rectangle{
 		sourceComponent: properties[_index].cell
 	}
 	MouseArea{
+		id: ma
 		anchors.fill: parent
+		hoverEnabled: true
 		acceptedButtons: Qt.LeftButton | Qt.RightButton
+		propagateComposedEvents: true
         onClicked:(mouse)=>{
             if (mouse.button === Qt.RightButton){
+				rowSelectIndex = rIndex
 				if(rightMenuActions.length===0) return
 				rightMenu.rowData = rModel
 				rightMenu.rowIndex = rIndex
 				rightMenu.popup();
 			}else{
 				rowSelectIndex = rIndex
+				table_rect.rowSelect()
 			}
 		}
+	}
+	// 显示被缩放的text的全文
+	ToolTip{
+		visible: table_bv.visible && ma.containsMouse && table_bv.value !== "" && textMetrics.width > (table_bv.width-(2+8))
+		text: qsTr(String(table_bv.value))
+		delay: 100
+	}
+	TextMetrics {
+		id: textMetrics
+		text: qsTr(String(table_bv.value))
 	}
 	Component.onCompleted:{
 		let item0
@@ -48,7 +63,7 @@ Rectangle{
 		}else{
 			item0 = table_bv
 		}
-		item0.value = rModel[properties[_index].key]
+        item0.value = rModel[properties[_index].key]!==undefined?rModel[properties[_index].key]:""
 		item0.index = rIndex
 		item0.key = properties[_index].key
 		item0.rowData = rModel
