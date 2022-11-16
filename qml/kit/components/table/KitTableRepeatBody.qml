@@ -42,8 +42,12 @@ Rectangle{
 				rightMenu.popup();
 			}else{
 				rowSelectIndex = rIndex
-				table_rect.rowSelect()
+				table_rect.rowSelect(dataValue[rIndex], rIndex)
 			}
+		}
+		onDoubleClicked: {
+			rowSelectIndex = rIndex
+			table_rect.rowDoubleClick(dataValue[rIndex], rIndex)
 		}
 	}
 	// 显示被缩放的text的全文

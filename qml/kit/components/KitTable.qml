@@ -30,7 +30,8 @@ Rectangle{
     // 当前选中的index
     property int rowSelectIndex: -1
     // 选择行的事件
-    signal rowSelect
+    signal rowSelect(var data, int index)
+    signal rowDoubleClick(var data, int index)
 
     function init(){
         // 冻结的个数必须小于总个数

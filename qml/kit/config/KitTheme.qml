@@ -48,4 +48,8 @@ QtObject {
 
     // modal
 //    property color model_bg: $color.gray100
+
+	// component collapse
+	property color collapse_title_bg: $color.gray200
+	property color collapse_body_bg: $color.gray200
 }
