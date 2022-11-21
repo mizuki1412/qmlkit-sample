@@ -12,6 +12,10 @@ Item{
 	property int fixWidth: 0
 	// 文本对齐: left, center, right
 	property string align: "left"
+	property bool sortable: false
+	// 内部使用的升序降序标记
+	property bool _sortableUp: false
+	property bool _sortableDown: false
 	// cell custom component ：必须是KitTableCellWrapper
 	property Component cell
 

@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Controls.Material
 import "./table"
 
 Rectangle{
@@ -19,8 +20,9 @@ Rectangle{
 
     // 列配置
     property list<KitTableColumnProperty> properties
-    // 数据。 内置key：_checked-checkbox值
+    // 数据。 内置key：_checked-checkbox值, _bg-当前单元格的背景色(颜色字符串), _index
     property var dataValue:[]
+    property var dataValueOrigin:[]
     // 右键菜单内容，如果空则不开启。 {name, action:function(rowData, rowIndex)}
     property var rightMenuActions: []
     property int rightMenuWidth: 100
@@ -32,6 +34,8 @@ Rectangle{
     // 选择行的事件
     signal rowSelect(var data, int index)
     signal rowDoubleClick(var data, int index)
+    // checked changed
+	signal checkedChange
 
     function init(){
         // 冻结的个数必须小于总个数
@@ -99,6 +103,7 @@ Rectangle{
     }
     function _refreshData(){
     	for(let ele of dataValue){
+    		ele["_checked"] = ele["_checked"]?true:false
     		if(_showLeftFreeze){
 				tablef_body_model.append(ele)
 			}
@@ -106,13 +111,20 @@ Rectangle{
     	}
     }
     function setData(dataArray){
+        for(let i=0;i<dataArray.length;i++){
+            dataArray[i]["_index"] = i
+        }
     	clear()
     	dataValue = dataArray
+    	dataValueOrigin = dataArray
     	_refreshData()
     	init()
     }
     function addData(ele){
+    	ele["_checked"] = ele["_checked"]?true:false
+        ele["_index"] = dataValue.length
     	dataValue.push(ele)
+    	dataValueOrigin.push(ele)
     	if(_showLeftFreeze){
     		tablef_body_model.append(ele)
     	}
@@ -121,16 +133,29 @@ Rectangle{
 //    	_refreshData()
     }
     function clear(){
+    	checkboxRoot.checkState = 0
     	if(_showLeftFreeze){
 			tablef_body_model.clear()
 		}
 		table_body_model.clear()
 		dataValue = []
+		dataValueOrigin = []
 		init()
     }
     function getCheckedList(){
     	return dataValue.filter(x=>x["_checked"])
     }
+    // 修改checkbox总的状态: cd true/false
+	function changeAllChecked(cd){
+		tablef_body_model.clear()
+		for(let i=0; i<dataValue.length; i++){
+			dataValue[i]["_checked"] = cd?true:false
+//    		tablef_body_model.get(i)["_checked"] = cd?true:false
+//    		tablef_body_model.setProperty(i, "_checked", cd?true:false)
+			tablef_body_model.append(dataValue[i])
+		}
+		checkboxRoot.checkState = 0
+	}
     onWidthChanged: {
         init()
     }
@@ -140,16 +165,34 @@ Rectangle{
     property int _cHeight: 0
     // 冻结部分宽
     property int _fWidth: 0
-	property alias checkboxGroupState: checkboxGroup.checkState
+//	property alias checkboxGroupState: checkboxGroup.checkState
 	property int checkboxWidth: 40
 	// 是否显示左冻结的条件
 	property bool _showLeftFreeze: freezeLeftIndex>-1 || checkEnabled
 
-	// 多选框的group
-	ButtonGroup {
-		id: checkboxGroup
-		exclusive: false
-		checkState: checkboxRoot.checkState
+	function sortHandle(index){
+		// todo
+		let h = properties[index]
+		if(!h) return
+        console.log(h._sortableUp, h._sortableUp,h.key)
+		dataValue.sort((x,y)=>{
+            if(h._sortableUp){
+                return x[h.key]>y[h.key]?1:(x[h.key]<y[h.key]?-1:0)
+            }else if(h._sortableDown){
+                return x[h.key]>y[h.key]?-1:(x[h.key]<y[h.key]?1:0)
+            }else{
+                return x["_index"]>y["_index"]?1:(x["_index"]<y["_index"]?-1:0)
+            }
+		})
+        if(_showLeftFreeze){
+            tablef_body_model.clear()
+        }
+        table_body_model.clear()
+        _refreshData()
+        init()
+	}
+	Component.onCompleted:{
+
 	}
 
     // 左冻结部分
@@ -178,7 +221,24 @@ Rectangle{
                     id: checkboxRoot
             		anchors.centerIn: parent
             		Material.theme: Material.Light
-            		checkState: checkboxGroup.checkState
+//            		checkState: checkboxGroup.checkState
+            		onClicked:{
+						tablef_body_model.clear()
+						for(let i=0; i<dataValue.length; i++){
+							dataValue[i]["_checked"] = this.checked
+							tablef_body_model.append(dataValue[i])
+						}
+						table_rect.checkedChange()
+					}
+					Connections{
+						target: table_rect
+						function onCheckedChange(){
+							let s1 = dataValue.filter(x=>x["_checked"])
+							if(s1.length===0) checkboxRoot.checkState=0
+							else if(s1.length===dataValue.length) checkboxRoot.checkState=2
+							else checkboxRoot.checkState=1
+						}
+					}
             	}
  			}
             Repeater{
@@ -218,9 +278,13 @@ Rectangle{
 					Layout.preferredWidth: checkboxWidth
 					Layout.preferredHeight: cellHeight
 					color: {
-						if(rowSelectBgChange && rIndex===rowSelectIndex){
+						if(rModel["_bg"]){
+							return rModel["_bg"]
+						}
+						else if(rowSelectBgChange && rIndex===rowSelectIndex){
 							return $theme.table_select_bg
-						}else{
+						}
+						else{
 							return rIndex%2===0?$theme.table_data_bg1:$theme.table_data_bg2
 						}
 					}
@@ -235,9 +299,14 @@ Rectangle{
 					CheckBox {
 						anchors.centerIn: parent
 						Material.theme: Material.Light
-						ButtonGroup.group: checkboxGroup
+//						ButtonGroup.group: checkboxGroup
+						Component.onCompleted:{
+							// listview有重绘机制，model直接修改无效？
+							this.checked = dataValue[rIndex]["_checked"]
+						}
 						onCheckedChanged:{
 							dataValue[rIndex]["_checked"] = this.checked
+							table_rect.checkedChange()
 						}
 					}
 				}

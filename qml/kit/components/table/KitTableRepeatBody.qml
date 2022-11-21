@@ -8,9 +8,13 @@ Rectangle{
 	Layout.preferredWidth: properties[_index]._width
 	Layout.preferredHeight: cellHeight
 	color: {
-		if(rowSelectBgChange && rIndex===rowSelectIndex){
+		if(rModel["_bg"]){
+			return rModel["_bg"]
+		}
+		else if(rowSelectBgChange && rIndex===rowSelectIndex){
 			return $theme.table_select_bg
-		}else{
+		}
+		else{
 			return rIndex%2===0?$theme.table_data_bg1:$theme.table_data_bg2
 		}
 	}
