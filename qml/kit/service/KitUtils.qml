@@ -68,10 +68,10 @@ QtObject {
     // 定时器或settimeout: repeat:bool, startRunning:bool
     function timer(fun, delay, repeat, startRunning, parentPage, exceptionIgnore) {
         if(!parentPage) parentPage = root
-        let timer = Qt.createQmlObject("import QtQuick; Timer {}", parentPage);
-        timer.interval = delay;
-        timer.repeat = repeat;
-        timer.triggeredOnStart = startRunning
+        let timer0 = Qt.createQmlObject("import QtQuick; Timer {}", parentPage);
+        timer0.interval = delay;
+        timer0.repeat = repeat;
+        timer0.triggeredOnStart = startRunning
         // 如果函数执行异常，则退出函数
         let fun0 = fun
         if(!exceptionIgnore){
@@ -80,13 +80,13 @@ QtObject {
         			fun()
         		}catch(e){
                     console.error("utils.timer error:",e)
-        			timer.stop()
+        			timer0.stop()
         		}
         	}
         }
-        timer.triggered.connect(fun0)
-        timer.start();
-        return timer
+        timer0.triggered.connect(fun0)
+        timer0.start();
+        return timer0
     }
 
     function findInListModel(model, func){

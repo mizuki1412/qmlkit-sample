@@ -14,6 +14,9 @@ KitModal{
             message = msg
         }
     }
+    onConfirm:{
+        mod.close()
+    }
 
     scrollContent:  Item{
         anchors.top: parent.top

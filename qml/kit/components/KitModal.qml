@@ -24,13 +24,7 @@ Popup{
     property alias footer: loaderF.sourceComponent
     property alias footerObj: loaderF.item
     // 底部确认逻辑
-    property var confirmFun: function(){}
-
-    function setConfirmFun(fun){
-        if(fun){
-            confirmFun = fun
-        }
-    }
+	signal confirm
 
     anchors.centerIn: Overlay.overlay
     closePolicy: Popup.CloseOnEscape
@@ -161,8 +155,7 @@ Popup{
 				highlighted: true
 				text: qsTr(yesButtonText)
 				onClicked: {
-					confirmFun()
-					pp.close()
+					confirm()
 				}
 			}
         }

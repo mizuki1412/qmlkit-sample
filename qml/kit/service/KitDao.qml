@@ -34,7 +34,10 @@ QtObject{
                 console.log("Error creating object");
             }else{
                 sprite.setMessage(options.message)
-                sprite.setConfirmFun(options.confirmFun)
+                sprite.confirm.connect(function(){
+                    if(options.confirmFun) options.confirmFun()
+                	sprite.close()
+                })
                 sprite.open()
             }
         }
@@ -70,75 +73,75 @@ QtObject{
      *
      */
     function request(options,callback) {
-        let xhr = new XMLHttpRequest()
-        if(!options || !options.urlPath || options.urlPath.indexOf("/")!==0){
-            throw new Error("request options error")
-        }
-        if(!options.method) options.method = "POST"
-        if(!options.urlHost) options.urlHost=settings.request_url
-        if(!options.ignoreLoading && options.parentPage){
-            options._loading = showLoading(options.parentPage)
-        }
-        xhr.onreadystatechange=function(){
-            if(xhr.readyState===XMLHttpRequest.DONE){
-                if(options._loading) options._loading.close()
-                if(callback){
-                    let res
-                    try{
-                        res = JSON.parse(xhr.responseText.toString())
-                    }catch(eee){
-                        console.error(eee)
-                        showMessage({
-                                        parentPage: options.parentPage,
-                                        message: xhr.responseText.toString()
-                                    })
-                    }
-                    if(res.result===0){
-                        showMessage({
-                                        parentPage: options.parentPage,
-                                        message: res.message
-                                    })
-                    }else if(res.result===2){
-                        showMessage({
-                                        parentPage: options.parentPage,
-                                        message: "登录失效"
-                                    })
-                        // todo 跳转登录界面
-                    }else if(res.result===1){
-                        callback(res)
-                    }else{
-                        showMessage({
-                                        parentPage: options.parentPage,
-                                        message: xhr.responseText.toString()
-                                    })
-                    }
+		let xhr = new XMLHttpRequest()
+		if(!options || !options.urlPath || options.urlPath.indexOf("/")!==0){
+			throw new Error("request options error")
+		}
+		if(!options.method) options.method = "POST"
+		if(!options.urlHost) options.urlHost=$settings.request_url
+		if(!options.ignoreLoading && options.parentPage){
+			options._loading = showLoading(options)
+		}
+		xhr.onreadystatechange=function(){
+			if(xhr.readyState===XMLHttpRequest.DONE){
+				if(options._loading) options._loading.close()
+				if(callback){
+					let res
+					try{
+						res = JSON.parse(xhr.responseText.toString())
+					}catch(eee){
+						console.error(eee)
+						if(!options.ignoreLoading) showMessage({
+							parentPage: options.parentPage,
+							message: xhr.responseText.toString()
+						})
+					}
+					if(res.result===0){
+						if(!options.ignoreLoading) showMessage({
+							parentPage: options.parentPage,
+							message: res.message
+						})
+					}else if(res.result===2){
+						if(!options.ignoreLoading) showMessage({
+							parentPage: options.parentPage,
+							message: "登录失效"
+						})
+						// todo 跳转登录界面
+					}else if(res.result===1){
+						callback(res)
+					}else{
+						if(!options.ignoreLoading) showMessage({
+							parentPage: options.parentPage,
+							message: xhr.responseText.toString()
+						})
+					}
 
-                }
-            }
-        }
-        try{
-            xhr.open(options.method,options.urlHost+options.urlPath)
-            xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded')
-            xhr.setRequestHeader('Accept','application/json')
-            //  xhr.setRequestHeader('Cookie','sessionID=')
-            xhr.withCredentials = true
-            let paramString = ""
-            if(options.params){
-                for(let ee of Object.keys(options.params)){
-                    if(paramString!==""){
-                        paramString += "&"
-                    }
-                    if(options.params[ee]!==null && options.params[ee]!==undefined){
-                        paramString += ee+"="+encodeURIComponent(options.params[ee])
-                    }
-                }
-            }
-            xhr.send(paramString)
-        }catch(e){
-            console.error(e)
-            if(options._loading) options._loading.close()
-        }
-    }
+				}
+			}
+		}
+		try{
+			xhr.open(options.method,options.urlHost+options.urlPath)
+			xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded')
+			xhr.setRequestHeader('Accept','application/json')
+			//  xhr.setRequestHeader('Cookie','sessionID=')
+			xhr.withCredentials = true
+			let paramString = ""
+			if(options.params){
+				for(let ee of Object.keys(options.params)){
+					if(paramString!==""){
+						paramString += "&"
+					}
+					if(options.params[ee]!==null && options.params[ee]!==undefined){
+						paramString += ee+"="+encodeURIComponent(options.params[ee])
+					}
+				}
+			}
+			xhr.send(paramString)
+		}catch(e){
+			console.error(e)
+			if(options._loading) options._loading.close()
+		}
+	}
 
     /**
       * 请求带确认
@@ -153,7 +156,4 @@ QtObject{
         options.confirmFun = callback
         showConfirm(options)
     }
-
-
 }
-
