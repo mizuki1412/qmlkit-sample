@@ -7,7 +7,7 @@ import "../"
 Rectangle{
 	property int _index
 	Layout.preferredWidth: properties[_index]._width
-	Layout.preferredHeight: cellHeight
+	Layout.preferredHeight: headerHeight
 	color: $theme.table_header_bg
 	KitTableCell{
 		id: table_tv

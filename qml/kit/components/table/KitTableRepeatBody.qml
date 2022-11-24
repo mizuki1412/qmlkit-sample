@@ -40,7 +40,7 @@ Rectangle{
         onClicked:(mouse)=>{
             if (mouse.button === Qt.RightButton){
 				rowSelectIndex = rIndex
-				if(rightMenuActions.length===0) return
+				if(rightMenuActionsCurrent.length===0) return
 				rightMenu.rowData = rModel
 				rightMenu.rowIndex = rIndex
 				rightMenu.popup();
@@ -65,6 +65,7 @@ Rectangle{
 		text: qsTr(String(table_bv.value))
 	}
 	Component.onCompleted:{
+		// 半动态处理，初始化时才赋值，后续更改不会动态绑定
 		let item0
 		if(properties[_index]&&properties[_index].cell){
 			item0 = table_loader.item
@@ -76,28 +77,32 @@ Rectangle{
 		item0.key = properties[_index].key
 		item0.rowData = rModel
 		item0.align = properties[_index].align
+		rightMenuActionsCurrent = rightMenuActions.length>0?rightMenuActions:(rightMenuActionFun?rightMenuActionFun(rModel, rIndex):[])
+    	rightMenuActionCount = rightMenuActionsCurrent.length
     }
-
+	// [{}] 结构同rightMenuActions
+	property var rightMenuActionsCurrent:[]
+	property int rightMenuActionCount:0
     // 右键菜单
 	Menu {
 		id: rightMenu
 		property var rowData
 		property int rowIndex
-		Repeater{
-			model: rightMenuActions.length
+        Repeater{
+            model: rightMenuActionCount
 			MenuItem {
 				id: item
-				text: qsTr(rightMenuActions[index].name)
+                text: qsTr(rightMenuActionsCurrent[index].name)
 				background: Rectangle{
 					implicitWidth: rightMenuWidth
 					gradient: Gradient{
 						orientation: Gradient.Horizontal
-						GradientStop{position: 1; color:$color.rgba("#5293FF", item.highlighted?1:0)}
+						GradientStop{position: 1; color:$color.rgba($theme.color_primary, item.highlighted?1:0)}
 						GradientStop{position: 0; color:$color.rgba("#62BDFF", item.highlighted?1:0)}
 					}
 				}
 				onTriggered: {
-					rightMenuActions[index].action(rightMenu.rowData,rightMenu.rowIndex)
+                    rightMenuActionsCurrent[index].action(rightMenu.rowData,rightMenu.rowIndex)
 				}
 			}
 		}

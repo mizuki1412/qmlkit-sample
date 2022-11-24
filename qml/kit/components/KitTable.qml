@@ -9,6 +9,7 @@ Rectangle{
     color: "transparent"
 
     property int cellHeight: 40
+    property int headerHeight: 40
     // 边框 即间隙
 	property int spacing: 0
     // 左冻结的index
@@ -23,8 +24,10 @@ Rectangle{
     // 数据。 内置key：_checked-checkbox值, _bg-当前单元格的背景色(颜色字符串), _index
     property var dataValue:[]
     property var dataValueOrigin:[]
-    // 右键菜单内容，如果空则不开启。 {name, action:function(rowData, rowIndex)}
+    // 右键菜单内容，如果空则不开启。 {name, 点击调用action:function(rowData, rowIndex), 是否显示visible:function(row,i){}}
     property var rightMenuActions: []
+    // 右键菜单函数提供 (rowData,rowIndex)=>{return []}
+    property var rightMenuActionFun
     property int rightMenuWidth: 100
 
     // 选择行 是否变色
@@ -96,7 +99,7 @@ Rectangle{
         // 这个宽是滑动部分的宽，不包含冻结的
         _cWidth = actSum + spacingW
         // 表头+body的总高. 目前未计算外边框
-        _cHeight = cellHeight*(dataValue.length+1)+table_rect.spacing*dataValue.length
+        _cHeight = cellHeight*(dataValue.length)+headerHeight+table_rect.spacing*dataValue.length
         _fWidth = fWidth+table_rect.spacing*(freezeLeftIndex>0?freezeLeftIndex:0)+(checkEnabled?checkboxWidth:0)
 //        console.log(_cWidth, _cHeight, _fWidth, table_rect.width)
 //        console.log(_fWidth+_cWidth<=table_rect.width)
@@ -171,10 +174,8 @@ Rectangle{
 	property bool _showLeftFreeze: freezeLeftIndex>-1 || checkEnabled
 
 	function sortHandle(index){
-		// todo
 		let h = properties[index]
 		if(!h) return
-        console.log(h._sortableUp, h._sortableUp,h.key)
 		dataValue.sort((x,y)=>{
             if(h._sortableUp){
                 return x[h.key]>y[h.key]?1:(x[h.key]<y[h.key]?-1:0)
@@ -208,7 +209,7 @@ Rectangle{
 			Rectangle{
 				visible: checkEnabled
             	Layout.preferredWidth: checkboxWidth
-            	Layout.preferredHeight: cellHeight
+            	Layout.preferredHeight: headerHeight
             	color: $theme.table_header_bg
             	Rectangle{
             		anchors.centerIn: parent
