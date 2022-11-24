@@ -3,23 +3,94 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
 
-Button{
+Rectangle{
     id: datepicker_show
-    flat: true
-    text: qsTr("<空>")
+    property string emptyValue: "--:--:--"
+    implicitWidth: 180
+	implicitHeight: $theme.btn_height
+	Layout.preferredWidth: 180
+	Layout.preferredHeight: $theme.btn_height
+	radius: $theme.color_btn_radius
+	color: $theme.color_btn_bg
+	border.color: $theme.color_btn_border
+	border.width: 1
+	// 初始color
+	property color _color: $theme.color_btn_bg
+	property int size: 14
+	property string text: emptyValue
 
-    onClicked: function(){
-        componet_datepicker.open()
-    }
+	// 作为最终的确定时间
+	property var value
+	// 初始
+	function init(dt){
+		currentDate = dt
+		value = new Date(dt.getTime())
+		datepicker_show.text = Qt.formatDateTime(value, "yyyy-MM-dd HH:mm:ss")
+		text_hour.text = currentDate.getHours()
+		text_minute.text = currentDate.getMinutes()
+		text_second.text = currentDate.getSeconds()
+	}
+	// 重置 清空
+	function clear(){
+		value = null
+		datepicker_show.text=emptyValue
+	}
+
+	MouseArea{
+		anchors.fill: parent
+		hoverEnabled: true
+		cursorShape: Qt.PointingHandCursor
+		onClicked:{
+			componet_datepicker.open()
+		}
+		onEntered: {
+			datepicker_show.color = Qt.darker(_color,1.3)
+		}
+		onExited:{
+			datepicker_show.color = _color
+		}
+		onReleased: {
+			datepicker_show.color = _color
+		}
+		onCanceled: {
+			datepicker_show.color = _color
+		}
+		onPressed: {
+			datepicker_show.color = Qt.darker(_color,1.3)
+		}
+	}
+    RowLayout{
+		anchors.fill: parent
+		spacing: 0
+		Item{
+			Layout.preferredWidth: 12
+		}
+		Text{
+			id: bt
+			Layout.fillWidth: true
+            text: qsTr(datepicker_show.text)
+			font.pixelSize: size
+			color: $theme.color_text
+			horizontalAlignment: Text.AlignHCenter
+		}
+		Text{
+			id: ic
+			Layout.preferredWidth: size
+			font.family: $iconfont.family
+			font.pixelSize: size
+			color: $theme.color_text_inactive
+			text: "\ue691"
+		}
+		Item{
+			Layout.preferredWidth: 12
+		}
+	}
 
 //    signal datePicked(date d)
-
+	// --- 内置成员变量区域
     // 也是作为起始时间
     property date currentDate: new Date()
-    // 作为最终的确定时间
-    property var value
     property color selectColor: Material.primary
-
     property int yearStart: new Date().getFullYear() - 150
     property int yearRange: 300
     property int monthStartWeekDay: (new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay() + 6) % 7;
@@ -28,29 +99,14 @@ Button{
     property var monthMap : ({"1":"一月","2":"二月","3":"三月","4":"四月","5":"五月","6":"六月","7":"七月","8":"八月","9":"九月","10":"十月","11":"十一月","12":"十二月"})
 
     function complete(){
-        let {hour, minute, second} = correntHMS()
+        let {hour, minute, second} = correctHMS()
         value = new Date(currentDate.getFullYear(),currentDate.getMonth(),currentDate.getDate(),hour,minute,second)
         datepicker_show.text = Qt.formatDateTime(value, "yyyy-MM-dd HH:mm:ss")
 //        datePicked(currentDate)
         componet_datepicker.close()
     }
-    // 初始
-    function init(dt){
-        currentDate = dt
-        value = new Date(dt.getTime())
-        datepicker_show.text = Qt.formatDateTime(value, "yyyy-MM-dd HH:mm:ss")
-        text_hour.text = currentDate.getHours()
-        text_minute.text = currentDate.getMinutes()
-        text_second.text = currentDate.getSeconds()
-    }
-    // 重置 清空
-    function clear(){
-        value = null
-        datepicker_show.text=qsTr("<空>")
-    }
-
     // 修正时分秒
-    function correntHMS(){
+    function correctHMS(){
         let hour = parseInt(text_hour.text)
         if(!(hour>=0&&hour<24)){
             hour = 0
@@ -70,7 +126,6 @@ Button{
             hour,minute,second
         }
     }
-
     function setMonth(m){
         var newYear = currentDate.getFullYear()
         var newDay = currentDate.getDay()
@@ -81,7 +136,6 @@ Button{
         var newDay = currentDate.getDay()
         currentDate = new Date(y, newMonth, newDay)
     }
-
     function addMonth(m){
         var newMonth = currentDate.getMonth()
         var newYear = currentDate.getFullYear()
@@ -97,10 +151,14 @@ Button{
         margins: 0
         padding: 12
         focus: true
+        background: Rectangle{
+			color: $theme.panel_bg
+        }
 
         Rectangle{
             anchors.fill: parent
             id: theJWDMDatePicker
+			color: $theme.panel_bg
 
             RowLayout{
                 id: r1
@@ -108,10 +166,11 @@ Button{
                 height: 36
                 anchors.top: parent.top
                 Rectangle{
+                	color: "transparent"
                     Text {
                         anchors.verticalCenter: parent.verticalCenter
                         text: qsTr("日期时间选择")
-                        color: "gray"
+                        color: $theme.color_text_inactive
                     }
                     Layout.fillWidth: true
                     Layout.fillHeight: true
@@ -143,6 +202,7 @@ Button{
                     }
                 }
                 Button{
+                	Material.theme: Material.Light
                     highlighted: true
                     text:"\ue8bd"
                     font.family: $iconfont.family
@@ -165,6 +225,7 @@ Button{
                 Text{
                     Layout.fillWidth: true
                     text: qsTr("时间：")
+                    color: $theme.color_text_inactive
                     Layout.leftMargin: 8
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -185,6 +246,7 @@ Button{
                     Layout.leftMargin: 8
                     Layout.rightMargin: 8
                     text: ":"
+                    color: $theme.color_text_inactive
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -202,6 +264,7 @@ Button{
                 }
                 Text{
                     text: ":"
+                    color: $theme.color_text_inactive
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     Layout.leftMargin: 8
@@ -229,12 +292,6 @@ Button{
                 anchors.top: r2.bottom
                 anchors.topMargin: 8
                 anchors.bottom: parent.bottom
-//                Rectangle{
-//                    color: "gray"
-//                    height: 1
-//                    width: parent.width
-//                    id: line0
-//                }
                 Item{
                     id: monthYear
                     width: parent.width
@@ -244,7 +301,7 @@ Button{
                         font.family: $iconfont.family
                         font.pixelSize: 20
                         text: "\ue77f"
-                        color: "gray"
+                        color: $theme.color_text_inactive
                         height: parent.height
                         width: height
 
@@ -263,6 +320,7 @@ Button{
                     Text{
                         id: monthText
                         text: qsTr(monthMap[currentDate.toLocaleDateString(Qt.locale(), "M")])
+                        color: $theme.color_text
                         anchors.left: leftKlick.right
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
@@ -290,6 +348,7 @@ Button{
                         verticalAlignment: Text.AlignVCenter
                         height: parent.height
                         width: contentWidth + rightKlick.width / 2
+                        color: $theme.color_text
                         MouseArea{
                             anchors.fill: parent
                             onClicked:{
@@ -309,7 +368,7 @@ Button{
                         font.family: $iconfont.family
                         font.pixelSize: 20
                         text: "\ue783"
-                        color: "gray"
+                       	color: $theme.color_text_inactive
                         anchors.right: parent.right
                         height: parent.height
                         width: height
@@ -331,6 +390,7 @@ Button{
                     height: 1
                     width: parent.width
                     id: line2
+                    color: $color.gray500
                 }
                 Item{
                     width: parent.width
@@ -353,6 +413,7 @@ Button{
                                     height: weekDays.height
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignHCenter
+                                    color: $theme.color_text
                                 }
                             }
                         }
@@ -360,7 +421,7 @@ Button{
                             visible: opacity > 0
                             opacity: daySelect.opacity
                             id: line
-                            color: "gray"
+                            color: $theme.color_text_inactive
                             height: 1
                             width: parent.width
                         }
@@ -382,7 +443,7 @@ Button{
                                     verticalAlignment: Text.AlignVCenter
                                     horizontalAlignment: Text.AlignHCenter
                                     text: myDate.getDate()
-                                    color: myDate.getMonth() > currentDate.getMonth() ? "gray" : myDate.getMonth() < currentDate.getMonth() ? "gray" : "black"
+                                    color: myDate.getMonth() > currentDate.getMonth() ? $theme.color_text_inactive : myDate.getMonth() < currentDate.getMonth() ? $theme.color_text_inactive : $theme.color_text
                                     MouseArea{
                                         anchors.fill: parent
                                         onClicked:{
@@ -420,11 +481,10 @@ Button{
                         cellHeight: height / 4
                         cellWidth: width / 4
                         currentIndex: currentDate.getFullYear() - yearStart
-                        delegate:                    Text{
+                        delegate:  Text{
                             width: yearSelect.cellWidth
                             height: yearSelect.cellHeight
-
-//                            color: fontColor
+							color: $theme.color_text
                             text: yearStart + index
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
@@ -462,7 +522,7 @@ Button{
                         Repeater{
                             model: 12
                             Text {
-//                                color: fontColor
+                                color: $theme.color_text
                                 width: monthSelect.width / 4
                                 height: monthSelect.height / 3
                                 verticalAlignment: Text.AlignVCenter
