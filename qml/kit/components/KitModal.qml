@@ -14,6 +14,7 @@ Popup{
     property string yesButtonText: "确定"
     property string noButtonText: "取消"
     property string title:"提示"
+    property alias titleLoader: titleLoader0.sourceComponent
     // 一般内容部分
     property alias content: loader.sourceComponent
     property alias contentObj: loader.item
@@ -46,14 +47,19 @@ Popup{
         height: modalTitleHeight
         anchors.top: parent.top
         color: "transparent"
-        Text {
-            width: parent.width
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment:   Text.AlignVCenter
-            anchors.verticalCenter: parent.verticalCenter
-            text: qsTr(title)
-            color: $theme.color_text
+        Loader{
+        	id: titleLoader0
+        	anchors.centerIn: parent
+        	sourceComponent: Text {
+//				 width: parent.width
+//				 horizontalAlignment: Text.AlignHCenter
+//				 verticalAlignment:   Text.AlignVCenter
+//				 anchors.verticalCenter: parent.verticalCenter
+				 text: qsTr(title)
+				 color: $theme.color_text
+			 }
         }
+
         Button{
             anchors.verticalCenter: parent.verticalCenter
             anchors.top: parent.top

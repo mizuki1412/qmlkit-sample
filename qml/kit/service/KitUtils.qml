@@ -43,6 +43,10 @@ QtObject {
         sec =  sec % 60
       return [leftFill0(hour,2), leftFill0(min,2), leftFill0(sec,2)]
     }
+    // dt: Date()
+    function formatUTCString(dt){
+    	return formatDate(new Date(dt.getTime()+dt.getTimezoneOffset()*60000),"yyyy-MM-ddTHH:mm:ssZ")
+    }
 
     function decodeBase64(data){
         return Qt.atob(data)

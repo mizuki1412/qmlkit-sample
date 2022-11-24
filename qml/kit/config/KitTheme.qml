@@ -52,4 +52,9 @@ QtObject {
 	// component collapse
 	property color collapse_title_bg: $color.gray200
 	property color collapse_body_bg: $color.gray200
+
+	// button/datatimepicker 如果用自定义的话
+	property color color_btn_bg: "#252A48"
+	property color color_btn_border: "#383B54"
+    property int color_btn_radius: 4
 }
