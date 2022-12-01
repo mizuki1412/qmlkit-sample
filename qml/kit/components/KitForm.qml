@@ -4,6 +4,7 @@ import QtQuick.Layouts
 
 Rectangle{
 	color: "transparent"
+	Layout.preferredHeight: 40
 	property int labelWidth: 120
 	property string label
 	// right, left, center
@@ -12,6 +13,7 @@ Rectangle{
 	// 普通文字:text
 	property string contentType: "text"
 	property Component content
+	property alias contentObj: loader.item
 	// 传入的值
 	property var contentValue
 	// 需要回传时，回传的对象和key
@@ -37,6 +39,7 @@ Rectangle{
 			visible: content
 			Layout.fillWidth: true
 			Layout.alignment: Qt.AlignVCenter
+//			Layout.preferredHeight: height
 			id:loader
 			sourceComponent: content
 		}
@@ -53,7 +56,7 @@ Rectangle{
 				color: $theme.color_text
 			}
 		}
-		// input
+		// input todo 考虑替换kitinput
 		TextField{
 			visible: contentType==="input" && !content
 			Layout.fillWidth: true
@@ -88,6 +91,4 @@ Rectangle{
 			}
 		}
 	}
-
-
 }

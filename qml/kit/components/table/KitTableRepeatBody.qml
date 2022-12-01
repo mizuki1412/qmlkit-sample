@@ -1,4 +1,4 @@
-import QtQuick
+﻿import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 
@@ -8,13 +8,13 @@ Rectangle{
 	Layout.preferredWidth: properties[_index]._width
 	Layout.preferredHeight: cellHeight
 	color: {
-		if(rModel["_bg"]){
-			return rModel["_bg"]
-		}
-		else if(rowSelectBgChange && rIndex===rowSelectIndex){
+		if(rowSelectBgChange && rIndex===rowSelectIndex){
 			return $theme.table_select_bg
 		}
 		else{
+			if(rModel["_bg"]){
+				return rModel["_bg"]
+			}
 			return rIndex%2===0?$theme.table_data_bg1:$theme.table_data_bg2
 		}
 	}

@@ -108,4 +108,13 @@ QtObject {
 			}
 		}
 	}
+
+	// 用于复制object property，使动态绑定有效
+//	function cloneObj(obj){
+//		let o = {}
+//		for(let e of Object.keys(obj)){
+//			o[e] = obj[e]
+//		}
+//		return o
+//	}
 }

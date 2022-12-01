@@ -39,8 +39,8 @@ RoundButton{
 Features:
 - 提供便捷的column property配置
 - 冻结左栏
-- 右键单行菜单
-- 左侧checkbox
+- 每行的右键菜单，可差异化
+- 左侧checkbox，提供多选
 - 左右上下滑动
 
 todo:

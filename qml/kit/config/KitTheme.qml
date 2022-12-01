@@ -23,6 +23,8 @@ QtObject {
     property color color_text: "white"
     property color color_text_active: $color.blue600
     property color color_text_inactive: $color.gray600
+    // 底层色
+    property color color_undertone: "white"
 
 	// temp
     property color color_primary: Material.color(Material.Blue)
