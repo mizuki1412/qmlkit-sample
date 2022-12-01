@@ -18,6 +18,10 @@ Rectangle{
     property int freezeRightIndex:-1
     // 是否开启多选框
     property bool checkEnabled: false
+    // 是否开启分页
+    property bool pagination: true
+    // 分页时，一页个数
+    property int countOnePage: 20
 
     // 列配置
     property list<KitTableColumnProperty> properties
@@ -105,6 +109,10 @@ Rectangle{
 //        console.log(_fWidth+_cWidth<=table_rect.width)
     }
     function _refreshData(){
+    	if(_showLeftFreeze){
+			tablef_body_model.clear()
+		}
+		table_body_model.clear()
     	for(let ele of dataValue){
     		ele["_checked"] = ele["_checked"]?true:false
     		if(_showLeftFreeze){
@@ -113,27 +121,32 @@ Rectangle{
 			table_body_model.append(ele)
     	}
     }
+    // 外部赋值
     function setData(dataArray){
         for(let i=0;i<dataArray.length;i++){
             dataArray[i]["_index"] = i
         }
     	clear()
-    	dataValue = dataArray
     	dataValueOrigin = dataArray
+    	if(pagination){
+    		_paginationHandle()
+    	}else{
+    		dataValue = dataArray
+    	}
     	_refreshData()
     	init()
     }
+    // todo 该函数谨慎调用 暂不联动分页
     function addData(ele){
     	ele["_checked"] = ele["_checked"]?true:false
         ele["_index"] = dataValue.length
     	dataValue.push(ele)
+    	dataValue = dataValue
     	dataValueOrigin.push(ele)
     	if(_showLeftFreeze){
     		tablef_body_model.append(ele)
     	}
     	table_body_model.append(ele)
-//    	init()
-//    	_refreshData()
     }
     function clear(){
     	checkboxRoot.checkState = 0
@@ -143,6 +156,7 @@ Rectangle{
 		table_body_model.clear()
 		dataValue = []
 		dataValueOrigin = []
+		kp.currentValue = 1
 		init()
     }
     function getCheckedList(){
@@ -162,6 +176,10 @@ Rectangle{
     onWidthChanged: {
         init()
     }
+    function _paginationHandle(){
+    	dataValue = dataValueOrigin.slice((kp.currentValue-1)*countOnePage, (kp.currentValue-1)*countOnePage+countOnePage)
+    	console.log((kp.currentValue-1)*countOnePage, (kp.currentValue-1)*countOnePage+countOnePage, dataValue.length)
+    }
 
     // 内容宽（不包含冻结）
     property int _cWidth: 0
@@ -176,7 +194,7 @@ Rectangle{
 	function sortHandle(index){
 		let h = properties[index]
 		if(!h) return
-		dataValue.sort((x,y)=>{
+		dataValueOrigin.sort((x,y)=>{
             if(h._sortableUp){
                 return x[h.key]>y[h.key]?1:(x[h.key]<y[h.key]?-1:0)
             }else if(h._sortableDown){
@@ -185,15 +203,13 @@ Rectangle{
                 return x["_index"]>y["_index"]?1:(x["_index"]<y["_index"]?-1:0)
             }
 		})
-        if(_showLeftFreeze){
-            tablef_body_model.clear()
+        if(pagination){
+        	_paginationHandle()
+        }else{
+        	dataValue = dataValueOrigin
         }
-        table_body_model.clear()
         _refreshData()
         init()
-	}
-	Component.onCompleted:{
-
 	}
 
     // 左冻结部分
@@ -201,7 +217,7 @@ Rectangle{
         visible: _showLeftFreeze
         id: tablef
         width: _fWidth
-        height: parent.height
+        height: parent.height - kp.height
         // header
         RowLayout{
             id: tablef_header
@@ -303,7 +319,7 @@ Rectangle{
 //						ButtonGroup.group: checkboxGroup
 						Component.onCompleted:{
 							// listview有重绘机制，model直接修改无效？
-							this.checked = dataValue[rIndex]["_checked"]
+							if(dataValue && dataValue[rIndex]) this.checked = dataValue[rIndex]["_checked"]
 						}
 						onCheckedChanged:{
 							dataValue[rIndex]["_checked"] = this.checked
@@ -327,7 +343,7 @@ Rectangle{
         anchors.left: tablef.right
 //        anchors.leftMargin: _fWidth?1:0
         anchors.right: parent.right
-        height: parent.height
+        height: parent.height - kp.height
         contentHeight: height
         contentWidth: _cWidth
         clip: true
@@ -383,11 +399,25 @@ Rectangle{
 		visible: _fWidth>0 && _fWidth+_cWidth>table_rect.width
 		anchors.left: tablef.right
 		width: 8
-		height: parent.height>_cHeight?_cHeight:parent.height
+		height: (parent.height-kp.height)>_cHeight?_cHeight:(parent.height-kp.height)
 		gradient: Gradient{
 			orientation: Gradient.Horizontal
 			GradientStop {position: 0; color:$color.rgba("#0E1021",0.9)}
 			GradientStop {position: 1; color:$color.rgba("#0E1021",0)}
+		}
+	}
+
+	KitPagination{
+		id: kp
+		anchors.left: parent.left
+		anchors.right: parent.right
+		anchors.bottom: parent.bottom
+		all: dataValueOrigin.length
+		countOnePage: parent.countOnePage
+		onCurrentValueChanged:{
+			_paginationHandle()
+			_refreshData()
+			init()
 		}
 	}
 }

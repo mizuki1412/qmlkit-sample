@@ -59,4 +59,6 @@ QtObject {
 	property color color_btn_bg: "#252A48"
 	property color color_btn_border: "#383B54"
     property int color_btn_radius: 4
+    property int btn_width: 100
+	property int btn_height: 32
 }
