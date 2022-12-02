@@ -126,7 +126,11 @@ Rectangle{
         for(let i=0;i<dataArray.length;i++){
             dataArray[i]["_index"] = i
         }
-    	clear()
+    	checkboxRoot.checkState = 0
+		if(_showLeftFreeze){
+			tablef_body_model.clear()
+		}
+		table_body_model.clear()
     	dataValueOrigin = dataArray
     	if(pagination){
     		_paginationHandle()
@@ -148,6 +152,7 @@ Rectangle{
     	}
     	table_body_model.append(ele)
     }
+    // 暂不用
     function clear(){
     	checkboxRoot.checkState = 0
     	if(_showLeftFreeze){
@@ -178,7 +183,6 @@ Rectangle{
     }
     function _paginationHandle(){
     	dataValue = dataValueOrigin.slice((kp.currentValue-1)*countOnePage, (kp.currentValue-1)*countOnePage+countOnePage)
-    	console.log((kp.currentValue-1)*countOnePage, (kp.currentValue-1)*countOnePage+countOnePage, dataValue.length)
     }
 
     // 内容宽（不包含冻结）

@@ -39,9 +39,11 @@ RowLayout {
         btnGroup.model = model
     }
     onPageSizeChanged: {
-        currentValue = 1
         if (pageSize < 1) {
             pageSize = 1
+        }
+        if(currentValue>pageSize){
+        	currentValue = 1
         }
         refreshBtn()
     }
