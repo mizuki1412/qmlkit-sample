@@ -1,4 +1,4 @@
-import QtQuick
+﻿import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
@@ -16,7 +16,7 @@ RowLayout {
     property int fontSize: 12
     // 省略中间的个数
     property int ellipsisThreshold: 2
-    property int pageSize: all/countOnePage+1
+    property int pageSize: all%countOnePage===0?all/countOnePage:all/countOnePage+1
 
     function refreshBtn() {
         var model = []
@@ -63,7 +63,7 @@ RowLayout {
 		font.pixelSize: 18
 		text: "\ue603"
 		flat:true
-        Layout.preferredWidth: 32
+        Layout.preferredWidth: 24
         enabled: currentValue>1
         onClicked: {
             if (currentValue - 1 >= 1) {

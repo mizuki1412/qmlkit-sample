@@ -6,7 +6,6 @@ import QtQuick.Templates as T
 
 Drawer{
     id: drawer
-    closePolicy: Popup.CloseOnEscape
     modal: true
     margins: 0
     padding: 8

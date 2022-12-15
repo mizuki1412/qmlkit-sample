@@ -5,7 +5,6 @@ import "../config"
 
 QtObject{
 
-    property var settings: KitSettings{}
     property Component messageComponent: Qt.createComponent("qrc:///qml/kit/components/KitMessage.qml")
     property Component confirmComponent: Qt.createComponent("qrc:///qml/kit/components/KitConfirm.qml")
     property Component loadingComponent: Qt.createComponent("qrc:///qml/kit/components/KitLoading.qml")

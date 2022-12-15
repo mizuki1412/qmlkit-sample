@@ -194,6 +194,7 @@ Rectangle{
 	property int checkboxWidth: 40
 	// 是否显示左冻结的条件
 	property bool _showLeftFreeze: freezeLeftIndex>-1 || checkEnabled
+	property alias _headerHeight: t1.height
 
 	function sortHandle(index){
 		let h = properties[index]
@@ -411,11 +412,23 @@ Rectangle{
 		}
 	}
 
+	// data empty
+	Text{
+	    anchors.top: parent.top
+	    anchors.topMargin: _headerHeight*2
+	    width: parent.width
+	    horizontalAlignment: Text.AlignHCenter
+	    visible: dataValue.length===0
+	    text: qsTr("暂无数据")
+	    color: $theme.color_text_inactive
+	}
+
 	KitPagination{
 		id: kp
 		anchors.left: parent.left
 		anchors.right: parent.right
 		anchors.bottom: parent.bottom
+        visible:pagination
 		all: dataValueOrigin.length
 		countOnePage: parent.countOnePage
 		onCurrentValueChanged:{

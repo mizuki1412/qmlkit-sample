@@ -12,6 +12,9 @@ QtObject {
         if(!(dt instanceof Date)){
             dt = new Date(dt)
         }
+        if(!format){
+            format = "yyyy-MM-dd HH:mm:ss"
+        }
         return Qt.formatDateTime(dt, format)
     }
 
