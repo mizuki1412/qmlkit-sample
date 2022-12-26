@@ -18,6 +18,7 @@ Rectangle{
 	property color _color: $theme.color_btn_bg
 	property int size: 14
 	property string text: emptyValue
+	property bool disabled: false
 
 	// 作为最终的确定时间
 	property var value
@@ -41,21 +42,27 @@ Rectangle{
 		hoverEnabled: true
 		cursorShape: Qt.PointingHandCursor
 		onClicked:{
+		    if(disabled) return
 			componet_datepicker.open()
 		}
 		onEntered: {
+		    if(disabled) return
 			datepicker_show.color = Qt.darker(_color,1.3)
 		}
 		onExited:{
+		    if(disabled) return
 			datepicker_show.color = _color
 		}
 		onReleased: {
+		    if(disabled) return
 			datepicker_show.color = _color
 		}
 		onCanceled: {
+		    if(disabled) return
 			datepicker_show.color = _color
 		}
 		onPressed: {
+		    if(disabled) return
 			datepicker_show.color = Qt.darker(_color,1.3)
 		}
 	}
@@ -70,7 +77,7 @@ Rectangle{
 			Layout.fillWidth: true
             text: qsTr(datepicker_show.text)
 			font.pixelSize: size
-			color: $theme.color_text
+			color: disabled?$theme.color_text_inactive:$theme.color_text
 			horizontalAlignment: Text.AlignHCenter
 		}
 		Text{
@@ -240,7 +247,9 @@ Rectangle{
                     selectByMouse: true
                     clip: true
                     color: $theme.color_primary
-                    validator: IntValidator{bottom: 0; top: 23}
+//                    validator: IntValidator{bottom: 0; top: 23}
+                    validator: RegularExpressionValidator{regularExpression:/^(\d{1})|([1]\d)|([2][0-3])$/}
+
                 }
                 Text{
                     Layout.leftMargin: 8
@@ -260,7 +269,8 @@ Rectangle{
                     selectByMouse: true
                     color: $theme.color_primary
                     clip: true
-                    validator: IntValidator{bottom: 0; top: 59;}
+//                    validator: IntValidator{bottom: 0; top: 59;}
+                    validator: RegularExpressionValidator{regularExpression:/^(\d{1})|([1-5]\d)$/}
                 }
                 Text{
                     text: ":"
@@ -281,7 +291,7 @@ Rectangle{
                     selectByMouse: true
                     clip: true
                     color: $theme.color_primary
-                    validator: IntValidator{bottom: 0; top: 59;}
+                    validator: RegularExpressionValidator{regularExpression:/^(\d{1})|([1-5]\d)$/}
                 }
 
             }

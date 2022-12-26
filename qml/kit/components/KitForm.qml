@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 Rectangle{
+    id: form
 	color: "transparent"
 	Layout.preferredHeight: 40
 	property int labelWidth: 120
@@ -19,12 +20,15 @@ Rectangle{
 	// 需要回传时，回传的对象和key
 	property var formData: ({})
 	property string dataKey
+	property string tooltip
 
 	RowLayout{
 		anchors.fill: parent
 		spacing: 12
 		Rectangle{
 			Layout.preferredWidth: labelWidth
+			Layout.fillHeight:true
+			color: 'transparent'
 			Layout.alignment: Qt.AlignVCenter
             Text{
 				width: parent.width
@@ -33,6 +37,17 @@ Rectangle{
 				color: $theme.color_text
 				text: qsTr(label)
 			}
+			MouseArea{
+                id: ma
+                anchors.fill: parent
+                hoverEnabled: true
+                propagateComposedEvents: true
+            }
+            ToolTip{
+                visible: ma.containsMouse && form.tooltip!==''
+                text: qsTr(form.tooltip)
+                delay: 50
+            }
 		}
 //		Item{Layout.fillWidth: true}
 		Loader{

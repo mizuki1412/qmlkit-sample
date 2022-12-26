@@ -18,7 +18,7 @@ Rectangle{
 	// 图标位置：left,right
 	property string iconPlace: "right"
 	// 校验 int,double
-	property string validator
+    property var validator:null
 	// 单位
 	property string unit
 	property bool password: false
@@ -80,7 +80,7 @@ Rectangle{
 				focus: true
 				readOnly: readonly
 				echoMode: rect.password?TextInput.Password:TextInput.Normal
-				validator: rect.validator==="int"?v_int.validator:(rect.validator==="double"?v_double.validator:null)
+				validator: rect.validator==="int"?v_int.validator:(rect.validator==="double"?v_double.validator:rect.validator)
 //				text: qsTr(String(rect.text))
 				onTextChanged: {
 //					rect.text = this.text
