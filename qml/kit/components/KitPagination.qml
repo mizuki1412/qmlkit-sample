@@ -16,7 +16,8 @@ RowLayout {
     property int fontSize: 12
     // 省略中间的个数
     property int ellipsisThreshold: 2
-    property int pageSize: all%countOnePage===0?all/countOnePage:all/countOnePage+1
+    property int pageSize: all%countOnePage===0?all/countOnePage:(all/countOnePage+1)
+
 
     function refreshBtn() {
         var model = []
@@ -43,9 +44,11 @@ RowLayout {
         btnGroup.model = model
     }
     onPageSizeChanged: {
-        if (pageSize < 1) {
-            pageSize = 1
-        }
+        if(all<0) all = 0
+        // 会替换变量引用
+//        if (pageSize < 1) {
+//            pageSize = 1
+//        }
         if(currentValue>pageSize || currentValue<=0){
         	currentValue = 1
         }

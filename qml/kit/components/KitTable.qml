@@ -22,6 +22,8 @@ Rectangle{
     property bool pagination: true
     // 分页时，一页个数
     property int countOnePage: 20
+    // 关闭sort
+    property bool sortable: true
 
     // 列配置
     property list<KitTableColumnProperty> properties
@@ -127,6 +129,12 @@ Rectangle{
             dataArray[i]["_index"] = i
         }
     	checkboxRoot.checkState = 0
+    	// 清空排序
+    	for(let i=0;i<properties.length;i++){
+            let e = properties[i]
+            e._sortableUp = false
+            e._sortableDown = false
+        }
 		if(_showLeftFreeze){
 			tablef_body_model.clear()
 		}
@@ -165,17 +173,18 @@ Rectangle{
 		init()
     }
     function getCheckedList(){
-    	return dataValue.filter(x=>x["_checked"])
+    	return dataValueOrigin.filter(x=>x["_checked"])
     }
     // 修改checkbox总的状态: cd true/false
 	function changeAllChecked(cd){
 		tablef_body_model.clear()
 		for(let i=0; i<dataValue.length; i++){
 			dataValue[i]["_checked"] = cd?true:false
-//    		tablef_body_model.get(i)["_checked"] = cd?true:false
-//    		tablef_body_model.setProperty(i, "_checked", cd?true:false)
 			tablef_body_model.append(dataValue[i])
 		}
+		for(let e of dataValueOrigin){
+            e["_checked"] = cd?true:false
+        }
 		checkboxRoot.checkState = 0
 	}
     onWidthChanged: {
@@ -222,7 +231,7 @@ Rectangle{
         visible: _showLeftFreeze
         id: tablef
         width: _fWidth
-        height: parent.height - kp.height
+        height: parent.height - (kp.visible?kp.height:0)
         // header
         RowLayout{
             id: tablef_header
@@ -250,15 +259,18 @@ Rectangle{
 							dataValue[i]["_checked"] = this.checked
 							tablef_body_model.append(dataValue[i])
 						}
+						for(let e of dataValueOrigin){
+                            e["_checked"] = this.checked
+                        }
 						table_rect.checkedChange()
 					}
 					Connections{
 						target: table_rect
 						function onCheckedChange(){
-							let s1 = dataValue.filter(x=>x["_checked"])
-							if(s1.length===0) checkboxRoot.checkState=0
-							else if(s1.length===dataValue.length) checkboxRoot.checkState=2
-							else checkboxRoot.checkState=1
+							let s1 = dataValueOrigin.filter(x=>x["_checked"])
+                            if(s1.length===0) checkboxRoot.checkState=0
+                            else if(s1.length===dataValueOrigin.length) checkboxRoot.checkState=2
+                            else checkboxRoot.checkState=1
 						}
 					}
             	}
@@ -326,8 +338,9 @@ Rectangle{
 							// listview有重绘机制，model直接修改无效？
 							if(dataValue && dataValue[rIndex]) this.checked = dataValue[rIndex]["_checked"]
 						}
-						onCheckedChanged:{
+						onClicked:{
 							dataValue[rIndex]["_checked"] = this.checked
+                            dataValueOrigin[(kp.currentValue-1)*countOnePage+rIndex]["_checked"] = this.checked
 							table_rect.checkedChange()
 						}
 					}
@@ -348,7 +361,7 @@ Rectangle{
         anchors.left: tablef.right
 //        anchors.leftMargin: _fWidth?1:0
         anchors.right: parent.right
-        height: parent.height - kp.height
+        height: parent.height - (kp.visible?kp.height:0)
         contentHeight: height
         contentWidth: _cWidth
         clip: true
@@ -404,7 +417,7 @@ Rectangle{
 		visible: _fWidth>0 && _fWidth+_cWidth>table_rect.width
 		anchors.left: tablef.right
 		width: 8
-		height: (parent.height-kp.height)>_cHeight?_cHeight:(parent.height-kp.height)
+		height: (parent.height-(kp.visible?kp.height:0))>_cHeight?_cHeight:(parent.height-(kp.visible?kp.height:0))
 		gradient: Gradient{
 			orientation: Gradient.Horizontal
 			GradientStop {position: 0; color:$color.rgba("#0E1021",0.9)}

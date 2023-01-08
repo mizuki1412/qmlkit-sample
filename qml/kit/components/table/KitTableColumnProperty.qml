@@ -12,6 +12,7 @@ Item{
 	property int fixWidth: 0
 	// 文本对齐: left, center, right
 	property string align: "left"
+	property string alignTitle: ""
 	property bool sortable: false
 	// 内部使用的升序降序标记
 	property bool _sortableUp: false

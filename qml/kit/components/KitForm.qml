@@ -62,14 +62,34 @@ Rectangle{
 		Rectangle{
 			visible: contentType==="text" && !content
 			Layout.fillWidth: true
+			Layout.fillHeight:true
+			color: "transparent"
 			Layout.alignment: Qt.AlignVCenter
 			Text{
+			    id: txtVal
 				width: parent.width
 				horizontalAlignment: Text.AlignRight
 				anchors.verticalCenter: parent.verticalCenter
 				text: qsTr(contentValue?String(contentValue):"")
 				color: $theme.color_text
+				elide: Text.ElideMiddle
 			}
+			MouseArea{
+                id: ma2
+                anchors.fill: parent
+                hoverEnabled: true
+                propagateComposedEvents: true
+            }
+            // 显示被缩放的text的全文
+            ToolTip{
+                visible: ma2.containsMouse && txtVal.text !== "" && textMetrics.width > (txtVal.width)
+                text: qsTr(String(txtVal.text))
+                delay: 100
+            }
+            TextMetrics {
+                id: textMetrics
+                text: qsTr(String(txtVal.text))
+            }
 		}
 		// input todo 考虑替换kitinput
 		TextField{

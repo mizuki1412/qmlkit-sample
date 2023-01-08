@@ -11,6 +11,7 @@ Rectangle{
 	Layout.preferredHeight: height
     property int bodyHeight: 200
     property Component content
+    property alias contentObj: loader.item
 	color: "transparent"
 //	clip: true
 	property bool collapse: false

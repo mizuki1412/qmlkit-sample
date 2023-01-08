@@ -35,7 +35,11 @@ KitTableCellWrapper{
             verticalAlignment: Text.AlignVCenter
             anchors.verticalCenter: parent.verticalCenter
             horizontalAlignment: {
-				switch(align){
+                let a = rect.align
+                if(type==="title" && rect.alignTitle!==""){
+                    a = rect.alignTitle
+                }
+                switch(a){
                 case "left": return Text.AlignLeft;
                 case "center": return Text.AlignHCenter;
                 case "right": return Text.AlignRight;

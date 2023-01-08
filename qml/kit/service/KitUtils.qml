@@ -27,7 +27,6 @@ QtObject {
         let hour = Math.floor(ms / 3600000)
         let min = Math.floor(ms / 60000)
         let sec = Math.floor(ms / 1000)
-        hour =  hour
         min =  min % 60
         sec =  sec % 60
         let ret = ""

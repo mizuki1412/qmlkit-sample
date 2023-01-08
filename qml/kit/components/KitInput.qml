@@ -1,4 +1,4 @@
-import QtQuick
+﻿import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
@@ -24,6 +24,7 @@ Rectangle{
 	property bool password: false
 
 	signal input(string text)
+    signal editingFinish()
 
 //	onTextChanged:{
 //		textValue.text = qsTr(String(text))
@@ -31,6 +32,11 @@ Rectangle{
 	function clear(){
 		textValue.text = ""
 	}
+	// 获取textinput的acceptableInput
+    function getAcceptableInput(){
+        return textValue.acceptableInput
+    }
+
     TextInput{
 		id: v_int
 		visible: false
@@ -85,7 +91,10 @@ Rectangle{
 				onTextChanged: {
 //					rect.text = this.text
 					input(textValue.text)
-				}
+                }
+                onEditingFinished: {
+                    rect.editingFinish()
+                }
 			}
 		}
 		Item{

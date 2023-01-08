@@ -12,5 +12,6 @@ Rectangle{
 	property var rowData
 	// ui - align
 	property string align
+	property string alignTitle
 	color: "transparent"
 }

@@ -8,6 +8,7 @@ QtObject{
     property Component messageComponent: Qt.createComponent("qrc:///qml/kit/components/KitMessage.qml")
     property Component confirmComponent: Qt.createComponent("qrc:///qml/kit/components/KitConfirm.qml")
     property Component loadingComponent: Qt.createComponent("qrc:///qml/kit/components/KitLoading.qml")
+    property var callbackKillPool: ({})
 
     // options: { parentPage, message }
     function showMessage(options) {
@@ -45,10 +46,11 @@ QtObject{
         }
     }
 
-    //等待转圈 options:{ parentPage }
+    //等待转圈 options:{ parentPage, loadingComponent }
     function showLoading(options) {
-        if (loadingComponent.status === Component.Ready){
-            let sprite = loadingComponent.createObject(options.parentPage);
+        let c = options.loadingComponent?options.loadingComponent:loadingComponent
+        if (c.status === Component.Ready){
+            let sprite = c.createObject(options.parentPage);
             if (sprite === null){
                 console.log("Error creating object");
             }else{
@@ -56,8 +58,8 @@ QtObject{
             }
             return sprite
         }
-        else if (loadingComponent.status === Component.Error){
-            console.log("Error loading component:", loadingComponent.errorString());
+        else if (c.status === Component.Error){
+            console.log("Error loading component:", c.errorString());
         }
     }
 
@@ -69,7 +71,7 @@ QtObject{
      **  params: {key:value} 键值对，请求参数
      **  parentPage:
      **  ignoreLoading:bool 不干预转圈
-     *
+     *  loadingComponent
      */
     function request(options,callback) {
 		let xhr = new XMLHttpRequest()
@@ -81,10 +83,11 @@ QtObject{
 		if(!options.ignoreLoading && options.parentPage){
 			options._loading = showLoading(options)
 		}
+		callbackKillPool[options.urlPath] = false
 		xhr.onreadystatechange=function(){
 			if(xhr.readyState===XMLHttpRequest.DONE){
 				if(options._loading) options._loading.close()
-				if(callback){
+				if(callback && !callbackKillPool[options.urlPath]){
 					let res
 					try{
 						res = JSON.parse(xhr.responseText.toString())
