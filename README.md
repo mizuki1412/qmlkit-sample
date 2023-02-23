@@ -1,6 +1,9 @@
 # QML-Sample
 
-Base on Qt 6.4.0
+Base on Qt 6.4.2
+
+## TODO
+-[ ] 每个component的示例
 
 ## Material
 
