@@ -1,4 +1,4 @@
-import QtQuick
+﻿import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
@@ -58,6 +58,7 @@ Rectangle{
         cursorShape: disabled?Qt.ForbiddenCursor:Qt.PointingHandCursor
 		onClicked:{
             if(disabled) return
+            button.focus = true
 			button.clicked()
         }
         onEntered: {

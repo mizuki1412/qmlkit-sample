@@ -2,18 +2,27 @@
 #include <QQmlApplicationEngine>
 #include <QtQuickControls2>
 #include "file/fileobject.h"
-//#include <QtWebEngineQuick>
+#include <QtWebEngineQuick/qtwebenginequickglobal.h>
 
 int main ( int argc, char *argv[] ){
 //    QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
     // Qt.quit有效
     QApplication app(argc, argv);
-//    QtWebEngineQuick::initialize();
+    QtWebEngineQuick::initialize();
     QQuickStyle::setStyle("Material");
     QFont font;
 //    font.setFamily("Arial");
-    font.setPixelSize(16);
-    app.setFont(font);
+//    font.setPixelSize(16);
+//    app.setFont(font);
+    //使用自定义字体--阿里巴巴普惠体
+    int fontId = QFontDatabase::addApplicationFont(QCoreApplication::applicationDirPath()+"/assets/Alibaba-PuHuiTi-Regular.ttf" );
+    QStringList fontFamilies = QFontDatabase::applicationFontFamilies(fontId);
+    if (fontFamilies.size() > 0){
+        qDebug()<<"fontfamilies:"<<fontFamilies.at(0);
+        font.setFamily(fontFamilies.at(0));
+        font.setPixelSize(16);
+        app.setFont(font);
+    }
 
     QQmlApplicationEngine engine;
     qmlRegisterType<FileObject> ( "FileObject", 1, 0, "FileObject" );

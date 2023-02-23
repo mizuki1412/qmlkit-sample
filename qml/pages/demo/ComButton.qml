@@ -48,7 +48,6 @@ Rectangle{
             circle:false
             round:false
             type:""
-            plain:false
         }
         KitButton{
             text:"Primary"

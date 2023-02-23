@@ -78,17 +78,16 @@ KitPage {
 		anchors.topMargin: $theme.margin
 	}
 
-	ComButton{
-		id:showButton
-		anchors.top: div_1.bottom
-		anchors.topMargin: $theme.margin_xl
-	}
+//	ComButton{
+//		id:showButton
+//		anchors.top: div_1.bottom
+//		anchors.topMargin: $theme.margin_xl
+//	}
 	//------switch demo
 	Label{
 		id:labSwitch
 		text:"开关"
 		anchors.horizontalCenter: parent.horizontalCenter
-		anchors.top: showButton.bottom
 		anchors.topMargin: $theme.margin_xl
 		font.pixelSize: $theme.font_xl
 	}

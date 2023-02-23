@@ -12,6 +12,6 @@ Rectangle {
         Material.background: "white"
         width: 30
         height: 30
-        source: "qrc:/qml/kit/assets/svg/search.svg"
+        source: "file:./assets/svg/search.svg"
     }
 }

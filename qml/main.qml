@@ -23,7 +23,7 @@ ApplicationWindow {
 
     FontLoader {
         id: iconfont
-        source: "qrc:/qml/kit/assets/font/iconfont.ttf"
+        source: "qrc:/qml/iconfont.ttf"
     }
 
     // 全局变量区域

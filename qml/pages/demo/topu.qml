@@ -14,7 +14,7 @@ KitPage {
         x:parent.width*0.4
         y:parent.width*0.4
         text:qsTr("主机1")
-        stateList: [{state:"normal",source:"qrc:/main/qml/assets/svg/device_default.svg"},{state:"success",source:"qrc:/main/qml/assets/svg/device_success.svg"},{state:"error",source:"qrc:/main/qml/assets/svg/device_error.svg"}]
+        stateList: [{state:"normal",source:"file:./assets/svg/device_default.svg"},{state:"success",source:"qrc:/main/qml/assets/svg/device_success.svg"},{state:"error",source:"qrc:/main/qml/assets/svg/device_error.svg"}]
         onClicked: {
             this.changeState("success")
         }
@@ -26,7 +26,7 @@ KitPage {
         y:parent.width*0.5
         defaultSource: 0
         text:qsTr("主机2")
-        stateList: [{state:"normal",source:"qrc:/main/qml/assets/svg/device_default.svg"},{state:"success",source:"qrc:/main/qml/assets/svg/device_success.svg"},{state:"error",source:"qrc:/main/qml/assets/svg/device_error.svg"}]
+        stateList: [{state:"normal",source:"file:./assets/svg/device_default.svg"},{state:"success",source:"qrc:/main/qml/assets/svg/device_success.svg"},{state:"error",source:"qrc:/main/qml/assets/svg/device_error.svg"}]
         onClicked: {
             this.changeState("success")
         }
