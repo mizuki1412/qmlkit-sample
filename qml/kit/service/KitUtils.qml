@@ -118,4 +118,12 @@ QtObject {
 		}
 		return o
 	}
+
+	// float转4 bytes, byte为无符号
+    function float2bytes(val){
+        let farr = new Float32Array(1)
+        farr[0] = Number(val)
+        let bar = new Uint8Array(farr.buffer)
+        return [bar[0], bar[1], bar[2], bar[3]]
+    }
 }

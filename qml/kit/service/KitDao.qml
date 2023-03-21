@@ -72,6 +72,7 @@ QtObject{
      **  parentPage:
      **  ignoreLoading:bool 不干预转圈
      *  loadingComponent
+     * blob: bool
      */
     function request(options,callback) {
 		let xhr = new XMLHttpRequest()
@@ -87,7 +88,10 @@ QtObject{
 		xhr.onreadystatechange=function(){
 			if(xhr.readyState===XMLHttpRequest.DONE){
 				if(options._loading) options._loading.close()
-				if(callback && !callbackKillPool[options.urlPath]){
+				if(options.blob && callback && !callbackKillPool[options.urlPath]){
+                    callback(new Uint8Array(xhr.response))
+                }
+                else if(callback && !callbackKillPool[options.urlPath]){
 					let res
 					try{
 						res = JSON.parse(xhr.responseText.toString())
@@ -124,7 +128,11 @@ QtObject{
 		try{
 			xhr.open(options.method,options.urlHost+options.urlPath)
 			xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded')
-			xhr.setRequestHeader('Accept','application/json')
+			if(options.blob){
+                xhr.responseType = 'arraybuffer';
+            }else{
+                xhr.setRequestHeader('Accept','application/json')
+            }
 			//  xhr.setRequestHeader('Cookie','sessionID=')
 			xhr.withCredentials = true
 			let paramString = ""

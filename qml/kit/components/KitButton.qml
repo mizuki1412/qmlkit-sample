@@ -13,6 +13,7 @@ Rectangle{
 	property int size: 16
     property bool disabled: false
     property bool highlight: false
+    property string bgColor: ""
 	radius: 4
 	border.width: highlight?0:1
 	border.color: $theme.color_btn_border
@@ -88,14 +89,14 @@ Rectangle{
 			name: "normal"
 			PropertyChanges {
 				target: button
-				color: highlight?$theme.color_primary:$theme.color_btn_bg
+				color: highlight?$theme.color_primary:(button.bgColor!==""?button.bgColor:$theme.color_btn_bg)
 			}
 		},
 		State {
 			name: "hover"
 			PropertyChanges {
 				target: button
-				color: Qt.darker((highlight?$theme.color_primary:$theme.color_btn_bg),1.3)
+				color: Qt.darker((highlight?$theme.color_primary:(button.bgColor!==""?button.bgColor:$theme.color_btn_bg)),1.3)
 			}
 		}
     ]
