@@ -19,18 +19,14 @@
 *.*#
 core
 !core/
-tags
 .DS_Store
 .directory
 *.debug
 *.prl
 *.app
-moc_*.cpp
-ui_*.h
-qrc_*.cpp
 Thumbs.db
 *.res
-*.rc
+#*.rc
 /.qmake.cache
 /.qmake.stash
 
@@ -67,7 +63,7 @@ Thumbs.db
 
 # Binaries
 # --------
-*.dll
+#*.dll
 *.exe
 
 .idea
